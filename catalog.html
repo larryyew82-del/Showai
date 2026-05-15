@@ -774,5 +774,108 @@ document.addEventListener('click',function(e){
 });
 </script>
 
+
+<!-- ═══════════════════════════════════════════════════════
+     SHOWAI CMS BRIDGE — Catalog page syncs with admin data
+     ═══════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  const KEY = 'showai_cms_v3';
+  let D = null;
+  try { const s = localStorage.getItem(KEY); if (s) D = JSON.parse(s); } catch(e) {}
+  if (!D) return;
+
+  // ── 1. WA WIDGET SALES TEAM ────────────────────────────────────
+  if (D.sales_team && D.sales_team.length) {
+    const teamContainer = document.querySelector('.wa-popup-team');
+    if (teamContainer) {
+      const colors = ['linear-gradient(135deg,#DA1217,#B0090E)','linear-gradient(135deg,#0369A1,#075985)','linear-gradient(135deg,#16A34A,#15803d)','linear-gradient(135deg,#D97706,#b45309)'];
+      teamContainer.innerHTML = D.sales_team.map((s, i) => `
+        <a href="https://wa.me/${s.wa}?text=${encodeURIComponent('Hi ' + s.name + ', I would like to enquire about your forklifts.')}" class="wa-person" target="_blank">
+          <div class="wa-person-avatar" style="background:${colors[i%colors.length]}">${s.name.charAt(0).toUpperCase()}</div>
+          <div class="wa-person-info">
+            <div class="wa-person-name">${s.name}</div>
+            <div class="wa-person-role">${s.role}${s.hours?' · '+s.hours:''}</div>
+          </div>
+          <i class="fas fa-arrow-right wa-person-arrow"></i>
+        </a>`).join('');
+    }
+  }
+
+  // ── 2. CONTACT INFO ────────────────────────────────────────────
+  if (D.business && D.business.wa) {
+    document.querySelectorAll('a[href*="wa.me/"]').forEach(el => {
+      el.href = el.href.replace(/wa\.me\/\d+/, 'wa.me/' + D.business.wa);
+    });
+  }
+
+  // ── 3. INJECT NEW PRODUCTS FROM ADMIN into BRANDS array ────────
+  // If admin has products, add them to the existing BRANDS catalog
+  if (D.new_products && D.new_products.length) {
+    // Map admin products into catalog model format
+    const adminModels = D.new_products.map(p => ({
+      id: 'admin_' + p.id,
+      name: p.name,
+      type: p.type === 'electric' ? 'electric' : 'diesel',
+      cap: p.cap,
+      height: p.height || '3.0 m',
+      engine: p.engine || '',
+      extra: p.extra || '',
+      avail: p.avail || 'both',
+      price: p.price ? 'From RM ' + Number(p.price).toLocaleString() : 'Call',
+      badge: 'new',
+      _brand: p.brand
+    }));
+
+    // Inject into each brand's model list in BRANDS array
+    if (typeof BRANDS !== 'undefined') {
+      adminModels.forEach(m => {
+        const brand = BRANDS.find(b => b.id === m._brand);
+        if (brand) {
+          // Check if already exists (by name)
+          const exists = brand.models.find(x => x.name === m.name);
+          if (!exists) brand.models.push(m);
+        }
+      });
+      // Re-render
+      if (typeof renderAll === 'function') renderAll();
+    }
+  }
+
+  // ── 4. ADD USED ADS TO CATALOG ─────────────────────────────────
+  if (D.used_ads && D.used_ads.length && typeof BRANDS !== 'undefined') {
+    const waBase = D.business && D.business.wa ? D.business.wa : '60124925105';
+    const activeUsed = D.used_ads.filter(a => a.status === 'active');
+    if (activeUsed.length) {
+      activeUsed.forEach(ad => {
+        const brand = BRANDS.find(b => b.id === ad.brand);
+        if (brand) {
+          const exists = brand.models.find(x => x.id === 'used_' + ad.id);
+          if (!exists) {
+            brand.models.push({
+              id: 'used_' + ad.id,
+              name: ad.model,
+              type: ad.type || 'diesel',
+              cap: ad.cap,
+              height: ad.height || '3.0 m',
+              engine: ad.engine || '',
+              extra: ad.condition || '',
+              avail: 'sales',
+              price: ad.price ? 'From RM ' + Number(ad.price).toLocaleString() : 'Call',
+              badge: 'used',
+              condition: ad.condition,
+              year: ad.year,
+              photos: ad.photos
+            });
+          }
+        }
+      });
+      if (typeof renderAll === 'function') renderAll();
+    }
+  }
+
+  console.log('[Showai CMS] Catalog synced with admin data ✓');
+})();
+</script>
 </body>
 </html>

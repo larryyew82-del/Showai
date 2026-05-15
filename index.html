@@ -2289,5 +2289,251 @@ document.addEventListener('click',function(e){
 });
 </script>
 
+
+<!-- ═══════════════════════════════════════════════════════
+     SHOWAI CMS BRIDGE — Reads admin.html localStorage data
+     and dynamically renders content on this page.
+     Admin panel key: showai_cms_v3
+     ═══════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  const KEY = 'showai_cms_v3';
+  let D = null;
+  try { const s = localStorage.getItem(KEY); if (s) D = JSON.parse(s); } catch(e) {}
+  if (!D) return; // No admin data saved yet — keep hardcoded defaults
+
+  const logos = {
+    upperfork: 'uf', ep: 'ep', hangcha: 'hangcha',
+    tcm: 'tcm', unicarrier: 'unicarrier', toyota: 'toyota'
+  };
+  const brandColors = {
+    upperfork:'#DA1217', ep:'#DA1217', hangcha:'#E8821A',
+    tcm:'#DA1217', unicarrier:'#1a1a1a', toyota:'#CC0000', other:'#6B6B6B'
+  };
+  const condColors = { Excellent:'#2563EB', Good:'#16A34A', Fair:'#D97706' };
+
+  function fmtPrice(ad) {
+    if (!ad.price) return 'Call for Price';
+    const n = Number(ad.price);
+    if (ad.price_display === 'nego') return 'Negotiable';
+    if (ad.price_display === 'call') return 'Call for Price';
+    if (ad.price_display === 'from') return 'From RM ' + n.toLocaleString();
+    return 'RM ' + n.toLocaleString();
+  }
+
+  function forkSVG(color) {
+    return `<svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" style="width:65%;height:65%">
+      <g fill="${color}">
+        <rect x="40" y="65" width="70" height="55" rx="4"/>
+        <rect x="58" y="48" width="34" height="22" rx="2" opacity="0.85"/>
+        <circle cx="58" cy="125" r="10" fill="rgba(0,0,0,0.4)"/>
+        <circle cx="100" cy="125" r="10" fill="rgba(0,0,0,0.4)"/>
+        <rect x="112" y="35" width="5" height="85"/>
+        <rect x="110" y="35" width="35" height="5"/>
+        <rect x="110" y="65" width="35" height="5"/>
+        <rect x="142" y="35" width="5" height="60"/>
+      </g>
+    </svg>`;
+  }
+
+  // ── 1. USED FORKLIFT ADS ─────────────────────────────────────────
+  const usedGrid = document.querySelector('.used-grid');
+  if (usedGrid && D.used_ads && D.used_ads.length) {
+    const activeAds = D.used_ads.filter(a => a.status === 'active');
+    if (activeAds.length) {
+      const waBase = D.business && D.business.wa ? D.business.wa : '60124925105';
+      usedGrid.innerHTML = activeAds.map(ad => {
+        const color = brandColors[ad.brand] || '#DA1217';
+        const cond = ad.condition || 'Good';
+        const condColor = condColors[cond] || '#16A34A';
+        const photo = ad.photos && ad.photos.length ? ad.photos[0] : null;
+        const waMsg = ad.wa_msg || `Hi Showai, I am interested in the ${ad.brand.toUpperCase()} ${ad.model}.`;
+        const waUrl = `https://wa.me/${waBase}?text=${encodeURIComponent(waMsg)}`;
+        return `<div class="used-card">
+          <div class="used-card-img" style="background:linear-gradient(135deg,#1a1a1a,#2D2D2D)">
+            <span class="used-condition" style="background:${condColor}">${cond}</span>
+            ${photo
+              ? `<img src="${photo}" alt="${ad.model}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0">`
+              : forkSVG(color)
+            }
+          </div>
+          <div class="used-card-body">
+            <div class="used-brand" style="color:${color}">${(ad.brand||'').toUpperCase()}</div>
+            <div class="used-name">${ad.model || ''}${ad.type ? ' <span style=\'font-size:0.8rem;font-weight:400\'>' + ad.type + '</span>' : ''}</div>
+            <div class="used-year">${ad.year || ''} ${ad.origin === 'japan' ? '· Japan Imported' : ad.origin === 'local' ? '· Local Unit' : ''}</div>
+            <div class="used-specs">
+              ${ad.cap ? `<span class="used-spec">${ad.cap} Cap</span>` : ''}
+              ${ad.height ? `<span class="used-spec">${ad.height} Height</span>` : ''}
+              ${ad.engine ? `<span class="used-spec">${ad.engine}</span>` : ''}
+              ${ad.hours ? `<span class="used-spec">${ad.hours}</span>` : ''}
+            </div>
+            <div class="used-price">${fmtPrice(ad)} <span class="used-price-sub">· Negotiable</span></div>
+            <div class="used-cta">
+              <a href="${waUrl}" class="used-btn primary" target="_blank"><i class="fab fa-whatsapp"></i> Enquire</a>
+              ${ad.desc ? `<button class="used-btn secondary" onclick="alert('${ad.desc.replace(/'/g,'')}')">Details</button>` : ''}
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+
+      // Add a "request" card if featured ads exist
+      usedGrid.innerHTML += `<div class="used-cta-bar">
+        <h3 style="color:white;font-size:1.4rem;margin-bottom:0.75rem">Looking for a specific brand or model?</h3>
+        <p style="color:rgba(255,255,255,0.8);margin-bottom:1.25rem">We source Toyota, TCM, Unicarrier, and Hangcha units on request.</p>
+        <a href="https://wa.me/${waBase}?text=${encodeURIComponent('Hi Showai, I am looking for a specific used forklift. Please help.')}" class="btn btn-red btn-lg" style="display:inline-flex;align-items:center;gap:0.5rem" target="_blank"><i class="fab fa-whatsapp"></i> Request a Unit</a>
+      </div>`;
+    }
+  }
+
+  // ── 2. PROMO BANNER ──────────────────────────────────────────────
+  if (D.promos && D.promos.length) {
+    const banner = document.getElementById('promoBanner');
+    if (banner) {
+      // Find active/unexpired promo
+      const now = new Date();
+      const activePromo = D.promos.find(p => !p.expiry || new Date(p.expiry) > now);
+      if (activePromo) {
+        const tagEl = banner.querySelector('[data-i18n="promo_tag"]');
+        const titleEl = banner.querySelector('[data-i18n="promo_title"]');
+        const subEl = banner.querySelector('[data-i18n="promo_sub"]');
+        const ctaEl = banner.querySelector('[data-i18n="promo_cta"]');
+        if (tagEl) tagEl.textContent = activePromo.badge || '🔥 SPECIAL OFFER';
+        if (titleEl) titleEl.textContent = activePromo.title || '';
+        if (subEl) subEl.textContent = activePromo.desc || '';
+        if (ctaEl) ctaEl.textContent = activePromo.cta || 'Enquire Now';
+        banner.style.display = '';
+      } else {
+        banner.style.display = 'none'; // No active promo — hide banner
+      }
+    }
+  }
+
+  // ── 3. STATS BAR ─────────────────────────────────────────────────
+  if (D.stats) {
+    const statNums = document.querySelectorAll('.stat-num');
+    const statMap = {
+      0: D.stats.units,
+      1: D.stats.brands || '2',
+      2: D.stats.support || '24/7',
+      3: D.stats.satisfaction || '100%'
+    };
+    statNums.forEach((el, i) => { if (statMap[i]) el.textContent = statMap[i]; });
+  }
+
+  // ── 4. FAQ ───────────────────────────────────────────────────────
+  const faqList = document.querySelector('.faq-list');
+  if (faqList && D.faq && D.faq.length) {
+    const lang = localStorage.getItem('showai_lang') || 'en';
+    faqList.innerHTML = D.faq.map((f, i) => {
+      const q = (lang === 'ms' && f.q_ms) ? f.q_ms : (lang === 'zh' && f.q_zh) ? f.q_zh : f.q_en;
+      return `<div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>${q}</span><i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="faq-answer"><p>${f.a_en}</p></div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── 5. GALLERY ───────────────────────────────────────────────────
+  const galGrid = document.getElementById('galGrid');
+  if (galGrid && D.gallery && D.gallery.length) {
+    galGrid.innerHTML = D.gallery.map((g, i) => `
+      <div class="gal-item" data-cat="all" onclick="openLightbox(${i})">
+        <img src="${g.src}" alt="${g.name || 'Forklift'}" loading="lazy">
+        <div class="gal-item-overlay">
+          <div class="gal-item-label">${g.name || 'Showai Trading'}<small>Forklift Gallery</small></div>
+        </div>
+        <div class="gal-item-zoom"><i class="fas fa-expand"></i></div>
+      </div>`).join('');
+  }
+
+  // ── 6. CATALOG DOWNLOADS ─────────────────────────────────────────
+  const dlSection = document.getElementById('catalogDownloads');
+  if (dlSection && D.catalog_files && D.catalog_files.length) {
+    const pubFiles = D.catalog_files.filter(f => f.public);
+    if (pubFiles.length) {
+      const waBase = D.business && D.business.wa ? D.business.wa : '60124925105';
+      dlSection.innerHTML = pubFiles.map(f => `
+        <div style="background:var(--white);border-radius:8px;padding:1.5rem;border:1.5px solid var(--line);display:flex;flex-direction:column;gap:1rem;transition:all 0.2s" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--line)'">
+          <div style="display:flex;align-items:center;gap:0.75rem">
+            <div style="width:44px;height:44px;background:var(--red-bg);color:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0"><i class="fas fa-file-pdf"></i></div>
+            <div>
+              <div style="font-weight:700;color:var(--black);font-size:0.92rem">${f.name}</div>
+              <div style="font-size:0.75rem;color:var(--gray-lt)">${f.brand !== 'all' ? f.brand : 'All Brands'} · ${f.size ? (f.size/1024/1024).toFixed(1)+'MB' : ''}</div>
+            </div>
+          </div>
+          ${f.data
+            ? `<a href="${f.data}" download="${f.filename}" class="btn btn-red" style="text-align:center;justify-content:center"><i class="fas fa-download"></i> Download PDF</a>`
+            : `<a href="https://wa.me/${waBase}?text=${encodeURIComponent('Hi Showai, please send me the '+f.name+' catalog.')}" class="btn btn-red" style="text-align:center;justify-content:center" target="_blank"><i class="fab fa-whatsapp"></i> Request via WhatsApp</a>`
+          }
+        </div>`).join('');
+    }
+  }
+
+  // ── 7. CONTACT INFO ──────────────────────────────────────────────
+  if (D.business) {
+    const b = D.business;
+    // Update all WA links
+    if (b.wa) {
+      document.querySelectorAll('a[href*="wa.me/"]').forEach(el => {
+        el.href = el.href.replace(/wa\.me\/\d+/, 'wa.me/' + b.wa);
+      });
+    }
+    // Update phone display
+    if (b.phone) {
+      document.querySelectorAll('a[href^="tel:"]').forEach(el => {
+        el.href = 'tel:' + b.phone.replace(/\s/g,'');
+        if (el.textContent.match(/^\+?6?0\d/)) el.textContent = b.phone;
+      });
+    }
+    // Update email
+    if (b.email) {
+      document.querySelectorAll('a[href^="mailto:"]').forEach(el => {
+        el.href = 'mailto:' + b.email;
+        if (el.textContent.includes('@')) el.textContent = b.email;
+      });
+    }
+  }
+
+  // ── 8. WA WIDGET SALES TEAM ──────────────────────────────────────
+  if (D.sales_team && D.sales_team.length) {
+    const teamContainer = document.querySelector('.wa-popup-team');
+    if (teamContainer) {
+      const colors = ['linear-gradient(135deg,#DA1217,#B0090E)','linear-gradient(135deg,#0369A1,#075985)','linear-gradient(135deg,#16A34A,#15803d)','linear-gradient(135deg,#D97706,#b45309)'];
+      teamContainer.innerHTML = D.sales_team.map((s, i) => `
+        <a href="https://wa.me/${s.wa}?text=${encodeURIComponent('Hi ' + s.name + ', I would like to enquire about your forklifts.')}" class="wa-person" target="_blank" rel="noopener">
+          <div class="wa-person-avatar" style="background:${colors[i % colors.length]}">${s.name.charAt(0).toUpperCase()}</div>
+          <div class="wa-person-info">
+            <div class="wa-person-name">${s.name}</div>
+            <div class="wa-person-role">${s.role}${s.hours ? ' · ' + s.hours : ''}</div>
+          </div>
+          <i class="fas fa-arrow-right wa-person-arrow"></i>
+        </a>`).join('');
+    }
+  }
+
+  // ── 9. COVERAGE AREAS ────────────────────────────────────────────
+  if (D.coverage) {
+    // Update city lists in coverage section if present
+    ['Penang','Kedah','Perak','Perlis'].forEach(state => {
+      const cities = D.coverage[state];
+      if (!cities || !cities.length) return;
+      // Find state heading and the ul/list after it
+      const allH4s = document.querySelectorAll('.coverage-state h4, .state-name, .coverage-title');
+      allH4s.forEach(h => {
+        if (h.textContent.trim().includes(state)) {
+          const ul = h.nextElementSibling;
+          if (ul && ul.tagName === 'UL') {
+            ul.innerHTML = cities.map(c => `<li>${c}</li>`).join('');
+          }
+        }
+      });
+    });
+  }
+
+  console.log('[Showai CMS] Content loaded from admin panel data ✓');
+})();
+</script>
 </body>
 </html>
