@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Allow: /tco-calculator.html
+Allow: /catalog.html
+Allow: /technology.html
+Disallow: /admin.html
+Sitemap: https://showaitrading.com/sitemap.xml
