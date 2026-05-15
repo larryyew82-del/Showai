@@ -141,8 +141,8 @@
   .nav-links a { color: var(--ink); text-decoration: none; font-size: 0.95rem; font-weight: 500; padding: 0.5rem 0; position: relative; }
   .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--red); transition: width 0.3s; }
   .nav-links a:hover::after { width: 100%; }
-  .nav-cta { background: var(--red); color: white; padding: 0.75rem 1.5rem; border-radius: 4px; text-decoration: none; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.2s; }
-  .nav-cta:hover { background: var(--red-dark); transform: translateY(-1px); }
+  .nav-cta {background:var(--red);color:#fff !important;padding:0.6rem 1.25rem;border-radius:4px;font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.04em;transition:background 0.2s;display:inline-flex;align-items:center;gap:0.4rem;text-decoration:none;white-space:nowrap}
+  .nav-cta:hover{background:var(--red-dk) !important;color:#fff !important}
   .mobile-toggle { display: none; background: none; border: none; cursor: pointer; font-size: 1.5rem; color: var(--black); }
 
   .hero { position: relative; background: linear-gradient(135deg, var(--black) 0%, var(--gray-dark) 100%); color: white; padding: 5rem 0 4rem; overflow: hidden; }
@@ -308,7 +308,7 @@
     .nav-links { display: none; }
     .nav-links.open { display: flex; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; background: white; padding: 1.5rem 2rem; border-bottom: 1px solid var(--line); gap: 1.25rem; }
     .mobile-toggle { display: block; }
-    .nav-cta { display: none; }
+    .nav-cta {background:var(--red);color:#fff !important;padding:0.6rem 1.25rem;border-radius:4px;font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.04em;transition:background 0.2s;display:inline-flex;align-items:center;gap:0.4rem;text-decoration:none;white-space:nowrap}
     .container { padding: 0 1.5rem; }
     section { padding: 3.5rem 0; }
     .products-grid, .why-grid, .stats-grid, .footer-grid { grid-template-columns: 1fr; }
@@ -869,6 +869,7 @@
       <a href="https://wa.me/60124925105?text=Hi%20Showai%2C%20I%27m%20interested%20in%20the%20Raya%20Special%20promotion!" class="promo-cta" target="_blank">
         <i class="fab fa-whatsapp"></i> <span data-i18n="promo_cta">Claim Offer</span>
       </a>
+      <a href="catalog.html" style="display:inline-flex;align-items:center;gap:0.35rem;color:rgba(255,255,255,0.85);font-size:0.8rem;font-weight:600;text-decoration:none;padding:0.38rem 0.75rem;border:1px solid rgba(255,255,255,0.3);border-radius:4px" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='none'"><i class="fas fa-book-open"></i> Catalog</a>
       <button class="promo-dismiss" onclick="document.getElementById('promoBanner').classList.add('hidden')" aria-label="Dismiss">
         <i class="fas fa-times"></i>
       </button>
@@ -1236,6 +1237,80 @@
       <a href="https://wa.me/60124925105?text=Hi%20Showai%2C%20I'm%20looking%20for%20a%20used%20forklift.%20Please%20help%20me." class="btn btn-red btn-lg" style="display:inline-flex;align-items:center;gap:0.5rem">
         <i class="fab fa-whatsapp"></i> <span data-i18n="used_cta_btn">Request a Used Forklift</span>
       </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ GALLERY ═══════════ -->
+<section class="gallery-section" id="gallery">
+  <div class="container">
+    <header class="section-head">
+      <span class="section-eyebrow" data-i18n="gal_eyebrow">Photo Gallery</span>
+      <h2 data-i18n="gal_title">Our Forklift Fleet in Action</h2>
+      <div class="section-divider" aria-hidden="true"></div>
+      <p data-i18n="gal_sub">Browse our collection of new and used forklifts from our showroom, customer sites, and delivered units across Northern Malaysia.</p>
+    </header>
+    <div class="gal-filter-bar" id="galFilterBar">
+      <button class="gal-fb active" onclick="galFilter('all',this)" data-i18n="gal_f_all">All Photos</button>
+      <button class="gal-fb" onclick="galFilter('new',this)" data-i18n="gal_f_new">New Units</button>
+      <button class="gal-fb" onclick="galFilter('used',this)" data-i18n="gal_f_used">Used Units</button>
+      <button class="gal-fb" onclick="galFilter('delivery',this)" data-i18n="gal_f_delivery">Deliveries</button>
+      <button class="gal-fb" onclick="galFilter('service',this)" data-i18n="gal_f_service">Service</button>
+    </div>
+    <div class="gal-grid" id="galGrid">
+      <div id="galEmpty" style="grid-column:1/-1;text-align:center;padding:4rem 1rem;color:var(--gray-lt)">
+        <i class="fas fa-images" style="font-size:3rem;display:block;margin-bottom:1rem;opacity:0.3"></i>
+        <p style="margin-bottom:1.25rem" data-i18n="gal_empty">Upload forklift photos via the admin panel to display your gallery here.</p>
+        <a href="https://wa.me/60124925105?text=Hi%20Showai%2C%20please%20send%20me%20photos%20of%20your%20forklifts." class="btn btn-red" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 1.25rem;background:#DA1217;color:#fff;border-radius:4px;text-decoration:none;font-weight:700;font-size:0.85rem" target="_blank"><i class="fab fa-whatsapp"></i> <span data-i18n="gal_cta_wa">Request Photos via WhatsApp</span></a>
+      </div>
+    </div>
+    <div class="gal-cta" id="galCta" style="display:none;text-align:center;margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--line)">
+      <p style="color:var(--gray);margin-bottom:1.25rem" data-i18n="gal_cta_p">Want to see more? WhatsApp us for more photos.</p>
+      <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap">
+        <a href="https://wa.me/60124925105?text=Hi%20Showai%2C%20please%20send%20me%20more%20photos." class="btn btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> <span data-i18n="gal_cta_wa">Request More Photos</span></a>
+        <a href="catalog.html" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 1.25rem;background:var(--black,#0A0A0A);color:white;border-radius:4px;text-decoration:none;font-weight:700;font-size:0.85rem"><i class="fas fa-book-open"></i> <span data-i18n="gal_cta_cat">Browse Full Catalog</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="if(event.target===this)closeLightbox()">
+  <div class="lightbox-inner">
+    <span class="lightbox-counter" id="lbCounter"></span>
+    <button class="lightbox-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
+    <button class="lightbox-nav lightbox-prev" onclick="lbNav(-1)"><i class="fas fa-chevron-left"></i></button>
+    <img class="lightbox-img" id="lbImg" src="" alt="">
+    <button class="lightbox-nav lightbox-next" onclick="lbNav(1)"><i class="fas fa-chevron-right"></i></button>
+    <div class="lightbox-caption" id="lbCaption"></div>
+  </div>
+</div>
+
+<!-- ═══════════ DOWNLOADS ═══════════ -->
+<section style="background:var(--bg,#F6F6F6);padding:4rem 0" id="downloads">
+  <div class="container">
+    <header class="section-head">
+      <span class="section-eyebrow" data-i18n="dl_eyebrow">Downloads</span>
+      <h2 data-i18n="dl_title2">Download Our Product Catalogs</h2>
+      <div class="section-divider"></div>
+      <p data-i18n="dl_sub2">Get our official brochures and spec sheets. All catalogs are free to download.</p>
+    </header>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem" id="catalogDownloads">
+      <div style="background:#fff;border-radius:8px;padding:1.5rem;border:1.5px solid #e8e8e8;display:flex;flex-direction:column;gap:1rem">
+        <div style="display:flex;align-items:center;gap:0.75rem"><div style="width:44px;height:44px;background:#FEF2F3;color:#DA1217;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0"><i class="fas fa-file-pdf"></i></div><div><div style="font-weight:700;color:#0A0A0A;font-size:0.92rem">UpperFork Product Catalog 2026</div><div style="font-size:0.75rem;color:#A8A8A8">UpperFork · All Models</div></div></div>
+        <a href="https://wa.me/60124925105?text=Hi%20Showai%2C%20please%20send%20me%20the%20UpperFork%20catalog." style="display:flex;align-items:center;justify-content:center;gap:0.4rem;padding:0.6rem 1.25rem;background:#DA1217;color:#fff;border-radius:4px;text-decoration:none;font-weight:700;font-size:0.85rem" target="_blank"><i class="fab fa-whatsapp"></i> <span data-i18n="dl_request">Request via WhatsApp</span></a>
+      </div>
+      <div style="background:#fff;border-radius:8px;padding:1.5rem;border:1.5px solid #e8e8e8;display:flex;flex-direction:column;gap:1rem">
+        <div style="display:flex;align-items:center;gap:0.75rem"><div style="width:44px;height:44px;background:#FEF2F3;color:#DA1217;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0"><i class="fas fa-file-pdf"></i></div><div><div style="font-weight:700;color:#0A0A0A;font-size:0.92rem">EP Equipment Electric Catalog</div><div style="font-size:0.75rem;color:#A8A8A8">EP Equipment · Lithium Series</div></div></div>
+        <a href="https://wa.me/60124925105?text=Hi%20Showai%2C%20please%20send%20me%20the%20EP%20catalog." style="display:flex;align-items:center;justify-content:center;gap:0.4rem;padding:0.6rem 1.25rem;background:#DA1217;color:#fff;border-radius:4px;text-decoration:none;font-weight:700;font-size:0.85rem" target="_blank"><i class="fab fa-whatsapp"></i> <span data-i18n="dl_request">Request via WhatsApp</span></a>
+      </div>
+      <div style="background:#fff;border-radius:8px;padding:1.5rem;border:1.5px solid #e8e8e8;display:flex;flex-direction:column;gap:1rem">
+        <div style="display:flex;align-items:center;gap:0.75rem"><div style="width:44px;height:44px;background:#FEF2F3;color:#DA1217;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0"><i class="fas fa-file-pdf"></i></div><div><div style="font-weight:700;color:#0A0A0A;font-size:0.92rem">Showai Full Product Brochure</div><div style="font-size:0.75rem;color:#A8A8A8">All Brands · New &amp; Used</div></div></div>
+        <a href="https://wa.me/60124925105?text=Hi%20Showai%2C%20please%20send%20me%20your%20full%20brochure." style="display:flex;align-items:center;justify-content:center;gap:0.4rem;padding:0.6rem 1.25rem;background:#DA1217;color:#fff;border-radius:4px;text-decoration:none;font-weight:700;font-size:0.85rem" target="_blank"><i class="fab fa-whatsapp"></i> <span data-i18n="dl_request">Request via WhatsApp</span></a>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:2rem">
+      <a href="catalog.html" style="display:inline-flex;align-items:center;gap:0.5rem;color:#DA1217;font-weight:700;font-size:0.92rem;text-decoration:none"><i class="fas fa-arrow-right"></i> <span data-i18n="dl_view_all">View Interactive Catalog Online</span></a>
     </div>
   </div>
 </section>
@@ -1628,6 +1703,40 @@
   </div>
 </section>
 
+<!-- ═══════════ TESTIMONIALS ═══════════ -->
+<section style="background:#fff;padding:5rem 0" id="testimonials">
+  <div class="container">
+    <header class="section-head">
+      <span class="section-eyebrow" style="display:inline-block;padding:0.3rem 0.9rem;border-radius:3px;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1rem;background:#FEF2F3;color:#DA1217">Customer Reviews</span>
+      <h2 data-i18n="test_title">What Our Clients Say</h2>
+      <div class="section-divider"></div>
+      <p data-i18n="test_sub">Trusted by factories and warehouses across Penang, Kedah, Perak and Perlis.</p>
+    </header>
+    <div id="testimonialsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem">
+      <div style="background:#F6F6F6;border-radius:10px;padding:1.75rem;border-left:4px solid #DA1217">
+        <div style="color:#D97706;margin-bottom:0.75rem;font-size:1.1rem">★★★★★</div>
+        <p style="color:#1C1C1C;font-style:italic;margin-bottom:1rem;line-height:1.7">"Showai Trading delivered exactly what they promised — on time, professional, and with excellent after-sales service. Highly recommended for any factory in Northern Malaysia."</p>
+        <div style="font-weight:700;color:#0A0A0A">Mr. Ahmad</div>
+        <div style="font-size:0.8rem;color:#6B6B6B">Operations Manager · Penang Manufacturing Sdn Bhd</div>
+      </div>
+      <div style="background:#F6F6F6;border-radius:10px;padding:1.75rem;border-left:4px solid #DA1217">
+        <div style="color:#D97706;margin-bottom:0.75rem;font-size:1.1rem">★★★★★</div>
+        <p style="color:#1C1C1C;font-style:italic;margin-bottom:1rem;line-height:1.7">"We switched from diesel to EP electric forklifts through Showai and our energy costs dropped significantly. The team was very knowledgeable throughout."</p>
+        <div style="font-weight:700;color:#0A0A0A">Mr. Tan</div>
+        <div style="font-size:0.8rem;color:#6B6B6B">Logistics Director · Kedah Distribution Centre</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--line,#e8e8e8)">
+    <p style="color:var(--gray,#6B6B6B);margin-bottom:1.25rem;font-size:1rem">Looking for more models, specs, or used units?</p>
+    <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap">
+      <a href="catalog.html" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.7rem 1.5rem;background:#0A0A0A;color:white;border-radius:4px;text-decoration:none;font-weight:700;font-size:0.88rem;text-transform:uppercase;letter-spacing:0.04em"><i class="fas fa-book-open"></i> Browse Full Catalog</a>
+      <a href="tco-calculator.html" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.7rem 1.5rem;background:#DA1217;color:white;border-radius:4px;text-decoration:none;font-weight:700;font-size:0.88rem;text-transform:uppercase;letter-spacing:0.04em"><i class="fas fa-calculator"></i> TCO Calculator</a>
+    </div>
+  </div>
+</section>
+
 <section class="faq" id="faq">
   <div class="container">
     <header class="section-head">
@@ -1773,6 +1882,14 @@
       </div>
     </div>
   </div>
+
+    <div style="text-align:center;margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--line,#e8e8e8)">
+      <p style="color:var(--gray,#6B6B6B);margin-bottom:1.25rem;font-size:1rem">Looking for more models, specs, or used units?</p>
+      <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap">
+        <a href="catalog.html" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.7rem 1.5rem;background:#0A0A0A;color:white;border-radius:4px;text-decoration:none;font-weight:700;font-size:0.88rem;text-transform:uppercase;letter-spacing:0.04em"><i class="fas fa-book-open"></i> Browse Full Catalog</a>
+        <a href="tco-calculator.html" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.7rem 1.5rem;background:#DA1217;color:white;border-radius:4px;text-decoration:none;font-weight:700;font-size:0.88rem;text-transform:uppercase;letter-spacing:0.04em"><i class="fas fa-calculator"></i> TCO Calculator</a>
+      </div>
+    </div>
 </section>
 
 <footer>
@@ -2535,5 +2652,226 @@ document.addEventListener('click',function(e){
   console.log('[Showai CMS] Content loaded from admin panel data ✓');
 })();
 </script>
+<!-- ═══════════════════════════════════════════════
+     SHOWAI CMS BRIDGE v2 — Admin ↔ Website Sync
+     Key: showai_cms_v3 | Runs on every page load
+═══════════════════════════════════════════════ -->
+<script>
+(function(){
+  const KEY='showai_cms_v3';
+  let D=null;
+  try{const s=localStorage.getItem(KEY);if(s)D=JSON.parse(s);}catch(e){}
+  if(!D)return;
+
+  const brandColors={upperfork:'#DA1217',ep:'#DA1217',hangcha:'#E8821A',
+    tcm:'#DA1217',unicarrier:'#1a1a1a',toyota:'#CC0000',other:'#6B6B6B'};
+  const condColors={Excellent:'#2563EB',Good:'#16A34A',Fair:'#D97706'};
+  const waBase=(D.business&&D.business.wa)||'60124925105';
+
+  function fmtPrice(ad){
+    const n=Number(ad.price);
+    if(!ad.price||ad.price_display==='call')return'Call for Price';
+    if(ad.price_display==='nego')return'Negotiable';
+    if(ad.price_display==='from')return'From RM '+n.toLocaleString();
+    return'RM '+n.toLocaleString();
+  }
+  function forkSVG(c){
+    return`<svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" style="width:65%;height:65%"><g fill="${c}"><rect x="40" y="65" width="70" height="55" rx="4"/><rect x="58" y="48" width="34" height="22" rx="2" opacity=".85"/><circle cx="58" cy="125" r="10" fill="rgba(0,0,0,.4)"/><circle cx="100" cy="125" r="10" fill="rgba(0,0,0,.4)"/><rect x="112" y="35" width="5" height="85"/><rect x="110" y="35" width="35" height="5"/><rect x="110" y="65" width="35" height="5"/><rect x="142" y="35" width="5" height="60"/></g></svg>`;
+  }
+
+  // ── 1. USED FORKLIFT ADS ────────────────────────────────────────
+  const usedGrid=document.querySelector('.used-grid');
+  if(usedGrid&&D.used_ads&&D.used_ads.length){
+    const active=D.used_ads.filter(a=>a.status==='active');
+    if(active.length){
+      const featured=active.filter(a=>a.featured==='1');
+      const normal=active.filter(a=>a.featured!=='1');
+      const ordered=[...featured,...normal];
+      usedGrid.innerHTML=ordered.map(ad=>{
+        const color=brandColors[ad.brand]||'#DA1217';
+        const cond=ad.condition||'Good';
+        const waUrl=`https://wa.me/${waBase}?text=${encodeURIComponent(ad.wa_msg||'Hi Showai, I am interested in the '+ad.brand.toUpperCase()+' '+ad.model+'.')}`;
+        return`<div class="used-card">
+          <div class="used-card-img" style="background:linear-gradient(135deg,#1a1a1a,#2D2D2D);position:relative;display:flex;align-items:center;justify-content:center;aspect-ratio:4/3;overflow:hidden">
+            <span class="used-condition" style="position:absolute;top:.75rem;left:.75rem;padding:.22rem .6rem;border-radius:3px;font-size:.65rem;font-weight:800;text-transform:uppercase;background:${condColors[cond]||'#16A34A'};color:white;z-index:2">${cond}</span>
+            ${ad.photos&&ad.photos.length
+              ?`<img src="${ad.photos[0]}" alt="${ad.model}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0">`
+              :forkSVG(color)}
+            ${ad.photos&&ad.photos.length>1?`<div class="ad-img-count" style="position:absolute;bottom:.6rem;right:.6rem;background:rgba(0,0,0,.65);color:#fff;font-size:.68rem;font-weight:700;padding:.2rem .5rem;border-radius:3px"><i class="fas fa-images"></i> ${ad.photos.length}</div>`:''}
+          </div>
+          <div class="used-card-body">
+            <div class="used-brand" style="color:${color};font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem">${(ad.brand||'').toUpperCase()}</div>
+            <div class="used-name" style="font-size:1rem;font-weight:700;color:white;margin-bottom:.2rem">${ad.model||''}</div>
+            <div class="used-year" style="font-size:.8rem;color:rgba(255,255,255,.5);margin-bottom:.75rem">${ad.year||''} ${ad.origin==='japan'?'· Japan Imported':ad.origin==='local'?'· Local Unit':''}</div>
+            <div class="used-specs" style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem">
+              ${ad.cap?`<span class="used-spec">${ad.cap}</span>`:''}
+              ${ad.height?`<span class="used-spec">${ad.height}</span>`:''}
+              ${ad.engine?`<span class="used-spec">${ad.engine}</span>`:''}
+              ${ad.hours?`<span class="used-spec">${ad.hours}</span>`:''}
+              ${ad.type?`<span class="used-spec">${ad.type}</span>`:''}
+            </div>
+            <div class="used-price" style="font-size:1.5rem;font-weight:700;color:white;margin-bottom:.75rem">${fmtPrice(ad)} <span style="font-size:.72rem;color:rgba(255,255,255,.5);font-weight:400">· Negotiable</span></div>
+            <div class="used-cta" style="display:flex;gap:.5rem">
+              <a href="${waUrl}" class="used-btn primary" style="flex:1;padding:.6rem;border-radius:4px;text-align:center;font-size:.8rem;font-weight:700;text-decoration:none;background:#DA1217;color:white;display:flex;align-items:center;justify-content:center;gap:.35rem" target="_blank"><i class="fab fa-whatsapp"></i> Enquire</a>
+              ${ad.desc?`<button onclick="alert('${ad.desc.replace(/['"]/g,' ')}')" style="padding:.6rem .9rem;border-radius:4px;font-size:.8rem;font-weight:700;background:rgba(255,255,255,.1);color:white;border:none;cursor:pointer">Details</button>`:''}
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+  }
+
+  // ── 2. PROMO BANNER ─────────────────────────────────────────────
+  if(D.promos&&D.promos.length){
+    const now=new Date();
+    const active=D.promos.find(p=>!p.expiry||new Date(p.expiry)>now);
+    const banner=document.getElementById('promoBanner');
+    if(banner){
+      if(active){
+        const tagEl=banner.querySelector('[data-i18n="promo_tag"]');
+        const titleEl=banner.querySelector('[data-i18n="promo_title"]');
+        const subEl=banner.querySelector('[data-i18n="promo_sub"]');
+        const ctaEl=banner.querySelector('[data-i18n="promo_cta"]');
+        if(tagEl)tagEl.textContent=active.badge||'🔥 SPECIAL OFFER';
+        if(titleEl)titleEl.textContent=active.title||'';
+        if(subEl)subEl.textContent=active.desc||'';
+        if(ctaEl)ctaEl.textContent=active.cta||'Enquire Now';
+        banner.style.display='';
+      }else{
+        banner.style.display='none';
+      }
+    }
+  }
+
+  // ── 3. GALLERY ──────────────────────────────────────────────────
+  const galGrid=document.getElementById('galGrid');
+  const galEmpty=document.getElementById('galEmpty');
+  const galCta=document.getElementById('galCta');
+  if(galGrid){
+    if(D.gallery&&D.gallery.length){
+      if(galEmpty)galEmpty.style.display='none';
+      if(galCta)galCta.style.display='';
+      galGrid.innerHTML=D.gallery.map((g,i)=>`
+        <div class="gal-item" data-cat="all" onclick="openLightbox(${i})" style="break-inside:avoid;margin-bottom:1rem;border-radius:8px;overflow:hidden;cursor:pointer;position:relative;display:block">
+          <img src="${g.src}" alt="${g.name||'Showai Forklift'}" loading="lazy" style="width:100%;display:block;transition:transform .35s">
+          <div class="gal-item-overlay" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,10,.7) 0%,transparent 60%);opacity:0;transition:opacity .3s;display:flex;align-items:flex-end;padding:1rem">
+            <div style="color:white;font-size:.82rem;font-weight:600">${g.name||'Showai Trading'}</div>
+          </div>
+          <div style="position:absolute;top:.75rem;right:.75rem;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.2);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;color:white;font-size:.85rem;opacity:0;transition:opacity .3s"><i class="fas fa-expand"></i></div>
+        </div>`).join('');
+      // Add hover effects
+      galGrid.querySelectorAll('.gal-item').forEach(item=>{
+        item.addEventListener('mouseenter',()=>{
+          item.querySelector('img').style.transform='scale(1.04)';
+          item.querySelectorAll('div[style*="opacity:0"]').forEach(d=>d.style.opacity='1');
+        });
+        item.addEventListener('mouseleave',()=>{
+          item.querySelector('img').style.transform='scale(1)';
+          item.querySelectorAll('div[style*="opacity:1"]').forEach(d=>d.style.opacity='0');
+        });
+      });
+      buildLbItems();
+    }
+  }
+
+  // ── 4. STATS ────────────────────────────────────────────────────
+  if(D.stats){
+    const nums=document.querySelectorAll('.stat-num');
+    const vals=[D.stats.units,D.stats.brands||'2',D.stats.support||'24/7',D.stats.satisfaction||'100%'];
+    nums.forEach((el,i)=>{if(vals[i])el.textContent=vals[i];});
+  }
+
+  // ── 5. FAQ ──────────────────────────────────────────────────────
+  const faqList=document.querySelector('.faq-list');
+  if(faqList&&D.faq&&D.faq.length){
+    const lang=localStorage.getItem('showai_lang')||'en';
+    faqList.innerHTML=D.faq.map((f,i)=>{
+      const q=(lang==='ms'&&f.q_ms)?f.q_ms:(lang==='zh'&&f.q_zh)?f.q_zh:f.q_en;
+      return`<div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>${q}</span><i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="faq-answer"><p>${f.a_en}</p></div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── 6. TESTIMONIALS ─────────────────────────────────────────────
+  const testGrid=document.getElementById('testimonialsGrid');
+  if(testGrid&&D.testimonials&&D.testimonials.length){
+    testGrid.innerHTML=D.testimonials.map(t=>`
+      <div style="background:var(--bg,#f6f6f6);border-radius:10px;padding:1.75rem;border-left:4px solid #DA1217">
+        <div style="color:#D97706;margin-bottom:.75rem;font-size:1.1rem">${'★'.repeat(t.stars||5)}${'☆'.repeat(5-(t.stars||5))}</div>
+        <p style="color:#1C1C1C;font-style:italic;margin-bottom:1rem;line-height:1.7">"${t.quote}"</p>
+        <div style="font-weight:700;color:#0A0A0A">${t.name}</div>
+        <div style="font-size:.8rem;color:#6B6B6B">${t.role||''}${t.company?' · '+t.company:''}</div>
+      </div>`).join('');
+  }
+
+  // ── 7. CATALOG DOWNLOADS ────────────────────────────────────────
+  const dlSection=document.getElementById('catalogDownloads');
+  if(dlSection&&D.catalog_files&&D.catalog_files.length){
+    const pub=D.catalog_files.filter(f=>f.public);
+    if(pub.length){
+      dlSection.innerHTML=pub.map(f=>`
+        <div style="background:#fff;border-radius:8px;padding:1.5rem;border:1.5px solid #e8e8e8;display:flex;flex-direction:column;gap:1rem;transition:border-color .2s" onmouseover="this.style.borderColor='#DA1217'" onmouseout="this.style.borderColor='#e8e8e8'">
+          <div style="display:flex;align-items:center;gap:.75rem">
+            <div style="width:44px;height:44px;background:#FEF2F3;color:#DA1217;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0"><i class="fas fa-file-pdf"></i></div>
+            <div>
+              <div style="font-weight:700;color:#0A0A0A;font-size:.92rem">${f.name}</div>
+              <div style="font-size:.75rem;color:#A8A8A8">${f.brand!=='all'?f.brand:'All Brands'}${f.size?' · '+(f.size/1024/1024).toFixed(1)+'MB':''}</div>
+            </div>
+          </div>
+          ${f.data
+            ?`<a href="${f.data}" download="${f.filename}" style="display:flex;align-items:center;justify-content:center;gap:.4rem;padding:.6rem 1.25rem;background:#DA1217;color:#fff;border-radius:4px;text-decoration:none;font-weight:700;font-size:.85rem"><i class="fas fa-download"></i> Download PDF</a>`
+            :`<a href="https://wa.me/${waBase}?text=${encodeURIComponent('Hi Showai, please send me the '+f.name+' catalog.')}" style="display:flex;align-items:center;justify-content:center;gap:.4rem;padding:.6rem 1.25rem;background:#DA1217;color:#fff;border-radius:4px;text-decoration:none;font-weight:700;font-size:.85rem" target="_blank"><i class="fab fa-whatsapp"></i> Request via WhatsApp</a>`
+          }
+        </div>`).join('');
+    }
+  }
+
+  // ── 8. CONTACT INFO ─────────────────────────────────────────────
+  if(D.business){
+    const b=D.business;
+    if(b.wa){document.querySelectorAll('a[href*="wa.me/"]').forEach(el=>{el.href=el.href.replace(/wa\.me\/\d+/,'wa.me/'+b.wa);});}
+    if(b.phone){document.querySelectorAll('a[href^="tel:"]').forEach(el=>{el.href='tel:'+b.phone.replace(/\s/g,'');if(el.textContent.match(/^\+?6?0\d/))el.textContent=b.phone;});}
+    if(b.email){document.querySelectorAll('a[href^="mailto:"]').forEach(el=>{el.href='mailto:'+b.email;if(el.textContent.includes('@'))el.textContent=b.email;});}
+  }
+
+  // ── 9. WA WIDGET SALES TEAM ─────────────────────────────────────
+  if(D.sales_team&&D.sales_team.length){
+    const teamContainer=document.querySelector('.wa-popup-team');
+    if(teamContainer){
+      const colors=['linear-gradient(135deg,#DA1217,#B0090E)','linear-gradient(135deg,#0369A1,#075985)','linear-gradient(135deg,#16A34A,#15803d)','linear-gradient(135deg,#D97706,#b45309)'];
+      teamContainer.innerHTML=D.sales_team.map((s,i)=>`
+        <a href="https://wa.me/${s.wa}?text=${encodeURIComponent('Hi '+s.name+', I would like to enquire about your forklifts.')}" class="wa-person" target="_blank">
+          <div class="wa-person-avatar" style="background:${colors[i%colors.length]}">${s.name.charAt(0).toUpperCase()}</div>
+          <div class="wa-person-info">
+            <div class="wa-person-name">${s.name}</div>
+            <div class="wa-person-role">${s.role}${s.hours?' · '+s.hours:''}</div>
+          </div>
+          <i class="fas fa-arrow-right wa-person-arrow"></i>
+        </a>`).join('');
+    }
+  }
+
+  // ── 10. COVERAGE AREAS ──────────────────────────────────────────
+  if(D.coverage){
+    ['Penang','Kedah','Perak','Perlis'].forEach(state=>{
+      const cities=D.coverage[state];
+      if(!cities||!cities.length)return;
+      document.querySelectorAll('.coverage-state h4,.state-title,.coverage-title').forEach(h=>{
+        if(h.textContent.includes(state)){
+          const ul=h.nextElementSibling;
+          if(ul&&ul.tagName==='UL')ul.innerHTML=cities.map(c=>`<li>${c}</li>`).join('');
+        }
+      });
+    });
+  }
+
+  console.log('[Showai CMS v2] All sections synced ✓');
+})();
+</script>
+
 </body>
 </html>
