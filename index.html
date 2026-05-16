@@ -2067,6 +2067,92 @@ document.addEventListener('click',function(e){
   console.log('[Showai CMS] Content loaded from admin panel data ✓');
 })();
 </script>
+<script>
+
+/* ══════════════════════════════════════════════════════════════
+   GALLERY & LIGHTBOX JS — Required by gallery section
+   ══════════════════════════════════════════════════════════════ */
+let lbItems = [];
+let lbIdx = 0;
+
+function buildLbItems(){
+  // Collect all gallery items into the lightbox array
+  lbItems = [];
+  document.querySelectorAll('#galGrid .gal-item img').forEach((img, i) => {
+    lbItems.push({
+      src: img.src,
+      alt: img.alt || ('Photo ' + (i+1))
+    });
+  });
+}
+
+function openLightbox(idx){
+  if (!lbItems.length) buildLbItems();
+  if (!lbItems.length) return;
+  lbIdx = idx || 0;
+  if (lbIdx >= lbItems.length) lbIdx = 0;
+  if (lbIdx < 0) lbIdx = lbItems.length - 1;
+  const lb = document.getElementById('lightbox');
+  const img = document.getElementById('lbImg');
+  const caption = document.getElementById('lbCaption');
+  const counter = document.getElementById('lbCounter');
+  if (!lb || !img) return;
+  img.src = lbItems[lbIdx].src;
+  if (caption) caption.textContent = lbItems[lbIdx].alt;
+  if (counter) counter.textContent = (lbIdx+1) + ' / ' + lbItems.length;
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox(){
+  const lb = document.getElementById('lightbox');
+  if (lb) lb.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function lbNav(direction){
+  if (!lbItems.length) return;
+  lbIdx = lbIdx + direction;
+  if (lbIdx >= lbItems.length) lbIdx = 0;
+  if (lbIdx < 0) lbIdx = lbItems.length - 1;
+  openLightbox(lbIdx);
+}
+
+function galFilter(category, btn){
+  // Filter gallery items by category
+  document.querySelectorAll('.gal-fb').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const items = document.querySelectorAll('#galGrid .gal-item');
+  let visibleCount = 0;
+  items.forEach(item => {
+    const cat = item.getAttribute('data-cat') || 'all';
+    if (category === 'all' || cat === category) {
+      item.style.display = '';
+      visibleCount++;
+    } else {
+      item.style.display = 'none';
+    }
+  });
+  // Show/hide empty state if all hidden
+  const emptyState = document.getElementById('galEmpty');
+  if (emptyState && visibleCount === 0 && items.length === 0) {
+    emptyState.style.display = '';
+  } else if (emptyState && visibleCount > 0) {
+    emptyState.style.display = 'none';
+  }
+}
+
+// Keyboard navigation for lightbox
+document.addEventListener('keydown', function(e){
+  const lb = document.getElementById('lightbox');
+  if (!lb || !lb.classList.contains('open')) return;
+  if (e.key === 'Escape') closeLightbox();
+  else if (e.key === 'ArrowLeft') lbNav(-1);
+  else if (e.key === 'ArrowRight') lbNav(1);
+});
+
+</script>
+
 <!-- SHOWAI CMS BRIDGE v3 | Reads from data.json, URL hash, or localStorage -->
 <script>
 (function(){

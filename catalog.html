@@ -446,6 +446,20 @@ function renderForkSVG(brand){
   return `<svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg"><g fill="${c}"><rect x="40" y="65" width="70" height="55" rx="4"/><rect x="58" y="48" width="34" height="22" rx="2" opacity="0.85"/><circle cx="58" cy="125" r="10" fill="rgba(0,0,0,0.4)"/><circle cx="100" cy="125" r="10" fill="rgba(0,0,0,0.4)"/><rect x="112" y="35" width="5" height="85"/><rect x="110" y="35" width="35" height="5"/><rect x="110" y="65" width="35" height="5"/><rect x="142" y="35" width="5" height="60"/></g></svg>`;
 }
 
+
+function resetFilters(){
+  activeFilter = 'all';
+  activeSearch = '';
+  // Reset UI buttons
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  const allBtn = document.querySelector('[data-filter="all"]');
+  if(allBtn) allBtn.classList.add('active');
+  // Reset search input
+  const search = document.getElementById('catalogSearch');
+  if(search) search.value = '';
+  renderAll();
+}
+
 function renderAll(){
   const s = activeSearch.toLowerCase();
   const container = document.getElementById('catalogContainer');

@@ -217,85 +217,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-h
 .seo-item i.err{color:var(--danger)}
 
 
-/* ══════════════════════════════════════════════════════════
-   PUBLISH LIVE — generate data.json for direct GitHub push
-   ══════════════════════════════════════════════════════════ */
-function publishLive(){
-  // Build a clean data export with timestamp
-  const exportData = JSON.parse(JSON.stringify(D));
-  exportData._publishedAt = new Date().toISOString();
-  exportData._version = '1.0';
-  const jsonStr = JSON.stringify(exportData, null, 2);
-  const blob = new Blob([jsonStr], {type: 'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'data.json';
-  a.click();
-  URL.revokeObjectURL(url);
-  showPublishGuide();
-}
-
-function showPublishGuide(){
-  document.getElementById('publishGuideModal').style.display = 'flex';
-}
-function closePublishGuide(){
-  document.getElementById('publishGuideModal').style.display = 'none';
-}
-
-function generateShareLink(){
-  // Create a URL with compressed data hash that anyone can visit
-  const minimal = {
-    business: D.business,
-    sales_team: D.sales_team,
-    used_ads: (D.used_ads||[]).filter(a=>a.status==='active').map(a=>{
-      // Strip large photo data for URL — keep first photo only
-      return {...a, photos: a.photos?a.photos.slice(0,1):[]};
-    }),
-    gallery: (D.gallery||[]).slice(0,12), // limit for URL length
-    catalog_files: (D.catalog_files||[]).filter(f=>f.public).map(f=>{
-      const cp = {...f};
-      delete cp.data; // PDFs too big for URL — only metadata
-      return cp;
-    }),
-    promos: D.promos,
-    faq: D.faq,
-    stats: D.stats,
-    coverage: D.coverage,
-    testimonials: D.testimonials
-  };
-  const json = JSON.stringify(minimal);
-  // Use base64 encoding
-  try {
-    const b64 = btoa(unescape(encodeURIComponent(json)));
-    const liveUrl = 'https://showai-trading.netlify.app/#data=' + b64;
-    if(b64.length > 8000){
-      toast('Data too large for URL. Use Publish Live instead.','error');
-      return;
-    }
-    // Copy to clipboard
-    navigator.clipboard.writeText(liveUrl).then(()=>{
-      document.getElementById('shareUrlBox').value = liveUrl;
-      document.getElementById('shareLinkModal').style.display = 'flex';
-    });
-  } catch(e){
-    toast('Encoding failed: ' + e.message,'error');
-  }
-}
-function closeShareLink(){
-  document.getElementById('shareLinkModal').style.display = 'none';
-}
-function copyShareLink(){
-  const box = document.getElementById('shareUrlBox');
-  box.select();
-  document.execCommand('copy');
-  toast('Link copied! Send to anyone.','success');
-}
-
-/* Quick-publish: opens GitHub direct edit page for data.json */
-function openGitHubEdit(){
-  window.open('https://github.com/larryyew82-del/Showai/edit/main/data.json','_blank');
-}
 
 
 /* ── TOAST ── */
@@ -1801,6 +1722,88 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(renderHeroPhotos, 100);
 });
 
+
+
+
+/* ══════════════════════════════════════════════════════════
+   PUBLISH LIVE — generate data.json for direct GitHub push
+   ══════════════════════════════════════════════════════════ */
+function publishLive(){
+  // Build a clean data export with timestamp
+  const exportData = JSON.parse(JSON.stringify(D));
+  exportData._publishedAt = new Date().toISOString();
+  exportData._version = '1.0';
+  const jsonStr = JSON.stringify(exportData, null, 2);
+  const blob = new Blob([jsonStr], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'data.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showPublishGuide();
+}
+
+function showPublishGuide(){
+  document.getElementById('publishGuideModal').style.display = 'flex';
+}
+function closePublishGuide(){
+  document.getElementById('publishGuideModal').style.display = 'none';
+}
+
+function generateShareLink(){
+  // Create a URL with compressed data hash that anyone can visit
+  const minimal = {
+    business: D.business,
+    sales_team: D.sales_team,
+    used_ads: (D.used_ads||[]).filter(a=>a.status==='active').map(a=>{
+      // Strip large photo data for URL — keep first photo only
+      return {...a, photos: a.photos?a.photos.slice(0,1):[]};
+    }),
+    gallery: (D.gallery||[]).slice(0,12), // limit for URL length
+    catalog_files: (D.catalog_files||[]).filter(f=>f.public).map(f=>{
+      const cp = {...f};
+      delete cp.data; // PDFs too big for URL — only metadata
+      return cp;
+    }),
+    promos: D.promos,
+    faq: D.faq,
+    stats: D.stats,
+    coverage: D.coverage,
+    testimonials: D.testimonials
+  };
+  const json = JSON.stringify(minimal);
+  // Use base64 encoding
+  try {
+    const b64 = btoa(unescape(encodeURIComponent(json)));
+    const liveUrl = 'https://showai-trading.netlify.app/#data=' + b64;
+    if(b64.length > 8000){
+      toast('Data too large for URL. Use Publish Live instead.','error');
+      return;
+    }
+    // Copy to clipboard
+    navigator.clipboard.writeText(liveUrl).then(()=>{
+      document.getElementById('shareUrlBox').value = liveUrl;
+      document.getElementById('shareLinkModal').style.display = 'flex';
+    });
+  } catch(e){
+    toast('Encoding failed: ' + e.message,'error');
+  }
+}
+function closeShareLink(){
+  document.getElementById('shareLinkModal').style.display = 'none';
+}
+function copyShareLink(){
+  const box = document.getElementById('shareUrlBox');
+  box.select();
+  document.execCommand('copy');
+  toast('Link copied! Send to anyone.','success');
+}
+
+/* Quick-publish: opens GitHub direct edit page for data.json */
+function openGitHubEdit(){
+  window.open('https://github.com/larryyew82-del/Showai/edit/main/data.json','_blank');
+}
 
 </script>
 </body>
