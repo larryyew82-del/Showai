@@ -361,6 +361,7 @@ function openGitHubEdit(){
       <li><button class="sb-link" onclick="goSec('new_products',this)"><i class="fas fa-boxes-stacked"></i> New Forklifts <span class="sb-badge" id="sbNew">0</span></button></li>
       <li><button class="sb-link" onclick="goSec('used_ads',this)"><i class="fas fa-tags"></i> Used Forklift Ads <span class="sb-badge" id="sbUsed">0</span></button></li>
       <li><button class="sb-link" onclick="goSec('gallery',this)"><i class="fas fa-images"></i> Photo Gallery <span class="sb-badge" id="sbGal">0</span></button></li>
+        <li><button class="sb-link" onclick="goSec('hero_photos',this)"><i class="fas fa-images"></i> Hero Photos<span class="sb-badge" id="badge_hero_photos">0</span></button></li>
     </ul>
 
     <p class="sb-section">Content</p>
@@ -494,7 +495,93 @@ function openGitHubEdit(){
         </div>
       </div>
 
-      <!-- ── GALLERY ── -->
+      
+      <!-- ── HERO PHOTOS ── -->
+      <div class="sec" id="sec-hero_photos">
+        <div class="panel">
+          <div class="panel-head">
+            <div class="ph-left">
+              <div class="ph-icon" style="background:linear-gradient(135deg,#DA1217,#B0090E);color:#fff"><i class="fas fa-images"></i></div>
+              <div>
+                <div class="ph-title">Hero Photo Strip</div>
+                <div class="ph-sub">3 photo tiles that appear directly below the hero section</div>
+              </div>
+            </div>
+          </div>
+          <div style="padding:1.5rem">
+
+            <div style="background:#EFF6FF;border:1.5px solid #93C5FD;border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;gap:0.85rem;align-items:flex-start">
+              <i class="fas fa-circle-info" style="color:#0369A1;font-size:1.2rem;margin-top:0.15rem"></i>
+              <div style="font-size:0.85rem;color:#1E3A8A;line-height:1.6">
+                <strong>Tip:</strong> Best photo size is <strong>800×600px</strong> or larger. JPEG/PNG. Each photo should clearly show the subject — a wide angle works best. Photos with text labels overlap with the dark gradient overlay.
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem">
+
+              <!-- TILE 1: SHOWROOM -->
+              <div style="border:1.5px solid var(--line);border-radius:10px;padding:1.25rem;background:var(--white)">
+                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.85rem">
+                  <span style="background:#DA1217;color:#fff;font-size:0.6rem;font-weight:800;padding:0.2rem 0.55rem;border-radius:3px;letter-spacing:0.08em">TILE 1</span>
+                  <span style="font-weight:700;color:var(--blk);font-size:0.92rem">Showroom</span>
+                </div>
+                <div id="hp1_preview" style="width:100%;height:160px;border-radius:6px;background:linear-gradient(135deg,#1a1a1a,#2D2D2D);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.3);font-size:0.8rem;margin-bottom:0.85rem;background-size:cover;background-position:center;overflow:hidden">
+                  <i class="fas fa-warehouse" style="font-size:2.5rem"></i>
+                </div>
+                <label style="display:block;cursor:pointer;background:var(--blk);color:#fff;padding:0.55rem;border-radius:5px;text-align:center;font-size:0.82rem;font-weight:700;margin-bottom:0.5rem">
+                  <i class="fas fa-upload"></i> Upload Photo
+                  <input type="file" accept="image/*" onchange="handleHeroPhoto(event,1)" style="display:none">
+                </label>
+                <div class="field" style="margin-bottom:0.5rem"><label style="font-size:0.72rem">Title</label><input id="hp1_title" placeholder="Penang Showroom" style="font-size:0.85rem"></div>
+                <div class="field"><label style="font-size:0.72rem">Description</label><input id="hp1_desc" placeholder="UpperFork & EP units on display" style="font-size:0.85rem"></div>
+              </div>
+
+              <!-- TILE 2: FACTORY DELIVERY -->
+              <div style="border:1.5px solid var(--line);border-radius:10px;padding:1.25rem;background:var(--white)">
+                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.85rem">
+                  <span style="background:#DA1217;color:#fff;font-size:0.6rem;font-weight:800;padding:0.2rem 0.55rem;border-radius:3px;letter-spacing:0.08em">TILE 2</span>
+                  <span style="font-weight:700;color:var(--blk);font-size:0.92rem">Factory Delivery</span>
+                </div>
+                <div id="hp2_preview" style="width:100%;height:160px;border-radius:6px;background:linear-gradient(135deg,#2a1010,#1a0808);display:flex;align-items:center;justify-content:center;color:rgba(218,18,23,0.3);font-size:0.8rem;margin-bottom:0.85rem;background-size:cover;background-position:center;overflow:hidden">
+                  <i class="fas fa-industry" style="font-size:2.5rem"></i>
+                </div>
+                <label style="display:block;cursor:pointer;background:var(--blk);color:#fff;padding:0.55rem;border-radius:5px;text-align:center;font-size:0.82rem;font-weight:700;margin-bottom:0.5rem">
+                  <i class="fas fa-upload"></i> Upload Photo
+                  <input type="file" accept="image/*" onchange="handleHeroPhoto(event,2)" style="display:none">
+                </label>
+                <div class="field" style="margin-bottom:0.5rem"><label style="font-size:0.72rem">Title</label><input id="hp2_title" placeholder="Direct to Your Site" style="font-size:0.85rem"></div>
+                <div class="field"><label style="font-size:0.72rem">Description</label><input id="hp2_desc" placeholder="Branded trucks deliver across 4 states" style="font-size:0.85rem"></div>
+              </div>
+
+              <!-- TILE 3: SERVICE BAY -->
+              <div style="border:1.5px solid var(--line);border-radius:10px;padding:1.25rem;background:var(--white)">
+                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.85rem">
+                  <span style="background:#DA1217;color:#fff;font-size:0.6rem;font-weight:800;padding:0.2rem 0.55rem;border-radius:3px;letter-spacing:0.08em">TILE 3</span>
+                  <span style="font-weight:700;color:var(--blk);font-size:0.92rem">Service Bay</span>
+                </div>
+                <div id="hp3_preview" style="width:100%;height:160px;border-radius:6px;background:linear-gradient(135deg,#1a1a1a,#2D2D2D);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.3);font-size:0.8rem;margin-bottom:0.85rem;background-size:cover;background-position:center;overflow:hidden">
+                  <i class="fas fa-screwdriver-wrench" style="font-size:2.5rem"></i>
+                </div>
+                <label style="display:block;cursor:pointer;background:var(--blk);color:#fff;padding:0.55rem;border-radius:5px;text-align:center;font-size:0.82rem;font-weight:700;margin-bottom:0.5rem">
+                  <i class="fas fa-upload"></i> Upload Photo
+                  <input type="file" accept="image/*" onchange="handleHeroPhoto(event,3)" style="display:none">
+                </label>
+                <div class="field" style="margin-bottom:0.5rem"><label style="font-size:0.72rem">Title</label><input id="hp3_title" placeholder="24/7 Service Team" style="font-size:0.85rem"></div>
+                <div class="field"><label style="font-size:0.72rem">Description</label><input id="hp3_desc" placeholder="Certified technicians and genuine parts" style="font-size:0.85rem"></div>
+              </div>
+
+            </div>
+
+            <div style="margin-top:1.5rem;display:flex;gap:0.75rem;justify-content:flex-end">
+              <button class="btn btn-ghost" onclick="resetHeroPhotos()"><i class="fas fa-rotate-left"></i> Reset All</button>
+              <button class="btn btn-success" onclick="saveHeroPhotos()"><i class="fas fa-floppy-disk"></i> Save Hero Photos</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+<!-- ── GALLERY ── -->
       <div class="sec" id="sec-gallery">
         <div class="panel">
           <div class="panel-head"><div class="ph-left"><div class="ph-icon"><i class="fas fa-images"></i></div><div><div class="ph-title">Photo Gallery</div><div class="ph-sub">Photos shown in the gallery section on your website</div></div></div><button class="btn btn-red" onclick="openGalleryUpload()"><i class="fas fa-upload"></i> Upload Photos</button></div>
@@ -909,6 +996,16 @@ function openGitHubEdit(){
   <div class="modal"><div class="modal-head"><div class="modal-title" id="npModalTitle">Add New Product</div><button class="modal-close" onclick="closeModal('newProdModal')"><i class="fas fa-times"></i></button></div>
   <div class="modal-body">
     <div class="fg">
+      <div class="field f-full" style="background:linear-gradient(135deg,#FEF2F3,#FFE5E7);border:2px solid #DA1217;border-radius:8px;padding:1.25rem;margin-bottom:0.5rem;grid-column:1/-1">
+        <label style="display:flex;align-items:center;gap:0.5rem;font-weight:700;color:#DA1217;margin-bottom:0.6rem;font-size:0.92rem">
+          <i class="fas fa-bolt"></i> Quick-fill from Preset Library
+          <span style="font-size:0.65rem;font-weight:800;background:#DA1217;color:#fff;padding:0.15rem 0.5rem;border-radius:3px;letter-spacing:0.06em">119 MODELS</span>
+        </label>
+        <select id="np_preset" onchange="applyPreset(this.value)" style="width:100%;padding:0.65rem 0.75rem;border:1.5px solid #fff;border-radius:6px;font-size:0.92rem;background:#fff;color:#1C1C1C;font-weight:500">
+          <option value="">— Pick a preset to auto-fill all fields —</option>
+        </select>
+        <div style="font-size:0.78rem;color:#6B6B6B;margin-top:0.5rem;line-height:1.5"><i class="fas fa-circle-info" style="color:#DA1217;margin-right:0.25rem"></i>Choose any UpperFork or EP model. All form fields fill automatically — edit afterward if needed.</div>
+      </div>
       <div class="field"><label>Brand</label><select id="np_brand"><option value="upperfork">UpperFork</option><option value="ep">EP Equipment</option><option value="hangcha">Hangcha</option></select></div>
       <div class="field"><label>Type</label><select id="np_type">
               <option value="counterbalance">Counterbalance Forklift (LFP/IC Chassis)</option>
@@ -1422,6 +1519,288 @@ function deleteSales(id){
   D.sales_team=D.sales_team.filter(x=>x.id!==id);
   save();renderSalesTeam();toast('Removed','info');
 }
+
+
+/* ══════════════════════════════════════════════════════
+   FORKLIFT PRESET LIBRARY
+   Loaded from official UpperFork + EP catalogs
+   ══════════════════════════════════════════════════════ */
+const FORKLIFT_PRESETS = {
+  'UpperFork Diesel Counterbalance': [
+    {name:'FD15T',brand:'upperfork',type:'diesel',eq_type:'diesel',cap:'1.5 Ton',height:'6.0 m',engine:'Isuzu C240',extra:'Pneumatic'},
+    {name:'FD18T',brand:'upperfork',type:'diesel',eq_type:'diesel',cap:'1.8 Ton',height:'6.0 m',engine:'Isuzu C240',extra:'Pneumatic'},
+    {name:'FD20T',brand:'upperfork',type:'diesel',eq_type:'diesel',cap:'2.0 Ton',height:'6.0 m',engine:'Isuzu C240',extra:'Pneumatic'},
+    {name:'FD25T',brand:'upperfork',type:'diesel',eq_type:'diesel',cap:'2.5 Ton',height:'6.0 m',engine:'Isuzu C240',extra:'Pneumatic'},
+    {name:'FD30T',brand:'upperfork',type:'diesel',eq_type:'diesel',cap:'3.0 Ton',height:'6.0 m',engine:'Isuzu C240',extra:'Pneumatic'},
+    {name:'FD35T',brand:'upperfork',type:'diesel',eq_type:'diesel',cap:'3.5 Ton',height:'6.0 m',engine:'Isuzu 4JG2',extra:'Pneumatic'},
+    {name:'FD50T',brand:'upperfork',type:'diesel',eq_type:'diesel',cap:'5.0 Ton',height:'6.0 m',engine:'Mitsubishi S6S',extra:'Pneumatic'},
+  ],
+  'UpperFork Electric (LFP)': [
+    {name:'FB15',brand:'upperfork',type:'electric',eq_type:'counterbalance',cap:'1.5 Ton',height:'6.0 m',engine:'48V/210Ah Lithium LFP',extra:'8h runtime'},
+    {name:'FB18',brand:'upperfork',type:'electric',eq_type:'counterbalance',cap:'1.8 Ton',height:'6.0 m',engine:'48V/210Ah Lithium LFP',extra:'8h runtime'},
+    {name:'FB20',brand:'upperfork',type:'electric',eq_type:'counterbalance',cap:'2.0 Ton',height:'6.0 m',engine:'48V/280Ah Lithium LFP',extra:'8h runtime'},
+    {name:'FB25',brand:'upperfork',type:'electric',eq_type:'counterbalance',cap:'2.5 Ton',height:'6.0 m',engine:'48V/280Ah Lithium LFP',extra:'8h runtime'},
+    {name:'FB30',brand:'upperfork',type:'electric',eq_type:'counterbalance',cap:'3.0 Ton',height:'6.0 m',engine:'80V/300Ah Lithium LFP',extra:'8h runtime'},
+    {name:'FB35',brand:'upperfork',type:'electric',eq_type:'counterbalance',cap:'3.5 Ton',height:'6.0 m',engine:'80V/400Ah Lithium LFP',extra:'8h runtime'},
+  ],
+  'UpperFork Solid-State (Premium)': [
+    {name:'FB20-SS',brand:'upperfork',type:'electric',eq_type:'counterbalance',cap:'2.0 Ton',height:'6.0 m',engine:'48V Solid-State',extra:'0% fire risk, -20°C cold storage'},
+    {name:'FB25-SS',brand:'upperfork',type:'electric',eq_type:'counterbalance',cap:'2.5 Ton',height:'6.0 m',engine:'48V Solid-State',extra:'0% fire risk, -20°C cold storage'},
+    {name:'FB30-SS',brand:'upperfork',type:'electric',eq_type:'counterbalance',cap:'3.0 Ton',height:'6.0 m',engine:'80V Solid-State',extra:'0% fire risk, -20°C cold storage'},
+  ],
+  'EP — Electric Pallet Truck': [
+    {name:'F2',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'1.5 Ton',height:'',engine:'24V/20Ah Li-ion',extra:'4.5 km/h'},
+    {name:'F3',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'1.5 Ton',height:'',engine:'24V/20Ah Li-ion',extra:'4.5 km/h'},
+    {name:'F4',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'1.5 Ton',height:'',engine:'24V/20Ah Li-ion',extra:'4.5 km/h'},
+    {name:'EPL153',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'1.5 Ton',height:'',engine:'24V/20Ah Li-ion',extra:'4.5 km/h'},
+    {name:'EPL1531',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'1.5 Ton',height:'',engine:'24V/30Ah Li-ion',extra:'5.0 km/h'},
+    {name:'F4 with scale',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'1.5 Ton',height:'',engine:'24V/20Ah Li-ion',extra:'4.5 km/h'},
+    {name:'EPL154',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'1.5 Ton',height:'',engine:'24V/30Ah Li-ion',extra:'4.5 km/h'},
+    {name:'EPT20-15ET',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'1.5 Ton',height:'',engine:'24V/30Ah Li-ion',extra:'4.5 km/h'},
+    {name:'EPT20-15ET2',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'1.5 Ton',height:'',engine:'24V/30Ah AGM',extra:'5.5 km/h'},
+    {name:'EPT20-15ET2H',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'1.5 Ton',height:'',engine:'24V/30Ah AGM',extra:'5.5 km/h'},
+    {name:'EPL185',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'1.8 Ton',height:'',engine:'48V/20Ah Li-ion',extra:'6.0 km/h'},
+    {name:'F4 201',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'2.0 Ton',height:'',engine:'48V/30Ah AGM Lead acid',extra:'5.0 km/h'},
+    {name:'EPT20-ET',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'2.0 Ton',height:'',engine:'48V/20Ah AGM',extra:'5.5 km/h'},
+    {name:'EPT20-20ETH',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'2.0 Ton',height:'',engine:'48V/30Ah Lead acid',extra:'5.5 km/h'},
+    {name:'EPT20-20ETC',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'2.0 Ton',height:'',engine:'48V/40Ah Lead acid',extra:'4.5 km/h'},
+    {name:'EPT20-ET2(L)',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'2.0 Ton',height:'',engine:'48V/24Ah Li-ion',extra:'5.5 km/h'},
+    {name:'EPT12-F3H',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'1.2 Ton',height:'',engine:'24V/30Ah Lead acid',extra:'4.0 km/h'},
+    {name:'ESI151M',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'1.5 Ton',height:'',engine:'24V/30Ah Lead acid',extra:'4.0 km/h'},
+    {name:'WPL202',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'2.0 Ton',height:'',engine:'48V/65Ah Lead acid',extra:'6.0 km/h'},
+    {name:'EPT20-20WA',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'2.0 Ton',height:'',engine:'48V/65Ah Lead acid',extra:'6.0 km/h'},
+    {name:'EPT25-25WA',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'2.5 Ton',height:'',engine:'48V/65Ah Lead acid',extra:'6.0 km/h'},
+    {name:'EPA301',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'3.0 Ton',height:'',engine:'48V/100Ah Lead acid',extra:'6.0 km/h'},
+    {name:'KPL201(H)',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'2.0 Ton',height:'',engine:'24V/210Ah Lead acid',extra:'8.0 km/h'},
+    {name:'ZPL201',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'2.0 Ton',height:'',engine:'24V/210Ah Lead acid',extra:'6.0 km/h'},
+    {name:'RPL201(H)',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'2.0 Ton',height:'',engine:'24V/210Ah Lead acid',extra:'12.0 km/h'},
+    {name:'RPL251/301',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'2.5 Ton',height:'',engine:'24V/210Ah Lead acid',extra:'6.0 km/h'},
+    {name:'EPT20-30RTS',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'2.5 Ton',height:'',engine:'24V/210Ah Lead acid',extra:'12.0 km/h'},
+    {name:'EPT20-35RTS',brand:'ep',type:'electric',eq_type:'pallet_truck',cap:'3.5 Ton',height:'',engine:'24V/210Ah Lead acid',extra:'12.0 km/h'},
+  ],
+  'EP — Electric Stacker': [
+    {name:'ESA121-M',brand:'ep',type:'electric',eq_type:'stacker',cap:'1.2 Ton',height:'3.0 m',engine:'24V/130Ah Lead acid',extra:''},
+    {name:'ESA121-MD',brand:'ep',type:'electric',eq_type:'stacker',cap:'1.2 Ton',height:'3.013 m',engine:'24V/100Ah AGM battery',extra:''},
+    {name:'EST124',brand:'ep',type:'electric',eq_type:'stacker',cap:'1.2 Ton',height:'3.013 m',engine:'24V/80Ah Lead acid',extra:''},
+    {name:'EST122/ESL122',brand:'ep',type:'electric',eq_type:'stacker',cap:'1.2 Ton',height:'3.013 m',engine:'24V/100Ah Lead acid',extra:''},
+    {name:'ESA121',brand:'ep',type:'electric',eq_type:'stacker',cap:'1.2 Ton',height:'4.113 m',engine:'24V/180Ah Lead acid',extra:''},
+    {name:'ES15-15ES',brand:'ep',type:'electric',eq_type:'stacker',cap:'1.2 Ton',height:'3.013 m',engine:'24V/210Ah Lead acid',extra:''},
+    {name:'ESA121-D',brand:'ep',type:'electric',eq_type:'stacker',cap:'1.2 Ton',height:'4.513 m',engine:'24V/100Ah Lead acid',extra:''},
+    {name:'WSA121/161',brand:'ep',type:'electric',eq_type:'stacker',cap:'1.2 Ton',height:'4.5 m',engine:'24V/210Ah Lead acid',extra:''},
+    {name:'WSA121/161/181-D',brand:'ep',type:'electric',eq_type:'stacker',cap:'1.2 Ton',height:'4.5 m',engine:'24V/210Ah Lead acid',extra:''},
+    {name:'ES20-WA',brand:'ep',type:'electric',eq_type:'stacker',cap:'2.0 Ton',height:'4.5 m',engine:'24V/100Ah Lead acid',extra:''},
+    {name:'ES16-RS',brand:'ep',type:'electric',eq_type:'stacker',cap:'1.6 Ton',height:'4.5 m',engine:'24V/210Ah Lead acid',extra:''},
+    {name:'ES20-20RAS',brand:'ep',type:'electric',eq_type:'stacker',cap:'2.0 Ton',height:'3.0 m',engine:'24V/210Ah Lead acid',extra:''},
+    {name:'RSC082/122/152',brand:'ep',type:'electric',eq_type:'stacker',cap:'1.5 Ton',height:'4.5 m',engine:'24V/210Ah Lead acid',extra:''},
+    {name:'RSC202',brand:'ep',type:'electric',eq_type:'stacker',cap:'2.0 Ton',height:'3.0 m',engine:'24V/210Ah Lead acid',extra:''},
+    {name:'ESI161',brand:'ep',type:'electric',eq_type:'stacker',cap:'1.6 Ton',height:'1.645 m',engine:'24V/100Ah Lead acid',extra:''},
+    {name:'ESA121i',brand:'ep',type:'electric',eq_type:'stacker',cap:'1.2 Ton',height:'1.645 m',engine:'24V/100Ah Lead acid',extra:''},
+    {name:'WSA161i',brand:'ep',type:'electric',eq_type:'stacker',cap:'1.6 Ton',height:'1.645 m',engine:'24V/210Ah Lead acid',extra:''},
+    {name:'ES16-RSI',brand:'ep',type:'electric',eq_type:'stacker',cap:'1.6 Ton',height:'1.645 m',engine:'24V/210Ah Lead acid',extra:''},
+    {name:'KSi201',brand:'ep',type:'electric',eq_type:'stacker',cap:'2.0 Ton',height:'1.8 m',engine:'24V/100Ah Lead acid',extra:''},
+    {name:'RSi201',brand:'ep',type:'electric',eq_type:'stacker',cap:'2.0 Ton',height:'1.8 m',engine:'24V/210Ah Lead acid',extra:''},
+  ],
+  'EP — Order Picker & Tow Tractor': [
+    {name:'JX0/JX0-30',brand:'ep',type:'electric',eq_type:'order_picker',cap:'3.0 Ton',height:'3.0 m',engine:'24V/210Ah Lead acid',extra:'8.0 km/h'},
+    {name:'JX1',brand:'ep',type:'electric',eq_type:'order_picker',cap:'3.0 Ton',height:'4.5 m',engine:'24V/210Ah Lead acid',extra:'8.0 km/h'},
+    {name:'JX2-1',brand:'ep',type:'electric',eq_type:'order_picker',cap:'0.7 Ton',height:'',engine:'24V/210Ah Lead acid',extra:'8.0 km/h'},
+    {name:'JX2-3',brand:'ep',type:'electric',eq_type:'order_picker',cap:'0.7 Ton',height:'',engine:'24V/210Ah Lead acid',extra:'8.0 km/h'},
+    {name:'JX2-4',brand:'ep',type:'electric',eq_type:'order_picker',cap:'0.7 Ton',height:'',engine:'24V/210Ah Lead acid',extra:'8.0 km/h'},
+    {name:'TPL251',brand:'ep',type:'electric',eq_type:'order_picker',cap:'2.5 Ton',height:'',engine:'24V/300Ah Lead acid',extra:'14.5 km/h'},
+    {name:'QDD10',brand:'ep',type:'electric',eq_type:'tow_tractor',cap:'1.0 Ton',height:'',engine:'24V/30Ah Lead acid',extra:'5.0 km/h'},
+    {name:'QDD10L',brand:'ep',type:'electric',eq_type:'tow_tractor',cap:'1.0 Ton',height:'',engine:'24V/30Ah Lead acid',extra:'5.0 km/h'},
+    {name:'QDD10/15T',brand:'ep',type:'electric',eq_type:'tow_tractor',cap:'1.0 Ton',height:'',engine:'24V/100Ah Lead acid',extra:'5.0 km/h'},
+    {name:'QDD30S/QDD45S',brand:'ep',type:'electric',eq_type:'tow_tractor',cap:'3.0 Ton',height:'',engine:'24V/130Ah Lead acid',extra:'6.5 km/h'},
+    {name:'QDD301/601T',brand:'ep',type:'electric',eq_type:'tow_tractor',cap:'3.0 Ton',height:'',engine:'48V/180Ah Lead acid',extra:'13.0 km/h'},
+  ],
+  'EP — Electric Forklift': [
+    {name:'EFS151',brand:'ep',type:'electric',eq_type:'counterbalance',cap:'1.5 Ton',height:'6.0 m',engine:'48V/100Ah Li-ion',extra:'Single Drive'},
+    {name:'TVL151/181/201',brand:'ep',type:'electric',eq_type:'counterbalance',cap:'1.5-2.0T',height:'3000-5000/6000',engine:'48V/150Ah Lead acid',extra:'Dual Drive'},
+    {name:'TVL182/202',brand:'ep',type:'electric',eq_type:'counterbalance',cap:'1.8-2.0T',height:'6.0 m',engine:'48V/150Ah Lead acid',extra:'Dual Drive'},
+    {name:'CPD15/18/20TV8',brand:'ep',type:'electric',eq_type:'counterbalance',cap:'1.5-2.0T',height:'3000-5000/6000',engine:'48V/65Ah Lead acid',extra:''},
+    {name:'TDL161/201',brand:'ep',type:'electric',eq_type:'counterbalance',cap:'1.6-2.0T',height:'6.0 m',engine:'48V/200Ah Li-ion',extra:''},
+    {name:'TDL162',brand:'ep',type:'electric',eq_type:'counterbalance',cap:'1.6T',height:'5.0 m',engine:'48V/200Ah Lead acid',extra:''},
+    {name:'EFL183',brand:'ep',type:'electric',eq_type:'counterbalance',cap:'1.8T',height:'6.0 m',engine:'48V/200Ah Li-ion',extra:'EFL Series'},
+    {name:'EFL252',brand:'ep',type:'electric',eq_type:'counterbalance',cap:'2.5T',height:'6.0 m',engine:'48V/300Ah Li-ion',extra:'EFL Series'},
+    {name:'EFL181',brand:'ep',type:'electric',eq_type:'counterbalance',cap:'1.8T',height:'6.0 m',engine:'48V/200Ah Li-ion',extra:'EFL Series'},
+    {name:'EFL302/EFL352',brand:'ep',type:'electric',eq_type:'counterbalance',cap:'3.0-3.5T',height:'6.0 m',engine:'48V/350Ah Li-ion',extra:'EFL Series'},
+    {name:'EFL203(P)',brand:'ep',type:'electric',eq_type:'counterbalance',cap:'2.0T',height:'5.0 m',engine:'48V/200Ah Li-ion',extra:'EFL Series'},
+    {name:'EFL253/303/353(S/P)',brand:'ep',type:'electric',eq_type:'counterbalance',cap:'2.5-3.5T',height:'6.0 m',engine:'80V/300-450Ah Li-ion',extra:'EFL Series'},
+    {name:'EFX2-251',brand:'ep',type:'electric',eq_type:'counterbalance',cap:'2.5T',height:'6.0 m',engine:'80V/150Ah Li-ion',extra:'X Series'},
+    {name:'EFX3-251/301',brand:'ep',type:'electric',eq_type:'counterbalance',cap:'2.5-3.0T',height:'6.0 m',engine:'80V/100Ah Lead acid',extra:'X Series'},
+    {name:'EFX4-301',brand:'ep',type:'electric',eq_type:'counterbalance',cap:'3.0T',height:'6.0 m',engine:'80V/100Ah Lead acid',extra:'X Series'},
+    {name:'EFX4-303/353',brand:'ep',type:'electric',eq_type:'counterbalance',cap:'3.0T',height:'6.0 m',engine:'80V/980Ah Li-ion',extra:'X Series'},
+    {name:'EFX5-251/301/351/381',brand:'ep',type:'electric',eq_type:'counterbalance',cap:'2.5-3.5T',height:'6.0 m',engine:'80V/300-450Ah Li-ion',extra:'X Series'},
+    {name:'CPD18/20RVL',brand:'ep',type:'electric',eq_type:'counterbalance',cap:'1.8-2.0T',height:'6.0 m',engine:'48V/250-300Ah Li-ion',extra:'Dual Drive'},
+    {name:'EFLA251S',brand:'ep',type:'electric',eq_type:'counterbalance',cap:'2.5T',height:'6.0 m',engine:'48V/220Ah Li-ion',extra:'EP Specialty'},
+    {name:'EFL403/453/503',brand:'ep',type:'electric',eq_type:'counterbalance',cap:'4.0-5.0T',height:'6.0 m',engine:'80V/300Ah Li-ion',extra:'High Capacity'},
+    {name:'EFL503-6/553-6',brand:'ep',type:'electric',eq_type:'counterbalance',cap:'4.5-5.0T',height:'6.0 m',engine:'80V/500Ah Li-ion',extra:'High Capacity'},
+    {name:'EFL503/553-D EFL603/703',brand:'ep',type:'electric',eq_type:'counterbalance',cap:'5.0-7.0T',height:'6.0 m',engine:'80V/350Ah Li-ion',extra:'High Capacity'},
+    {name:'EFL803/EFL1003',brand:'ep',type:'electric',eq_type:'counterbalance',cap:'8.0-10.0T',height:'6.0 m',engine:'80V/350Ah Li-ion',extra:'High Capacity'},
+  ],
+  'EP — Diesel Truck (IC Engine)': [
+    {name:'CPC/Q(D)20-25T3',brand:'ep',type:'diesel',eq_type:'diesel',cap:'2.0-2.5T',height:'6.0 m',engine:'',extra:'MAX-3'},
+    {name:'CPCD15-35T8 CPQD30-35T8',brand:'ep',type:'diesel',eq_type:'diesel',cap:'1.5-3.5T',height:'6.0 m',engine:'',extra:'MAX-8'},
+    {name:'CPCD45T8 CPCD50T8-X',brand:'ep',type:'diesel',eq_type:'diesel',cap:'4.5T',height:'6.0 m',engine:'',extra:'MAX-8'},
+    {name:'CPCD50/60/70T8',brand:'ep',type:'diesel',eq_type:'diesel',cap:'5.0-7.0T',height:'6.0 m',engine:'',extra:'MAX-8'},
+    {name:'CPCD80/100T8',brand:'ep',type:'diesel',eq_type:'diesel',cap:'8.0-10.0T',height:'6.0 m',engine:'',extra:'MAX-8'},
+    {name:'CPCD40/45/50T9',brand:'ep',type:'diesel',eq_type:'diesel',cap:'4.0-5.0T',height:'6.0 m',engine:'',extra:'MAX-9'},
+    {name:'CPCD50T9-6 CPCD60/70T9',brand:'ep',type:'diesel',eq_type:'diesel',cap:'5.0-7.0T',height:'6.0 m',engine:'',extra:'MAX-9'},
+    {name:'CPCD85/100T9',brand:'ep',type:'diesel',eq_type:'diesel',cap:'8.5-10.0T',height:'5.0 m',engine:'',extra:'MAX-9'},
+    {name:'CPCD120T9',brand:'ep',type:'diesel',eq_type:'diesel',cap:'12.0T',height:'5.0 m',engine:'',extra:'MAX-9'},
+  ],
+  'EP — Reach Truck & VNA': [
+    {name:'CQE12R/15R',brand:'ep',type:'electric',eq_type:'reach_truck',cap:'1.2-1.5T',height:'3000-6300/4500/6300',engine:'48V/210/280Ah Lead acid',extra:''},
+    {name:'RQL151/201',brand:'ep',type:'electric',eq_type:'reach_truck',cap:'1.2-1.5T',height:'6.3 m',engine:'48V/420Ah Li-ion',extra:''},
+    {name:'CQE15S',brand:'ep',type:'electric',eq_type:'reach_truck',cap:'1.5T',height:'6.3 m',engine:'48V/210Ah Lead acid',extra:''},
+    {name:'CQD15S',brand:'ep',type:'electric',eq_type:'reach_truck',cap:'1.5T',height:'7.5 m',engine:'48V/420Ah Lead acid',extra:''},
+    {name:'CQD15SD',brand:'ep',type:'electric',eq_type:'reach_truck',cap:'1.5T',height:'7.5 m',engine:'48V/420Ah Lead acid',extra:''},
+    {name:'CQD18S2',brand:'ep',type:'electric',eq_type:'reach_truck',cap:'1.8T',height:'7.5 m',engine:'48V/700Ah Lead acid',extra:''},
+    {name:'CQD20LB',brand:'ep',type:'electric',eq_type:'reach_truck',cap:'2.0T',height:'9.5 m',engine:'48V/420Ah Lead acid',extra:''},
+    {name:'CQD16RV(F)2 CQD20RV(F)2',brand:'ep',type:'electric',eq_type:'reach_truck',cap:'1.6-2.0T',height:'7.5 m',engine:'48V/700Ah Lead acid',extra:''},
+    {name:'CQD25RV(F)',brand:'ep',type:'electric',eq_type:'reach_truck',cap:'2.5T',height:'7.5 m',engine:'48V/700Ah Lead acid',extra:''},
+    {name:'CTL15',brand:'ep',type:'electric',eq_type:'reach_truck',cap:'1.5T',height:'6.3 m',engine:'48V/420Ah Lead acid',extra:''},
+  ],
+  'EP — Rough Terrain Forklift': [
+    {name:'RTF25/30/35-4L1-HV',brand:'ep',type:'electric',eq_type:'counterbalance',cap:'2.5-3.5T',height:'6.3 m',engine:'48V/180Ah Lead acid',extra:''},
+  ],
+  'EP — Automatic Material Handling': [
+    {name:'EXP15',brand:'ep',type:'electric',eq_type:'amr',cap:'1.5T',height:'',engine:'24V/30Ah Lead acid',extra:''},
+  ],
+};
+
+
+function populatePresetDropdown(){
+  const sel = document.getElementById('np_preset');
+  if(!sel) return;
+  // Clear existing options except the first
+  sel.innerHTML = '<option value="">— Pick a preset to auto-fill all fields —</option>';
+  for(const [category, models] of Object.entries(FORKLIFT_PRESETS)){
+    const optgroup = document.createElement('optgroup');
+    optgroup.label = category + '  (' + models.length + ' models)';
+    models.forEach((m, idx) => {
+      const opt = document.createElement('option');
+      opt.value = category + '|' + idx;
+      opt.textContent = m.name + (m.cap ? ' — ' + m.cap : '');
+      optgroup.appendChild(opt);
+    });
+    sel.appendChild(optgroup);
+  }
+}
+
+function applyPreset(value){
+  if(!value) return;
+  const [category, idx] = value.split('|');
+  const preset = FORKLIFT_PRESETS[category] && FORKLIFT_PRESETS[category][parseInt(idx)];
+  if(!preset) return;
+  // Fill all form fields
+  document.getElementById('np_brand').value = preset.brand || 'upperfork';
+  document.getElementById('np_type').value = preset.eq_type || preset.type || 'counterbalance';
+  document.getElementById('np_name').value = preset.name || '';
+  document.getElementById('np_cap').value = preset.cap || '';
+  document.getElementById('np_height').value = preset.height || '';
+  document.getElementById('np_engine').value = preset.engine || '';
+  document.getElementById('np_extra').value = preset.extra || '';
+  // Visual feedback
+  toast('Preset "' + preset.name + '" loaded — review and save!', 'success');
+}
+
+// Populate dropdown when admin loads
+document.addEventListener('DOMContentLoaded', populatePresetDropdown);
+// Also when admin opens the modal (in case DOMContentLoaded already fired)
+const oldOpenModal = typeof openModal === 'function' ? openModal : null;
+
+
+/* ══════════════════════════════════════════════════════════════
+   HERO PHOTO STRIP — manages the 3 photo tiles below the hero
+   ══════════════════════════════════════════════════════════════ */
+function handleHeroPhoto(event, tileIdx){
+  const file = event.target.files[0];
+  if(!file) return;
+  if(file.size > 5 * 1024 * 1024){
+    toast('Image too large (max 5MB). Please compress first.','error');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e){
+    const src = e.target.result;
+    // Update preview
+    const preview = document.getElementById('hp' + tileIdx + '_preview');
+    if(preview){
+      preview.style.backgroundImage = 'url(' + src + ')';
+      // Hide the icon
+      const icon = preview.querySelector('i');
+      if(icon) icon.style.display = 'none';
+    }
+    // Stash on D
+    if(!D.hero_photos) D.hero_photos = [];
+    if(!D.hero_photos[tileIdx-1]) D.hero_photos[tileIdx-1] = {};
+    D.hero_photos[tileIdx-1].src = src;
+    toast('Photo ' + tileIdx + ' uploaded! Click Save to apply.','success');
+  };
+  reader.readAsDataURL(file);
+}
+
+function saveHeroPhotos(){
+  if(!D.hero_photos) D.hero_photos = [];
+  for(let i = 1; i <= 3; i++){
+    if(!D.hero_photos[i-1]) D.hero_photos[i-1] = {};
+    const title = document.getElementById('hp' + i + '_title');
+    const desc = document.getElementById('hp' + i + '_desc');
+    if(title && title.value) D.hero_photos[i-1].title = title.value;
+    if(desc && desc.value) D.hero_photos[i-1].desc = desc.value;
+  }
+  save();
+  toast('Hero photos saved! Click "Publish Live" to push to GitHub.','success');
+  renderHeroPhotos();
+}
+
+function resetHeroPhotos(){
+  if(!confirm('Reset all hero photos? This will remove uploaded images and clear titles/descriptions.')) return;
+  D.hero_photos = [];
+  for(let i = 1; i <= 3; i++){
+    const preview = document.getElementById('hp' + i + '_preview');
+    if(preview){
+      preview.style.backgroundImage = '';
+      const icon = preview.querySelector('i');
+      if(icon) icon.style.display = '';
+    }
+    const t = document.getElementById('hp' + i + '_title');
+    const d = document.getElementById('hp' + i + '_desc');
+    if(t) t.value = '';
+    if(d) d.value = '';
+  }
+  save();
+  toast('Hero photos reset.','success');
+}
+
+function renderHeroPhotos(){
+  if(!D.hero_photos) return;
+  D.hero_photos.forEach((photo, i) => {
+    if(!photo) return;
+    const idx = i + 1;
+    const preview = document.getElementById('hp' + idx + '_preview');
+    if(preview && photo.src){
+      preview.style.backgroundImage = 'url(' + photo.src + ')';
+      const icon = preview.querySelector('i');
+      if(icon) icon.style.display = 'none';
+    }
+    const t = document.getElementById('hp' + idx + '_title');
+    const d = document.getElementById('hp' + idx + '_desc');
+    if(t && photo.title) t.value = photo.title;
+    if(d && photo.desc) d.value = photo.desc;
+  });
+  // Update badge
+  const count = D.hero_photos.filter(p => p && p.src).length;
+  const badge = document.getElementById('badge_hero_photos');
+  if(badge) badge.textContent = count;
+}
+
+// Run on load
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(renderHeroPhotos, 100);
+});
+
 
 </script>
 </body>
