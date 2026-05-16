@@ -277,6 +277,31 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
   .fg.cols3{grid-template-columns:1fr}
   .bar-row{grid-template-columns:60px 1fr 70px}
 }
+
+  .wa-widget-btn{position:fixed;bottom:2rem;right:2rem;width:60px;height:60px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.75rem;cursor:pointer;border:none;box-shadow:0 6px 24px rgba(37,211,102,0.45);z-index:998;transition:transform 0.2s;animation:wa-pulse 2.5s ease-in-out infinite}
+  .wa-widget-btn:hover{transform:scale(1.1)}
+  @keyframes wa-pulse{0%,100%{box-shadow:0 6px 24px rgba(37,211,102,0.45)}50%{box-shadow:0 6px 24px rgba(37,211,102,0.7),0 0 0 12px rgba(37,211,102,0.12)}}
+  .wa-popup{position:fixed;bottom:5.5rem;right:1.5rem;width:300px;background:#fff;border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,0.18);z-index:999;overflow:hidden;transform:scale(0.85) translateY(12px);transform-origin:bottom right;opacity:0;pointer-events:none;transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1)}
+  .wa-popup.open{transform:scale(1) translateY(0);opacity:1;pointer-events:auto}
+  .wa-popup-header{background:linear-gradient(135deg,#075E54,#128C7E);padding:1rem 1.1rem;display:flex;align-items:center;justify-content:space-between}
+  .wa-popup-header-left{display:flex;align-items:center;gap:0.65rem}
+  .wa-popup-header-icon{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#fff}
+  .wa-popup-header-text{color:#fff}
+  .wa-popup-header-text strong{display:block;font-size:0.9rem;font-weight:700}
+  .wa-popup-header-text span{font-size:0.72rem;opacity:0.85}
+  .wa-popup-close{background:none;border:none;color:rgba(255,255,255,0.75);font-size:1rem;cursor:pointer;padding:0.25rem;line-height:1}
+  .wa-popup-close:hover{color:#fff}
+  .wa-popup-intro{padding:0.85rem 1.1rem 0.5rem;font-size:0.8rem;color:#6B6B6B;line-height:1.5}
+  .wa-popup-team{padding:0.35rem 0.6rem 0.75rem;display:flex;flex-direction:column;gap:0.4rem}
+  .wa-person{display:flex;align-items:center;gap:0.75rem;padding:0.7rem 0.85rem;border-radius:9px;background:#F6F6F6;text-decoration:none;color:inherit;transition:all 0.18s;border:1.5px solid transparent}
+  .wa-person:hover{background:#F0FDF4;border-color:#25D366;transform:translateX(2px)}
+  .wa-person-avatar{width:40px;height:40px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;color:#fff}
+  .wa-person-info{flex:1;min-width:0}
+  .wa-person-name{font-size:0.85rem;font-weight:700;color:#1C1C1C;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .wa-person-role{font-size:0.72rem;color:#6B6B6B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .wa-person-arrow{color:#25D366;font-size:0.85rem;flex-shrink:0}
+  .wa-popup-footer{padding:0.6rem 1.1rem 0.8rem;text-align:center;font-size:0.72rem;color:#A8A8A8;border-top:1px solid #F0F0F0}
+  @media(max-width:400px){.wa-popup{width:calc(100vw - 2rem);right:1rem}.wa-widget-btn{bottom:1.25rem;right:1.25rem}.wa-popup{bottom:5rem}}
 </style>
 <link rel="canonical" href="https://showaitrading.com/tco-calculator.html">
 </head>
@@ -984,6 +1009,50 @@ document.addEventListener('DOMContentLoaded',()=>{
     const idx={en:0,ms:1,zh:2}[s]||0;
     setLang(s,btns[idx]);
   }catch(e){ setLang('en'); }
+});
+</script>
+
+<!-- WA WIDGET -->
+<button class="wa-widget-btn" id="waWidgetBtn" onclick="toggleWaPopup()" aria-label="Contact Sales Team">
+  <i class="fab fa-whatsapp"></i>
+</button>
+<div class="wa-popup" id="waPopup">
+  <div class="wa-popup-header">
+    <div class="wa-popup-header-left">
+      <div class="wa-popup-header-icon"><i class="fab fa-whatsapp"></i></div>
+      <div class="wa-popup-header-text">
+        <strong>Showai Trading</strong>
+        <span>Typically replies within 1 hour</span>
+      </div>
+    </div>
+    <button class="wa-popup-close" onclick="toggleWaPopup()"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="wa-popup-intro">Choose a team member to start a conversation:</div>
+  <div class="wa-popup-team">
+    <a href="https://wa.me/60124925105?text=Hi%20Showai%2C%20I%20would%20like%20to%20enquire%20about%20the%20TCO%20Calculator%20results." class="wa-person" target="_blank">
+      <div class="wa-person-avatar" style="background:linear-gradient(135deg,#DA1217,#B0090E)">L</div>
+      <div class="wa-person-info">
+        <div class="wa-person-name">Lawrence Ong</div>
+        <div class="wa-person-role">Sales Director · Penang Hub</div>
+      </div>
+      <i class="fas fa-arrow-right wa-person-arrow"></i>
+    </a>
+    <a href="https://wa.me/60124925105?text=Hi%2C%20I%20would%20like%20to%20discuss%20forklift%20options%20based%20on%20my%20TCO%20analysis." class="wa-person" target="_blank">
+      <div class="wa-person-avatar" style="background:linear-gradient(135deg,#0369A1,#075985)">S</div>
+      <div class="wa-person-info">
+        <div class="wa-person-name">Sales Agent</div>
+        <div class="wa-person-role">Penang Hub · New &amp; Used Units</div>
+      </div>
+      <i class="fas fa-arrow-right wa-person-arrow"></i>
+    </a>
+  </div>
+  <div class="wa-popup-footer">🔒 Secure via WhatsApp · Mon-Sat 9am-6pm</div>
+</div>
+<script>
+function toggleWaPopup(){document.getElementById('waPopup').classList.toggle('open');}
+document.addEventListener('click',function(e){
+  const p=document.getElementById('waPopup'),b=document.getElementById('waWidgetBtn');
+  if(p&&b&&!p.contains(e.target)&&!b.contains(e.target))p.classList.remove('open');
 });
 </script>
 </body>
