@@ -216,6 +216,88 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-h
 .seo-item i.warn{color:var(--warning)}
 .seo-item i.err{color:var(--danger)}
 
+
+/* ══════════════════════════════════════════════════════════
+   PUBLISH LIVE — generate data.json for direct GitHub push
+   ══════════════════════════════════════════════════════════ */
+function publishLive(){
+  // Build a clean data export with timestamp
+  const exportData = JSON.parse(JSON.stringify(D));
+  exportData._publishedAt = new Date().toISOString();
+  exportData._version = '1.0';
+  const jsonStr = JSON.stringify(exportData, null, 2);
+  const blob = new Blob([jsonStr], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'data.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showPublishGuide();
+}
+
+function showPublishGuide(){
+  document.getElementById('publishGuideModal').style.display = 'flex';
+}
+function closePublishGuide(){
+  document.getElementById('publishGuideModal').style.display = 'none';
+}
+
+function generateShareLink(){
+  // Create a URL with compressed data hash that anyone can visit
+  const minimal = {
+    business: D.business,
+    sales_team: D.sales_team,
+    used_ads: (D.used_ads||[]).filter(a=>a.status==='active').map(a=>{
+      // Strip large photo data for URL — keep first photo only
+      return {...a, photos: a.photos?a.photos.slice(0,1):[]};
+    }),
+    gallery: (D.gallery||[]).slice(0,12), // limit for URL length
+    catalog_files: (D.catalog_files||[]).filter(f=>f.public).map(f=>{
+      const cp = {...f};
+      delete cp.data; // PDFs too big for URL — only metadata
+      return cp;
+    }),
+    promos: D.promos,
+    faq: D.faq,
+    stats: D.stats,
+    coverage: D.coverage,
+    testimonials: D.testimonials
+  };
+  const json = JSON.stringify(minimal);
+  // Use base64 encoding
+  try {
+    const b64 = btoa(unescape(encodeURIComponent(json)));
+    const liveUrl = 'https://showai-trading.netlify.app/#data=' + b64;
+    if(b64.length > 8000){
+      toast('Data too large for URL. Use Publish Live instead.','error');
+      return;
+    }
+    // Copy to clipboard
+    navigator.clipboard.writeText(liveUrl).then(()=>{
+      document.getElementById('shareUrlBox').value = liveUrl;
+      document.getElementById('shareLinkModal').style.display = 'flex';
+    });
+  } catch(e){
+    toast('Encoding failed: ' + e.message,'error');
+  }
+}
+function closeShareLink(){
+  document.getElementById('shareLinkModal').style.display = 'none';
+}
+function copyShareLink(){
+  const box = document.getElementById('shareUrlBox');
+  box.select();
+  document.execCommand('copy');
+  toast('Link copied! Send to anyone.','success');
+}
+
+/* Quick-publish: opens GitHub direct edit page for data.json */
+function openGitHubEdit(){
+  window.open('https://github.com/larryyew82-del/Showai/edit/main/data.json','_blank');
+}
+
+
 /* ── TOAST ── */
 .toast{position:fixed;bottom:1.5rem;right:1.5rem;padding:0.82rem 1.2rem;border-radius:8px;color:#fff;font-size:0.86rem;font-weight:500;display:flex;align-items:center;gap:0.6rem;box-shadow:0 10px 30px rgba(0,0,0,0.15);z-index:500;transform:translateY(20px);opacity:0;transition:all 0.3s;pointer-events:none;max-width:320px}
 .toast.show{transform:translateY(0);opacity:1}
@@ -569,32 +651,72 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-h
       <!-- ── EXPORT ── */
       <div class="sec" id="sec-export">
         <div class="panel">
-          <div class="panel-head"><div class="ph-left"><div class="ph-icon"><i class="fas fa-database"></i></div><div><div class="ph-title">Export & Backup</div></div></div></div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem;padding:1.5rem">
-            <div style="border:1.5px solid var(--line);border-radius:8px;padding:1.25rem;transition:all 0.2s" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--line)'"><div style="font-size:1.5rem;margin-bottom:0.65rem">📦</div><div style="font-size:0.88rem;font-weight:600;color:var(--blk);margin-bottom:0.3rem">Export All Data</div><div style="font-size:0.76rem;color:var(--gray-lt);margin-bottom:0.85rem;line-height:1.5">Download as JSON. Send to Claude to update website.</div><button class="btn btn-red" onclick="exportJSON()"><i class="fas fa-download"></i> Export JSON</button></div>
-            <div style="border:1.5px solid var(--line);border-radius:8px;padding:1.25rem;transition:all 0.2s" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--line)'"><div style="font-size:1.5rem;margin-bottom:0.65rem">📋</div><div style="font-size:0.88rem;font-weight:600;color:var(--blk);margin-bottom:0.3rem">Copy to Clipboard</div><div style="font-size:0.76rem;color:var(--gray-lt);margin-bottom:0.85rem;line-height:1.5">Paste directly into Claude chat.</div><button class="btn btn-ghost" onclick="copyData()"><i class="fas fa-copy"></i> Copy Data</button></div>
-            <div style="border:1.5px solid var(--line);border-radius:8px;padding:1.25rem;transition:all 0.2s" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--line)'"><div style="font-size:1.5rem;margin-bottom:0.65rem">📥</div><div style="font-size:0.88rem;font-weight:600;color:var(--blk);margin-bottom:0.3rem">Import Backup</div><div style="font-size:0.76rem;color:var(--gray-lt);margin-bottom:0.85rem;line-height:1.5">Restore from previous export.</div><button class="btn btn-ghost" onclick="document.getElementById('importFile').click()"><i class="fas fa-upload"></i> Import JSON</button><input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(event)"></div>
-            <div style="border:1.5px solid var(--line);border-radius:8px;padding:1.25rem;transition:all 0.2s" onmouseover="this.style.borderColor='var(--danger)'" onmouseout="this.style.borderColor='var(--line)'"><div style="font-size:1.5rem;margin-bottom:0.65rem">🗑️</div><div style="font-size:0.88rem;font-weight:600;color:var(--blk);margin-bottom:0.3rem">Reset All Data</div><div style="font-size:0.76rem;color:var(--gray-lt);margin-bottom:0.85rem;line-height:1.5">Wipe everything. Cannot be undone.</div><button class="btn btn-danger" onclick="resetAll()"><i class="fas fa-trash"></i> Reset</button></div>
+          <div class="panel-head">
+            <div class="ph-left">
+              <div class="ph-icon" style="background:linear-gradient(135deg,#16A34A,#15803d);color:#fff"><i class="fas fa-rocket"></i></div>
+              <div>
+                <div class="ph-title">Publish to Live Website</div>
+                <div class="ph-sub">Push your changes from this admin panel to the real customer-facing site</div>
+              </div>
+            </div>
           </div>
-          <div class="panel-body" style="border-top:1px solid var(--line)">
-            <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem;font-size:0.85rem;color:var(--gray)">
-              <span style="background:var(--red);color:#fff;padding:0.22rem 0.7rem;border-radius:3px;font-weight:700;font-size:0.75rem">1</span> Edit content here
-              <i class="fas fa-arrow-right" style="color:var(--line)"></i>
-              <span style="background:var(--red);color:#fff;padding:0.22rem 0.7rem;border-radius:3px;font-weight:700;font-size:0.75rem">2</span> Export JSON
-              <i class="fas fa-arrow-right" style="color:var(--line)"></i>
-              <span style="background:var(--red);color:#fff;padding:0.22rem 0.7rem;border-radius:3px;font-weight:700;font-size:0.75rem">3</span> Send to Claude
-              <i class="fas fa-arrow-right" style="color:var(--line)"></i>
-              <span style="background:var(--red);color:#fff;padding:0.22rem 0.7rem;border-radius:3px;font-weight:700;font-size:0.75rem">4</span> Get new index.html
-              <i class="fas fa-arrow-right" style="color:var(--line)"></i>
-              <span style="background:var(--red);color:#fff;padding:0.22rem 0.7rem;border-radius:3px;font-weight:700;font-size:0.75rem">5</span> Upload to Netlify
+          <div style="padding:1.5rem">
+            <div style="background:#FEF3C7;border:1.5px solid #F59E0B;border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;gap:0.85rem;align-items:flex-start">
+              <i class="fas fa-circle-info" style="color:#D97706;font-size:1.2rem;margin-top:0.15rem"></i>
+              <div style="font-size:0.85rem;color:#92400E;line-height:1.6">
+                <strong>How publishing works:</strong> Your changes are saved on YOUR browser only. To make them visible to all customers on <code>showai-trading.netlify.app</code>, click <strong>Publish Live</strong> below — this generates a <code>data.json</code> file you upload to GitHub. Netlify auto-deploys in 30 seconds.
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem">
+
+              <!-- METHOD 1: PUBLISH LIVE (RECOMMENDED) -->
+              <div style="border:2px solid #16A34A;border-radius:10px;padding:1.5rem;background:linear-gradient(135deg,#F0FDF4,#fff);position:relative">
+                <div style="position:absolute;top:0.75rem;right:0.75rem;background:#16A34A;color:#fff;font-size:0.65rem;font-weight:800;padding:0.2rem 0.55rem;border-radius:3px;letter-spacing:0.05em">RECOMMENDED</div>
+                <div style="font-size:2rem;margin-bottom:0.65rem">🚀</div>
+                <div style="font-size:1rem;font-weight:800;color:var(--blk);margin-bottom:0.5rem">Publish Live</div>
+                <div style="font-size:0.82rem;color:var(--gray);margin-bottom:1.25rem;line-height:1.6">Generates <code>data.json</code> — upload it to GitHub once, and ALL your customers see your changes within 30 seconds.</div>
+                <button class="btn btn-success" onclick="publishLive()" style="width:100%;background:#16A34A;justify-content:center"><i class="fas fa-rocket"></i> Publish Live Now</button>
+                <button class="btn btn-ghost btn-sm" onclick="openGitHubEdit()" style="width:100%;margin-top:0.5rem;justify-content:center"><i class="fab fa-github"></i> Open GitHub Edit Page</button>
+              </div>
+
+              <!-- METHOD 2: SHARE LINK -->
+              <div style="border:1.5px solid var(--line);border-radius:10px;padding:1.5rem">
+                <div style="font-size:2rem;margin-bottom:0.65rem">🔗</div>
+                <div style="font-size:1rem;font-weight:800;color:var(--blk);margin-bottom:0.5rem">Generate Share Link</div>
+                <div style="font-size:0.82rem;color:var(--gray);margin-bottom:1.25rem;line-height:1.6">Create a special URL with your data baked in. Send to anyone — they see your live data for this session. Good for previews and presentations.</div>
+                <button class="btn btn-ghost" onclick="generateShareLink()" style="width:100%;justify-content:center"><i class="fas fa-link"></i> Generate Link</button>
+              </div>
+
+              <!-- METHOD 3: BACKUP -->
+              <div style="border:1.5px solid var(--line);border-radius:10px;padding:1.5rem">
+                <div style="font-size:2rem;margin-bottom:0.65rem">💾</div>
+                <div style="font-size:1rem;font-weight:800;color:var(--blk);margin-bottom:0.5rem">Backup (JSON Export)</div>
+                <div style="font-size:0.82rem;color:var(--gray);margin-bottom:1.25rem;line-height:1.6">Download a full JSON backup. Keep this file safe in case you need to restore your data later.</div>
+                <button class="btn btn-ghost" onclick="exportJSON()" style="width:100%;justify-content:center"><i class="fas fa-download"></i> Download Backup</button>
+              </div>
+
+              <!-- METHOD 4: RESTORE -->
+              <div style="border:1.5px solid var(--line);border-radius:10px;padding:1.5rem">
+                <div style="font-size:2rem;margin-bottom:0.65rem">📥</div>
+                <div style="font-size:1rem;font-weight:800;color:var(--blk);margin-bottom:0.5rem">Restore from Backup</div>
+                <div style="font-size:0.82rem;color:var(--gray);margin-bottom:1.25rem;line-height:1.6">Restore from a previously saved JSON file. This replaces ALL current admin data.</div>
+                <label class="btn btn-ghost" style="width:100%;justify-content:center;cursor:pointer"><i class="fas fa-upload"></i> Choose JSON File<input type="file" accept=".json" onchange="importJSON(event)" style="display:none"></label>
+              </div>
+
+              <!-- METHOD 5: RESET -->
+              <div style="border:1.5px solid #FCA5A5;border-radius:10px;padding:1.5rem;background:#FEF2F2">
+                <div style="font-size:2rem;margin-bottom:0.65rem">⚠️</div>
+                <div style="font-size:1rem;font-weight:800;color:#991B1B;margin-bottom:0.5rem">Reset All Data</div>
+                <div style="font-size:0.82rem;color:#991B1B;margin-bottom:1.25rem;line-height:1.6">Permanently delete all admin data from this browser. Cannot be undone.</div>
+                <button class="btn btn-danger" onclick="resetAll()" style="width:100%;justify-content:center"><i class="fas fa-trash"></i> Reset Everything</button>
+              </div>
+
             </div>
           </div>
         </div>
       </div>
-
-
-      <!-- ── SALES TEAM ── -->
-      <div class="sec" id="sec-sales_team">
+<div class="sec" id="sec-sales_team">
         <div class="panel">
           <div class="panel-head">
             <div class="ph-left">
@@ -828,6 +950,79 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-h
     <div class="modal-foot">
       <button class="btn btn-ghost" onclick="closeModal('salesModal')">Cancel</button>
       <button class="btn btn-success" onclick="saveSalesperson()"><i class="fas fa-floppy-disk"></i> Save</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ─── PUBLISH GUIDE MODAL ─── -->
+<div id="publishGuideModal" style="display:none;position:fixed;inset:0;background:rgba(10,10,10,0.85);z-index:9999;align-items:center;justify-content:center;padding:2rem;backdrop-filter:blur(4px)" onclick="if(event.target===this)closePublishGuide()">
+  <div style="background:#fff;border-radius:14px;max-width:640px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 25px 60px rgba(0,0,0,0.5)">
+    <div style="background:linear-gradient(135deg,#16A34A,#15803d);color:#fff;padding:1.5rem 2rem;display:flex;justify-content:space-between;align-items:center;border-radius:14px 14px 0 0">
+      <div>
+        <div style="font-size:1.3rem;font-weight:800;margin-bottom:0.25rem">🚀 Data Downloaded!</div>
+        <div style="font-size:0.82rem;opacity:0.9">Now upload it to GitHub to go live</div>
+      </div>
+      <button onclick="closePublishGuide()" style="background:rgba(255,255,255,0.2);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem"><i class="fas fa-times"></i></button>
+    </div>
+    <div style="padding:2rem">
+      <p style="color:var(--ink);margin-bottom:1.5rem;line-height:1.6">A file called <strong style="color:#DA1217">data.json</strong> has been downloaded to your computer. Follow these 3 steps to publish it live to all customers:</p>
+
+      <div style="display:flex;flex-direction:column;gap:1rem;margin-bottom:1.5rem">
+        <div style="display:flex;gap:1rem;padding:1rem;background:#F6F6F6;border-radius:8px;border-left:4px solid #16A34A">
+          <div style="width:32px;height:32px;border-radius:50%;background:#16A34A;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0">1</div>
+          <div>
+            <div style="font-weight:700;color:var(--blk);margin-bottom:0.25rem">Open GitHub data.json file</div>
+            <div style="font-size:0.85rem;color:var(--gray);margin-bottom:0.5rem">Click the button below to open the file edit page directly:</div>
+            <button onclick="openGitHubEdit()" class="btn btn-red" style="font-size:0.82rem"><i class="fab fa-github"></i> Open data.json Editor</button>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:1rem;padding:1rem;background:#F6F6F6;border-radius:8px;border-left:4px solid #DA1217">
+          <div style="width:32px;height:32px;border-radius:50%;background:#DA1217;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0">2</div>
+          <div>
+            <div style="font-weight:700;color:var(--blk);margin-bottom:0.25rem">Replace the file content</div>
+            <div style="font-size:0.85rem;color:var(--gray);line-height:1.6">In GitHub's edit page: select all existing content (Ctrl+A), delete it, then paste the contents of the <code>data.json</code> file you just downloaded.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:1rem;padding:1rem;background:#F6F6F6;border-radius:8px;border-left:4px solid #0369A1">
+          <div style="width:32px;height:32px;border-radius:50%;background:#0369A1;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0">3</div>
+          <div>
+            <div style="font-weight:700;color:var(--blk);margin-bottom:0.25rem">Commit changes</div>
+            <div style="font-size:0.85rem;color:var(--gray);line-height:1.6">Scroll down → write a commit message like <em>"Update website content"</em> → click <strong>Commit changes</strong>. Netlify will auto-deploy in ~30 seconds.</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:#FEF3C7;border:1.5px solid #F59E0B;border-radius:8px;padding:1rem 1.25rem;font-size:0.85rem;color:#92400E;line-height:1.5">
+        <strong>💡 Pro tip:</strong> If <code>data.json</code> doesn't exist on GitHub yet, click <strong>Create new file</strong> in the repo root, name it <code>data.json</code>, paste the content, and commit.
+      </div>
+
+      <div style="margin-top:1.5rem;text-align:center">
+        <button onclick="closePublishGuide()" class="btn btn-ghost">Got it, close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SHARE LINK MODAL ─── -->
+<div id="shareLinkModal" style="display:none;position:fixed;inset:0;background:rgba(10,10,10,0.85);z-index:9999;align-items:center;justify-content:center;padding:2rem;backdrop-filter:blur(4px)" onclick="if(event.target===this)closeShareLink()">
+  <div style="background:#fff;border-radius:14px;max-width:580px;width:100%;box-shadow:0 25px 60px rgba(0,0,0,0.5)">
+    <div style="background:linear-gradient(135deg,#0369A1,#075985);color:#fff;padding:1.5rem 2rem;display:flex;justify-content:space-between;align-items:center;border-radius:14px 14px 0 0">
+      <div>
+        <div style="font-size:1.3rem;font-weight:800;margin-bottom:0.25rem">🔗 Share Link Generated</div>
+        <div style="font-size:0.82rem;opacity:0.9">Anyone with this link sees your live admin data</div>
+      </div>
+      <button onclick="closeShareLink()" style="background:rgba(255,255,255,0.2);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer"><i class="fas fa-times"></i></button>
+    </div>
+    <div style="padding:2rem">
+      <p style="color:var(--ink);margin-bottom:1rem;line-height:1.6">Copy this link and share with colleagues, clients, or customers to preview your admin changes:</p>
+      <textarea id="shareUrlBox" readonly style="width:100%;min-height:100px;padding:0.85rem;border:1.5px solid var(--line);border-radius:8px;font-family:monospace;font-size:0.8rem;resize:none;background:#F6F6F6"></textarea>
+      <div style="display:flex;gap:0.5rem;margin-top:1rem;justify-content:flex-end">
+        <button onclick="closeShareLink()" class="btn btn-ghost">Close</button>
+        <button onclick="copyShareLink()" class="btn btn-red"><i class="fas fa-copy"></i> Copy Link</button>
+      </div>
     </div>
   </div>
 </div>

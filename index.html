@@ -130,19 +130,31 @@
   .lang-btn.active { background: var(--red); color: white; }
 
   nav { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--line); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-  .nav-inner { max-width: 1280px; margin: 0 auto; padding: 0.85rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+  .nav-inner { max-width: 1320px; margin: 0 auto; padding: 0.85rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
   .logo-wrap { display: flex; align-items: center; gap: 0.85rem; text-decoration: none; }
-  .logo-img { height: 48px; width: auto; }
+  .logo-img { height: 38px; width: auto; }
   .logo-text { display: flex; flex-direction: column; }
-  .logo-name { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 1.35rem; color: var(--black); line-height: 1; letter-spacing: -0.02em; }
+  .logo-name { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 800; color: var(--blk); line-height: 1.1; }
   body.lang-zh .logo-name { font-family: 'Noto Sans SC', serif; }
-  .logo-tagline { font-size: 0.7rem; color: var(--red); letter-spacing: 0.15em; text-transform: uppercase; margin-top: 0.25rem; font-weight: 700; }
-  .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
-  .nav-links a { color: var(--ink); text-decoration: none; font-size: 0.95rem; font-weight: 500; padding: 0.5rem 0; position: relative; }
+  .logo-tagline { font-size: 0.6rem; color: var(--red); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+  .nav-links { display: flex; gap: 1.35rem; list-style: none; align-items: center; }
+  .nav-links a { color: var(--ink); text-decoration: none; font-size: 0.88rem; font-weight: 500; padding: 0.5rem 0; position: relative; transition: color 0.2s; white-space: nowrap; }
   .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--red); transition: width 0.3s; }
   .nav-links a:hover::after { width: 100%; }
-  .nav-cta { background: var(--red); color: white; padding: 0.75rem 1.5rem; border-radius: 4px; text-decoration: none; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.2s; }
-  .nav-cta:hover { background: var(--red-dark); transform: translateY(-1px); }
+  .nav-cta {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    background: var(--red); color: #fff !important;
+    padding: 0.6rem 1.25rem;
+    border-radius: 4px;
+    font-size: 0.85rem; font-weight: 700;
+    text-decoration: none;
+    text-transform: uppercase; letter-spacing: 0.04em;
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--red-dk) !important; color: #fff !important; }
+  .nav-link-highlight { color: var(--red) !important; font-weight: 700 !important; }
+  .nav-link-highlight::after { display: none !important; }
   .mobile-toggle { display: none; background: none; border: none; cursor: pointer; font-size: 1.5rem; color: var(--black); }
 
   .hero { position: relative; background: linear-gradient(135deg, var(--black) 0%, var(--gray-dark) 100%); color: white; padding: 5rem 0 4rem; overflow: hidden; }
@@ -728,14 +740,14 @@
       </div>
     </a>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#services" data-i18n="nav_services">Services</a></li>
-      <li><a href="#products" data-i18n="nav_products">New Forklifts</a></li><li><a href="#used" data-i18n="nav_used">Used Forklifts</a></li>
+      <li><a href="#products" data-i18n="nav_products">Forklifts</a></li>
+      <li><a href="#used" data-i18n="nav_used">Used</a></li>
+      <li><a href="catalog.html" data-i18n="nav_catalog" class="nav-link-highlight">Catalog</a></li>
+      <li><a href="technology.html">Technology</a></li>
+      <li><a href="tco-calculator.html" data-i18n="nav_tco">TCO Calc</a></li>
       <li><a href="#gallery" data-i18n="nav_gallery">Gallery</a></li>
       <li><a href="#coverage" data-i18n="nav_coverage">Coverage</a></li>
-      <li><a href="tco-calculator.html" data-i18n="nav_tco">TCO Calc</a></li><li><a href="#faq" data-i18n="nav_faq">FAQ</a></li>
       <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
-      <li><a href="catalog.html" data-i18n="nav_catalog" style="color:var(--red,#DA1217);font-weight:700;padding:0.4rem 0.75rem;border-radius:4px">Catalog</a></li>
-      <li><a href="technology.html" style="font-weight:600">Technology</a></li>
     </ul>
     <a href="https://wa.me/60124925105" class="nav-cta"><i class="fab fa-whatsapp"></i> <span data-i18n="nav_cta">Get Quote</span></a>
     <button class="mobile-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')"><i class="fas fa-bars"></i></button>
@@ -1101,6 +1113,14 @@
       <a href="https://wa.me/60124925105?text=Hi%20Showai%2C%20I'm%20looking%20for%20a%20used%20forklift.%20Please%20help%20me." class="btn btn-red btn-lg" style="display:inline-flex;align-items:center;gap:0.5rem">
         <i class="fab fa-whatsapp"></i> <span data-i18n="used_cta_btn">Request a Used Forklift</span>
       </a>
+    </div>
+    <div class="used-cta-bar" style="margin-top:2.5rem;background:linear-gradient(135deg,#DA1217,#B0090E);border-radius:12px;padding:2rem 2.5rem;text-align:center;color:#fff;box-shadow:0 8px 24px rgba(218,18,23,0.25)">
+      <div style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:0.5rem">Looking for a specific brand or model?</div>
+      <p style="color:rgba(255,255,255,0.9);margin-bottom:1.5rem;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.6">We source Toyota, TCM, Unicarrier, Hangcha, and Komatsu used units on request. Tell us your specs and budget.</p>
+      <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap">
+        <a href="https://wa.me/60124925105?text=Hi%20Showai%2C%20I%20am%20looking%20for%20a%20specific%20used%20forklift.%20Please%20help." style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.5rem;background:#fff;color:#DA1217;border-radius:6px;text-decoration:none;font-weight:700;font-size:0.9rem;transition:transform 0.2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'" target="_blank"><i class="fab fa-whatsapp"></i> Request a Unit</a>
+        <a href="catalog.html" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.5rem;background:rgba(255,255,255,0.15);color:#fff;border:1.5px solid rgba(255,255,255,0.3);border-radius:6px;text-decoration:none;font-weight:700;font-size:0.9rem"><i class="fas fa-book-open"></i> Browse All Stock</a>
+      </div>
     </div>
   </div>
 </section>
@@ -2468,13 +2488,50 @@ document.addEventListener('click',function(e){
   console.log('[Showai CMS] Content loaded from admin panel data ✓');
 })();
 </script>
-<!-- SHOWAI CMS BRIDGE v2 | Key: showai_cms_v3 -->
+<!-- SHOWAI CMS BRIDGE v3 | Reads from data.json, URL hash, or localStorage -->
 <script>
 (function(){
   const KEY='showai_cms_v3';
   let D=null;
-  try{const s=localStorage.getItem(KEY);if(s)D=JSON.parse(s);}catch(e){}
-  if(!D)return;
+  
+  // ── Try URL hash data (for shared preview links) ─────────────
+  if(window.location.hash.startsWith('#data=')){
+    try {
+      const b64 = window.location.hash.slice(6);
+      const json = decodeURIComponent(escape(atob(b64)));
+      D = JSON.parse(json);
+      console.log('[Showai CMS] Loaded from share link ✓');
+    } catch(e) { console.warn('Share link decode failed:', e); }
+  }
+  
+  // ── Try localStorage (for admin preview) ─────────────────────
+  if(!D){
+    try {
+      const s = localStorage.getItem(KEY);
+      if(s) {
+        D = JSON.parse(s);
+        console.log('[Showai CMS] Loaded from localStorage (admin preview)');
+      }
+    } catch(e) {}
+  }
+  
+  // ── Try data.json (LIVE production content for all customers) ──
+  // We fetch this in the background and apply it once loaded
+  fetch('data.json?v='+Date.now())
+    .then(r => r.ok ? r.json() : null)
+    .then(liveData => {
+      if(!liveData) return;
+      console.log('[Showai CMS] Loaded from data.json (LIVE content) ✓');
+      D = liveData;
+      applyAllCMSData();
+    })
+    .catch(()=>{ /* data.json not yet pushed to GitHub - that's fine */ });
+  
+  // ── Apply immediately whatever D we have ─────────────────────
+  if(D) applyAllCMSData();
+  
+  function applyAllCMSData(){
+    if(!D) return;
   const bC={upperfork:'#DA1217',ep:'#DA1217',hangcha:'#E8821A',tcm:'#DA1217',unicarrier:'#1a1a1a',toyota:'#CC0000',other:'#6B6B6B'};
   const cC={Excellent:'#2563EB',Good:'#16A34A',Fair:'#D97706'};
   const wa=(D.business&&D.business.wa)||'60124925105';
@@ -2541,7 +2598,8 @@ document.addEventListener('click',function(e){
   // 9. COVERAGE
   if(D.coverage){['Penang','Kedah','Perak','Perlis'].forEach(state=>{const cities=D.coverage[state];if(!cities||!cities.length)return;document.querySelectorAll('.coverage-state h4,.state-title').forEach(h=>{if(h.textContent.includes(state)){const ul=h.nextElementSibling;if(ul&&ul.tagName==='UL')ul.innerHTML=cities.map(c=>`<li>${c}</li>`).join('');}});});}
 
-  console.log('[Showai CMS v2] Synced ✓');
+    console.log('[Showai CMS v3] All sections synced ✓');
+  } // end applyAllCMSData
 })();
 </script>
 </body>

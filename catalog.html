@@ -775,15 +775,30 @@ document.addEventListener('click',function(e){
 </script>
 
 
-<!-- ═══════════════════════════════════════════════════════
-     SHOWAI CMS BRIDGE — Catalog page syncs with admin data
-     ═══════════════════════════════════════════════════════ -->
+<!-- SHOWAI CMS BRIDGE v3 - Catalog page -->
 <script>
-(function() {
-  const KEY = 'showai_cms_v3';
-  let D = null;
-  try { const s = localStorage.getItem(KEY); if (s) D = JSON.parse(s); } catch(e) {}
-  if (!D) return;
+(function(){
+  const KEY='showai_cms_v3';
+  let D=null;
+  
+  if(window.location.hash.startsWith('#data=')){
+    try {
+      const b64 = window.location.hash.slice(6);
+      D = JSON.parse(decodeURIComponent(escape(atob(b64))));
+    } catch(e) {}
+  }
+  if(!D){
+    try { const s = localStorage.getItem(KEY); if(s) D = JSON.parse(s); } catch(e) {}
+  }
+  
+  fetch('data.json?v='+Date.now()).then(r=>r.ok?r.json():null).then(live=>{
+    if(live){ D = live; applyCatalogCMS(); }
+  }).catch(()=>{});
+  
+  if(D) applyCatalogCMS();
+  
+  function applyCatalogCMS(){
+    if(!D) return;
 
   // ── 1. WA WIDGET SALES TEAM ────────────────────────────────────
   if (D.sales_team && D.sales_team.length) {
@@ -874,8 +889,10 @@ document.addEventListener('click',function(e){
     }
   }
 
-  console.log('[Showai CMS] Catalog synced with admin data ✓');
+  console.log('[Showai CMS v3] Catalog synced ✓');
+  }
 })();
+
 </script>
 </body>
 </html>
