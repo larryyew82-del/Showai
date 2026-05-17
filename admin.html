@@ -240,6 +240,16 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-h
   .stats-grid{grid-template-columns:1fr 1fr}.fg,.fg.c3,.fg.c4{grid-template-columns:1fr}
   #mobileToggle{display:block !important}
 }
+
+/* ── VISITOR STATS ── */
+.vs-stat{display:flex;align-items:center;gap:0.85rem;padding:1rem;background:#fff;border-radius:8px;border:1.5px solid var(--line)}
+.vs-stat-icon{width:44px;height:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.vs-stat-num{font-size:1.5rem;font-weight:800;color:var(--blk);line-height:1.1}
+.vs-stat-label{font-size:0.72rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-top:0.2rem}
+.vs-bar{display:flex;align-items:center;justify-content:space-between;padding:0.45rem 0.75rem;background:#F6F6F6;border-radius:5px;font-size:0.82rem}
+.vs-bar-name{font-weight:600;color:var(--blk)}
+.vs-bar-val{font-weight:800;color:var(--red);font-variant-numeric:tabular-nums}
+
 </style>
 </head>
 <body>
@@ -303,7 +313,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-h
     <p class="sb-section">System</p>
     <ul class="sb-nav">
       <li><button class="sb-link" onclick="goSec('seo',this)"><i class="fas fa-magnifying-glass-chart"></i> SEO Checklist</button></li>
-      <li><button class="sb-link" onclick="goSec('export',this)"><i class="fas fa-database"></i> Export / Backup</button></li>
+      <li><button class="sb-link" onclick="goSec('leads',this)"><i class="fas fa-envelope-open-text"></i> Lead Inbox<span class="sb-badge" id="badge_leads">0</span></button></li>
+        <li><button class="sb-link" onclick="goSec('export',this)"><i class="fas fa-database"></i> Export / Backup</button></li>
     </ul>
 
     <div class="sb-footer">
@@ -346,7 +357,75 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-h
             </div>
           </div>
         </div>
-        <div class="panel">
+        
+        <!-- ─── VISITOR STATS ─── -->
+        <div class="panel" style="margin-bottom:1.25rem">
+          <div class="panel-head">
+            <div class="ph-left">
+              <div class="ph-icon" style="background:linear-gradient(135deg,#0369A1,#075985);color:#fff"><i class="fas fa-chart-line"></i></div>
+              <div>
+                <div class="ph-title">Website Visitor Statistics</div>
+                <div class="ph-sub">Live stats from your local browser (visitors who opened this admin)</div>
+              </div>
+            </div>
+            <button class="btn btn-ghost btn-sm" onclick="loadVisitorStats()"><i class="fas fa-rotate"></i> Refresh</button>
+          </div>
+          <div style="padding:1.5rem">
+            <div id="visitorStatsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;margin-bottom:1.5rem">
+              <div class="vs-stat">
+                <div class="vs-stat-icon" style="background:#FEF2F3;color:#DA1217"><i class="fas fa-eye"></i></div>
+                <div>
+                  <div class="vs-stat-num" id="vs_views">—</div>
+                  <div class="vs-stat-label">Total Page Views</div>
+                </div>
+              </div>
+              <div class="vs-stat">
+                <div class="vs-stat-icon" style="background:#EFF6FF;color:#0369A1"><i class="fas fa-users"></i></div>
+                <div>
+                  <div class="vs-stat-num" id="vs_visitors">—</div>
+                  <div class="vs-stat-label">Unique Visitors</div>
+                </div>
+              </div>
+              <div class="vs-stat">
+                <div class="vs-stat-icon" style="background:#F0FDF4;color:#16A34A"><i class="fas fa-calendar-day"></i></div>
+                <div>
+                  <div class="vs-stat-num" id="vs_today">—</div>
+                  <div class="vs-stat-label">Today's Views</div>
+                </div>
+              </div>
+              <div class="vs-stat">
+                <div class="vs-stat-icon" style="background:#FFFBEB;color:#D97706"><i class="fas fa-calendar-week"></i></div>
+                <div>
+                  <div class="vs-stat-num" id="vs_week">—</div>
+                  <div class="vs-stat-label">Last 7 Days</div>
+                </div>
+              </div>
+            </div>
+            
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+              <!-- Top Pages -->
+              <div>
+                <div style="font-size:0.8rem;font-weight:700;color:var(--blk);margin-bottom:0.75rem;text-transform:uppercase;letter-spacing:0.06em">Top Pages</div>
+                <div id="vs_pages" style="display:flex;flex-direction:column;gap:0.5rem">
+                  <div style="color:var(--gray);font-size:0.85rem">Loading...</div>
+                </div>
+              </div>
+              <!-- Top Sources -->
+              <div>
+                <div style="font-size:0.8rem;font-weight:700;color:var(--blk);margin-bottom:0.75rem;text-transform:uppercase;letter-spacing:0.06em">Traffic Sources</div>
+                <div id="vs_referrers" style="display:flex;flex-direction:column;gap:0.5rem">
+                  <div style="color:var(--gray);font-size:0.85rem">Loading...</div>
+                </div>
+              </div>
+            </div>
+            
+            <div style="margin-top:1.5rem;padding:1rem;background:#EFF6FF;border:1.5px solid #93C5FD;border-radius:6px;font-size:0.8rem;color:#1E3A8A;line-height:1.5">
+              <strong><i class="fas fa-circle-info"></i> Privacy-first stats:</strong> These counters live in each visitor's browser. To see TRUE aggregate visitor count, install free <a href="https://analytics.google.com" target="_blank" style="color:#DA1217;font-weight:700">Google Analytics</a> or <a href="https://plausible.io" target="_blank" style="color:#DA1217;font-weight:700">Plausible</a> (recommended — no cookies needed).
+            </div>
+          </div>
+        </div>
+
+<div class="panel">
           <div class="panel-head"><div class="ph-left"><div class="ph-icon"><i class="fas fa-clock-rotate-left"></i></div><div><div class="ph-title">Recent Activity</div></div></div></div>
           <div id="activityList"><div class="act-item"><div class="act-dot"></div><div class="act-text">No activity yet. Start by adding a used forklift ad.</div><div class="act-time">—</div></div></div>
         </div>
@@ -657,7 +736,36 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-h
       </div>
 
       <!-- ── EXPORT ── */
-      <div class="sec" id="sec-export">
+      
+      <div class="sec" id="sec-leads">
+        <div class="panel">
+          <div class="panel-head">
+            <div class="ph-left">
+              <div class="ph-icon" style="background:linear-gradient(135deg,#0369A1,#075985);color:#fff"><i class="fas fa-envelope-open-text"></i></div>
+              <div>
+                <div class="ph-title">Lead Inbox</div>
+                <div class="ph-sub">Backup of every form submission saved on this browser</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:0.5rem">
+              <button class="btn btn-ghost btn-sm" onclick="loadLeads()"><i class="fas fa-rotate"></i> Refresh</button>
+              <button class="btn btn-ghost btn-sm" onclick="exportLeadsCsv()"><i class="fas fa-download"></i> Export CSV</button>
+              <button class="btn btn-danger btn-sm" onclick="clearLeads()"><i class="fas fa-trash"></i> Clear</button>
+            </div>
+          </div>
+          <div style="padding:1.5rem">
+            <div style="background:#EFF6FF;border:1.5px solid #93C5FD;border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;gap:0.85rem;align-items:flex-start">
+              <i class="fas fa-circle-info" style="color:#0369A1;font-size:1.2rem;margin-top:0.15rem"></i>
+              <div style="font-size:0.85rem;color:#1E3A8A;line-height:1.6">
+                <strong>How this works:</strong> Customer form data is captured here BEFORE WhatsApp opens. If they don't complete the WA message, you still have their contact. Recover lost leads.
+              </div>
+            </div>
+            <div id="leadInbox" style="display:flex;flex-direction:column;gap:0.75rem"></div>
+          </div>
+        </div>
+      </div>
+
+<div class="sec" id="sec-export">
         <div class="panel">
           <div class="panel-head">
             <div class="ph-left">
@@ -943,6 +1051,23 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-h
       <div class="field"><label>Lift Height</label><input id="np_height" placeholder="3.0 m"></div>
       <div class="field"><label>Engine/Battery</label><input id="np_engine" placeholder="Isuzu / 48V Li"></div>
       <div class="field"><label>Extra Spec</label><input id="np_extra" placeholder="Pneumatic / 8h runtime"></div>
+      <div class="field f-full">
+        <label>Product Photo</label>
+        <div style="display:flex;gap:1rem;align-items:center;background:#F6F6F6;padding:0.85rem;border-radius:8px;border:1.5px dashed var(--line)">
+          <div id="np_photo_preview" style="width:100px;height:100px;border-radius:6px;background:linear-gradient(135deg,#1a1a1a,#2D2D2D);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.3);flex-shrink:0;overflow:hidden;background-size:cover;background-position:center">
+            <i class="fas fa-image" style="font-size:2rem"></i>
+          </div>
+          <div style="flex:1">
+            <label style="display:block;cursor:pointer;background:var(--blk);color:#fff;padding:0.55rem 0.9rem;border-radius:5px;text-align:center;font-size:0.82rem;font-weight:700;margin-bottom:0.4rem">
+              <i class="fas fa-upload"></i> Upload Product Photo
+              <input type="file" accept="image/*" onchange="handleNpPhoto(event)" style="display:none">
+            </label>
+            <div style="font-size:0.72rem;color:var(--gray);line-height:1.5">Recommended size 800×600px. Max 3MB. JPG/PNG.<br>Optional — leave empty for default forklift icon.</div>
+            <button onclick="document.getElementById('np_photo').value='';document.getElementById('np_photo_preview').style.backgroundImage='';document.getElementById('np_photo_preview').innerHTML='<i class=\'fas fa-image\' style=\'font-size:2rem\'></i>';" type="button" style="margin-top:0.4rem;padding:0.3rem 0.7rem;background:transparent;color:var(--gray);border:1.5px solid var(--line);border-radius:4px;font-size:0.7rem;cursor:pointer">Clear Photo</button>
+          </div>
+        </div>
+        <input type="hidden" id="np_photo">
+      </div>
       <div class="field"><label>Available For</label><select id="np_avail"><option value="both">Sales & Rental</option><option value="sales">Sales</option><option value="rental">Rental</option></select></div>
       <div class="field f-full"><label>Price</label><div class="pfx-wrap"><span class="pfx">RM</span><input id="np_price" placeholder="Leave blank = Request Quote"></div></div>
     </div>
@@ -959,10 +1084,29 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-h
     </div>
     <div class="modal-body">
       <div style="display:flex;flex-direction:column;gap:1rem">
+        <!-- PHOTO UPLOAD -->
+        <div class="field">
+          <label>Profile Photo (optional)</label>
+          <div style="display:flex;gap:1rem;align-items:center">
+            <div id="sm_photo_preview" style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#DA1217,#B0090E);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.5rem;font-weight:800;flex-shrink:0;overflow:hidden;background-size:cover;background-position:center">?</div>
+            <div style="flex:1">
+              <label style="display:block;cursor:pointer;background:var(--blk);color:#fff;padding:0.5rem 0.9rem;border-radius:5px;text-align:center;font-size:0.82rem;font-weight:700">
+                <i class="fas fa-camera"></i> Upload Photo
+                <input type="file" accept="image/*" onchange="handleSpPhoto(event)" style="display:none">
+              </label>
+              <div style="font-size:0.7rem;color:var(--gray);margin-top:0.4rem">Square photo recommended. Max 2MB. JPG/PNG.</div>
+            </div>
+          </div>
+          <input type="hidden" id="sm_photo">
+        </div>
+
         <div class="field"><label>Full Name <span class="req">*</span></label><input id="sm_name" placeholder="e.g. Lawrence Ong"></div>
-        <div class="field"><label>Branch / Role <span class="req">*</span></label><input id="sm_role" placeholder="e.g. Sales Director · Penang Hub"></div>
-        <div class="field"><label>WhatsApp Number <span class="req">*</span></label><div class="pfx-wrap"><span class="pfx">+</span><input id="sm_wa" placeholder="60124925105"></div><div class="field-hint">No + or spaces. e.g. 60124925105</div></div>
-        <div class="field"><label>Availability Hours</label><input id="sm_hours" placeholder="e.g. Mon-Sat 9am-6pm"></div>
+        <div class="field"><label>Title / Role <span class="req">*</span></label><input id="sm_role" placeholder="e.g. Sales Director · Penang Hub"></div>
+        <div class="field"><label>WhatsApp Number <span class="req">*</span></label><div class="pfx-wrap"><span class="pfx">+</span><input id="sm_wa" placeholder="60124925105"></div><div class="field-hint">No + or spaces. Include country code (60 for Malaysia).</div></div>
+        <div class="field"><label>Email (optional)</label><input id="sm_email" type="email" placeholder="lawrence@showaitrading.com"></div>
+        <div class="field"><label>Working Hours</label><input id="sm_hours" placeholder="e.g. Mon-Sat 9am-6pm"></div>
+        <div class="field"><label>Specialty / Coverage Area</label><input id="sm_specialty" placeholder="e.g. New Forklifts · Penang & Kedah"></div>
+        <div class="field"><label>Languages Spoken</label><input id="sm_languages" placeholder="e.g. English, Mandarin, Bahasa Malaysia"></div>
       </div>
     </div>
     <div class="modal-foot">
@@ -1292,6 +1436,7 @@ function renderGallery(){
 }
 
 function deleteGalleryItem(id){
+  if(!confirm('Remove this photo from the gallery?'))return;
   D.gallery=D.gallery.filter(g=>g.id!==id);
   save();renderGallery();toast('Photo removed','info');
 }
@@ -1341,6 +1486,10 @@ function renderNewProds(){
 }
 function openNewProdModal(id){
   editId=id||null;
+  // Reset photo preview
+  const npPreview=document.getElementById('np_photo_preview');
+  if(npPreview){npPreview.style.backgroundImage='';npPreview.innerHTML='<i class="fas fa-image" style="font-size:2rem"></i>';}
+  document.getElementById('np_photo').value='';
   document.getElementById('npModalTitle').textContent=id?'Edit Product':'Add New Product';
   if(id){const p=D.new_products.find(x=>x.id===id);if(p){['brand','type','name','cap','height','engine','extra','avail','price'].forEach(k=>{const el=document.getElementById('np_'+k);if(el)el.value=p[k]||'';}); }}
   else{'brand,type,name,cap,height,engine,extra,avail,price'.split(',').forEach(k=>{const el=document.getElementById('np_'+k);if(el)el.value=k==='brand'?'upperfork':k==='type'?'diesel':k==='avail'?'both':'';}); }
@@ -1350,7 +1499,8 @@ function editNewProd(id){openNewProdModal(id);}
 function saveNewProd(){
   const name=document.getElementById('np_name').value.trim();const cap=document.getElementById('np_cap').value.trim();
   if(!name||!cap){toast('Model and capacity required','error');return;}
-  const p={id:editId||Date.now().toString(),brand:document.getElementById('np_brand').value,type:document.getElementById('np_type').value,name,cap,height:document.getElementById('np_height').value,engine:document.getElementById('np_engine').value,extra:document.getElementById('np_extra').value,avail:document.getElementById('np_avail').value,price:document.getElementById('np_price').value};
+  const p={id:editId||Date.now().toString(),brand:document.getElementById('np_brand').value,type:document.getElementById('np_type').value,name,cap,height:document.getElementById('np_height').value,engine:document.getElementById('np_engine').value,extra:document.getElementById('np_extra').value,avail:document.getElementById('np_avail').value,price:document.getElementById('np_price').value,
+    photo:document.getElementById('np_photo').value||''};
   if(editId){const i=D.new_products.findIndex(x=>x.id===editId);D.new_products[i]=p;}else D.new_products.push(p);
   addActivity(`${editId?'Updated':'Added'} product: ${p.brand} ${p.name}`);save();renderNewProds();closeModal('newProdModal');toast('Product saved!','success');
 }
@@ -1398,30 +1548,102 @@ function renderSalesTeam(){
   document.getElementById('sbSales').textContent=D.sales_team?D.sales_team.length:0;
   const el=document.getElementById('salesTeamList');
   if(!D.sales_team||!D.sales_team.length){
-    el.innerHTML='<div style="text-align:center;padding:3rem;color:var(--gray-lt)"><i class="fas fa-users" style="font-size:2.5rem;display:block;margin-bottom:0.75rem;opacity:0.3"></i><p>No salespeople yet.</p></div>';
+    el.innerHTML='<div style="text-align:center;padding:3rem;color:var(--gray-lt)"><i class="fas fa-users" style="font-size:2.5rem;display:block;margin-bottom:0.75rem;opacity:0.3"></i><p>No salespeople yet.</p><button class="btn btn-red" onclick="openSalesModal()" style="margin-top:1rem"><i class="fas fa-plus"></i> Add First Salesperson</button></div>';
     return;
   }
-  el.innerHTML='<div style="display:flex;flex-direction:column">'+D.sales_team.map(s=>`
-    <div style="display:flex;align-items:center;gap:1rem;padding:1rem 1.5rem;border-bottom:1px solid var(--line)">
-      <div style="width:44px;height:44px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;flex-shrink:0">${s.name.charAt(0).toUpperCase()}</div>
-      <div style="flex:1">
-        <div style="font-weight:700;color:var(--blk)">${s.name}</div>
-        <div style="font-size:0.82rem;color:var(--gray)">${s.role}</div>
-        <a href="https://wa.me/${s.wa}" target="_blank" style="font-size:0.8rem;color:#25D366;text-decoration:none"><i class="fab fa-whatsapp"></i> +${s.wa}</a>
-        ${s.hours?`<span style="font-size:0.78rem;color:var(--gray-lt);margin-left:0.5rem">· ${s.hours}</span>`:''}
+  const cols=['linear-gradient(135deg,#DA1217,#B0090E)','linear-gradient(135deg,#0369A1,#075985)','linear-gradient(135deg,#16A34A,#15803d)','linear-gradient(135deg,#D97706,#b45309)','linear-gradient(135deg,#7C3AED,#5B21B6)'];
+  el.innerHTML='<div style="display:flex;flex-direction:column">'+D.sales_team.map((s,i)=>{
+    const avatarContent = s.photo
+      ? `<img src="${s.photo}" alt="${s.name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`
+      : (s.name || '?').charAt(0).toUpperCase();
+    const avatarBg = s.photo ? 'transparent' : cols[i%cols.length];
+    const subInfo = [];
+    if(s.specialty) subInfo.push(`<i class="fas fa-bullseye" style="color:#A8A8A8"></i> ${s.specialty}`);
+    if(s.languages) subInfo.push(`<i class="fas fa-language" style="color:#A8A8A8"></i> ${s.languages}`);
+    if(s.email) subInfo.push(`<i class="fas fa-envelope" style="color:#A8A8A8"></i> ${s.email}`);
+    return `
+    <div style="display:flex;align-items:center;gap:1rem;padding:1.25rem 1.5rem;border-bottom:1px solid var(--line);transition:background 0.15s" onmouseover="this.style.background='#FAFAFA'" onmouseout="this.style.background='transparent'">
+      <div style="width:54px;height:54px;border-radius:50%;background:${avatarBg};color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.05rem;flex-shrink:0;overflow:hidden;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.08)">${avatarContent}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:700;color:var(--blk);font-size:0.95rem;display:flex;align-items:center;gap:0.5rem">${s.name}<span style="font-size:0.65rem;background:#FEF2F3;color:#DA1217;padding:0.1rem 0.5rem;border-radius:3px;font-weight:700;letter-spacing:0.04em">#${i+1}</span></div>
+        <div style="font-size:0.78rem;color:var(--gray);margin-top:0.15rem">${s.role}${s.hours?' · '+s.hours:''}</div>
+        ${subInfo.length?`<div style="font-size:0.72rem;color:var(--gray-lt);margin-top:0.35rem;display:flex;flex-wrap:wrap;gap:0.6rem">${subInfo.join(' &nbsp;·&nbsp; ')}</div>`:''}
+        <div style="font-size:0.72rem;color:#16A34A;margin-top:0.35rem;font-weight:600"><i class="fab fa-whatsapp"></i> +${s.wa}</div>
       </div>
-      <div style="display:flex;gap:0.4rem">
-        <button class="btn btn-ghost btn-sm" onclick="openSalesModal('${s.id}')"><i class="fas fa-pencil"></i></button>
+      <div style="display:flex;gap:0.35rem;flex-wrap:wrap;justify-content:flex-end">
+        <button class="btn btn-ghost btn-sm" onclick="moveSalesItem(${i},-1)" title="Move Up" ${i===0?'disabled':''}><i class="fas fa-arrow-up"></i></button>
+        <button class="btn btn-ghost btn-sm" onclick="moveSalesItem(${i},1)" title="Move Down" ${i===D.sales_team.length-1?'disabled':''}><i class="fas fa-arrow-down"></i></button>
+        <button class="btn btn-ghost btn-sm" onclick="openSalesModal('${s.id}')"><i class="fas fa-pencil"></i> Edit</button>
         <button class="btn btn-danger btn-sm" onclick="deleteSales('${s.id}')"><i class="fas fa-trash"></i></button>
       </div>
-    </div>`).join('')+'</div>';
+    </div>`;
+  }).join('')+'</div>';
 }
+
+function moveSalesItem(idx, dir){
+  if(!D.sales_team) return;
+  const newIdx = idx + dir;
+  if(newIdx < 0 || newIdx >= D.sales_team.length) return;
+  // Swap
+  [D.sales_team[idx], D.sales_team[newIdx]] = [D.sales_team[newIdx], D.sales_team[idx]];
+  save();
+  renderSalesTeam();
+}
+
+
 function openSalesModal(id){
   editId=id||null;
   document.getElementById('salesModalTitle').textContent=id?'Edit Salesperson':'Add Salesperson';
-  if(id){const s=D.sales_team.find(x=>x.id===id);if(s){document.getElementById('sm_name').value=s.name||'';document.getElementById('sm_role').value=s.role||'';document.getElementById('sm_wa').value=s.wa||'';document.getElementById('sm_hours').value=s.hours||'';}}
-  else{['sm_name','sm_role','sm_wa','sm_hours'].forEach(f=>document.getElementById(f).value='');}
+  // Reset preview
+  const preview=document.getElementById('sm_photo_preview');
+  if(preview){preview.style.backgroundImage='';preview.textContent='?';}
+  document.getElementById('sm_photo').value='';
+  if(id){
+    const s=D.sales_team.find(x=>x.id===id);
+    if(s){
+      ['name','role','wa','email','hours','specialty','languages'].forEach(f=>{
+        const el=document.getElementById('sm_'+f);
+        if(el)el.value=s[f]||'';
+      });
+      // Load photo if exists
+      if(s.photo){
+        document.getElementById('sm_photo').value=s.photo;
+        if(preview){preview.style.backgroundImage='url('+s.photo+')';preview.textContent='';}
+      }else if(preview){preview.textContent=(s.name||'?').charAt(0).toUpperCase();}
+    }
+  }else{
+    ['sm_name','sm_role','sm_wa','sm_email','sm_hours','sm_specialty','sm_languages'].forEach(f=>{
+      const el=document.getElementById(f);if(el)el.value='';
+    });
+  }
   openModal('salesModal');
+}
+
+
+function handleNpPhoto(event){
+  const file=event.target.files[0];
+  if(!file)return;
+  if(file.size>3*1024*1024){toast('Photo too large (max 3MB). Please compress.','error');return;}
+  const reader=new FileReader();
+  reader.onload=function(e){
+    document.getElementById('np_photo').value=e.target.result;
+    const preview=document.getElementById('np_photo_preview');
+    if(preview){preview.style.backgroundImage='url('+e.target.result+')';preview.innerHTML='';}
+  };
+  reader.readAsDataURL(file);
+}
+
+function handleSpPhoto(event){
+  const file=event.target.files[0];
+  if(!file)return;
+  if(file.size>2*1024*1024){toast('Photo too large (max 2MB)','error');return;}
+  const reader=new FileReader();
+  reader.onload=function(e){
+    document.getElementById('sm_photo').value=e.target.result;
+    const preview=document.getElementById('sm_photo_preview');
+    if(preview){preview.style.backgroundImage='url('+e.target.result+')';preview.textContent='';}
+  };
+  reader.readAsDataURL(file);
 }
 function saveSalesperson(){
   const name=document.getElementById('sm_name').value.trim();
@@ -1429,16 +1651,26 @@ function saveSalesperson(){
   const wa=document.getElementById('sm_wa').value.trim().replace(/\D/g,'');
   if(!name||!role||!wa){toast('Name, role and WhatsApp are required','error');return;}
   if(!D.sales_team)D.sales_team=[];
-  const s={id:editId||Date.now().toString(),name,role,wa,hours:document.getElementById('sm_hours').value.trim()};
-  if(editId){const i=D.sales_team.findIndex(x=>x.id===editId);D.sales_team[i]=s;}
+  const s={
+    id:editId||Date.now().toString(),
+    name,role,wa,
+    email:document.getElementById('sm_email').value.trim(),
+    hours:document.getElementById('sm_hours').value.trim(),
+    specialty:document.getElementById('sm_specialty').value.trim(),
+    languages:document.getElementById('sm_languages').value.trim(),
+    photo:document.getElementById('sm_photo').value||''
+  };
+  if(editId){const i=D.sales_team.findIndex(x=>x.id===editId);if(i>=0)D.sales_team[i]=s;}
   else D.sales_team.push(s);
   addActivity(`${editId?'Updated':'Added'} salesperson: ${name}`);
   save();renderSalesTeam();closeModal('salesModal');toast('Salesperson saved!','success');
 }
 function deleteSales(id){
-  if(!confirm('Remove this salesperson?'))return;
+  const sp=D.sales_team.find(x=>x.id===id);
+  if(!confirm(`Remove ${sp?sp.name:'this salesperson'} from the team?`))return;
   D.sales_team=D.sales_team.filter(x=>x.id!==id);
-  save();renderSalesTeam();toast('Removed','info');
+  addActivity(`Removed salesperson: ${sp?.name||'Unknown'}`);
+  save();renderSalesTeam();toast('Salesperson removed','info');
 }
 
 
@@ -1728,6 +1960,158 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ══════════════════════════════════════════════════════════
    PUBLISH LIVE — generate data.json for direct GitHub push
    ══════════════════════════════════════════════════════════ */
+
+/* ══════════════════════════════════════════════════════════════
+   VISITOR STATS DASHBOARD WIDGET
+   Reads localStorage counters set by website page visits
+   ══════════════════════════════════════════════════════════════ */
+
+function loadLeads(){
+  let leads = [];
+  try { leads = JSON.parse(localStorage.getItem('showai_lead_backup') || '[]'); } catch(e) {}
+  const el = document.getElementById('leadInbox');
+  const badge = document.getElementById('badge_leads');
+  if(badge) badge.textContent = leads.length;
+  if(!el) return;
+  if(!leads.length){
+    el.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--gray-lt)"><i class="fas fa-inbox" style="font-size:2.5rem;display:block;margin-bottom:0.75rem;opacity:0.3"></i><p>No leads captured yet.</p></div>';
+    return;
+  }
+  el.innerHTML = leads.map(lead => {
+    const date = new Date(lead.time);
+    const dateStr = date.toLocaleDateString('en-MY',{day:'2-digit',month:'short',year:'numeric'});
+    const timeStr = date.toLocaleTimeString('en-MY',{hour:'2-digit',minute:'2-digit'});
+    const fields = [];
+    if(lead.name) fields.push({label:'Name',value:lead.name,icon:'fa-user'});
+    if(lead.phone) fields.push({label:'Phone',value:lead.phone,icon:'fa-phone'});
+    if(lead.company) fields.push({label:'Company',value:lead.company,icon:'fa-building'});
+    if(lead.location) fields.push({label:'Location',value:lead.location,icon:'fa-location-dot'});
+    if(lead.interest) fields.push({label:'Interest',value:lead.interest,icon:'fa-truck'});
+    if(lead.brand) fields.push({label:'Brand',value:lead.brand,icon:'fa-tag'});
+    if(lead.message) fields.push({label:'Message',value:lead.message,icon:'fa-comment'});
+    const phoneClean = (lead.phone||'').replace(/\D/g,'');
+    const waNum = phoneClean.startsWith('60')?phoneClean:'60'+phoneClean.replace(/^0/,'');
+    const waUrl = phoneClean ? 'https://wa.me/'+waNum+'?text='+encodeURIComponent('Hi '+(lead.name||'')+', thanks for your enquiry with Showai Trading. ') : '#';
+    return '<div style="background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:1.25rem;display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:flex-start">'
+      +'<div>'
+      +'<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.6rem">'
+      +'<span style="background:'+(lead.source==='hero'?'#FEF2F3':'#EFF6FF')+';color:'+(lead.source==='hero'?'#DA1217':'#0369A1')+';font-size:0.65rem;font-weight:800;padding:0.2rem 0.55rem;border-radius:3px;letter-spacing:0.06em;text-transform:uppercase">'+(lead.source||'form')+'</span>'
+      +'<span style="font-size:0.75rem;color:var(--gray)">'+dateStr+' &middot; '+timeStr+'</span>'
+      +'</div>'
+      +'<div style="display:flex;flex-direction:column;gap:0.4rem">'
+      +fields.map(f=>'<div style="display:flex;gap:0.6rem;font-size:0.85rem"><i class="fas '+f.icon+'" style="width:18px;color:var(--gray);margin-top:0.15rem"></i><div><span style="color:var(--gray);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em;font-weight:600;display:block">'+f.label+'</span><span style="color:var(--blk);font-weight:500">'+f.value+'</span></div></div>').join('')
+      +'</div></div>'
+      +'<div style="display:flex;flex-direction:column;gap:0.4rem">'
+      +(phoneClean ? '<a href="'+waUrl+'" target="_blank" class="btn btn-success btn-sm" style="background:#25D366;white-space:nowrap"><i class="fab fa-whatsapp"></i> WA Reply</a>' : '')
+      +'<button class="btn btn-danger btn-sm" onclick="deleteLead('+lead.id+')"><i class="fas fa-trash"></i></button>'
+      +'</div></div>';
+  }).join('');
+}
+
+function deleteLead(id){
+  if(!confirm('Remove this lead?')) return;
+  let leads = [];
+  try { leads = JSON.parse(localStorage.getItem('showai_lead_backup') || '[]'); } catch(e){}
+  leads = leads.filter(l => l.id !== id);
+  localStorage.setItem('showai_lead_backup', JSON.stringify(leads));
+  loadLeads();
+  toast('Lead removed','info');
+}
+
+function clearLeads(){
+  if(!confirm('Delete ALL leads? This cannot be undone.')) return;
+  localStorage.removeItem('showai_lead_backup');
+  loadLeads();
+  toast('All leads cleared','info');
+}
+
+function exportLeadsCsv(){
+  let leads = [];
+  try { leads = JSON.parse(localStorage.getItem('showai_lead_backup') || '[]'); } catch(e){}
+  if(!leads.length){ toast('No leads to export','error'); return; }
+  const headers = ['Date','Source','Name','Phone','Company','Location','Interest','Brand','Message'];
+  const rows = leads.map(l => [
+    new Date(l.time).toLocaleString('en-MY'),
+    l.source || 'form',
+    l.name || '', l.phone || '', l.company || '', l.location || '',
+    l.interest || '', l.brand || '', (l.message || '').replace(/\n/g,' ')
+  ]);
+  const csv = [headers, ...rows].map(r => r.map(c => '"' + String(c).replace(/"/g,'""') + '"').join(',')).join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'showai-leads-'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('Leads exported','success');
+}
+
+document.addEventListener('DOMContentLoaded', () => setTimeout(loadLeads, 300));
+
+function loadVisitorStats(){
+  let stats = {};
+  try {
+    const raw = localStorage.getItem('showai_visitor_stats');
+    if(raw) stats = JSON.parse(raw);
+  } catch(e) {}
+  
+  // Set top numbers
+  const viewsEl = document.getElementById('vs_views');
+  const visitorsEl = document.getElementById('vs_visitors');
+  const todayEl = document.getElementById('vs_today');
+  const weekEl = document.getElementById('vs_week');
+  
+  if(viewsEl) viewsEl.textContent = (stats.total_views || 0).toLocaleString();
+  if(visitorsEl) visitorsEl.textContent = (stats.total_visitors || 0).toLocaleString();
+  
+  const today = new Date().toISOString().slice(0,10);
+  if(todayEl) todayEl.textContent = (stats.daily && stats.daily[today] || 0).toLocaleString();
+  
+  // Last 7 days
+  let weekCount = 0;
+  if(stats.daily){
+    for(let i = 0; i < 7; i++){
+      const d = new Date(Date.now() - i*24*60*60*1000).toISOString().slice(0,10);
+      weekCount += stats.daily[d] || 0;
+    }
+  }
+  if(weekEl) weekEl.textContent = weekCount.toLocaleString();
+  
+  // Top pages bar
+  const pagesEl = document.getElementById('vs_pages');
+  if(pagesEl){
+    const pages = Object.entries(stats.pages || {}).sort((a,b) => b[1] - a[1]).slice(0,5);
+    if(pages.length){
+      pagesEl.innerHTML = pages.map(([page, count]) => {
+        const label = page === '' || page === 'index.html' ? 'Home' : page.replace('.html','');
+        return `<div class="vs-bar"><span class="vs-bar-name">${label}</span><span class="vs-bar-val">${count.toLocaleString()}</span></div>`;
+      }).join('');
+    } else {
+      pagesEl.innerHTML = '<div style="color:var(--gray);font-size:0.85rem">No data yet. Open the website pages to start tracking.</div>';
+    }
+  }
+  
+  // Top referrers
+  const refEl = document.getElementById('vs_referrers');
+  if(refEl){
+    const refs = Object.entries(stats.referrers || {}).sort((a,b) => b[1] - a[1]).slice(0,5);
+    if(refs.length){
+      refEl.innerHTML = refs.map(([src, count]) => {
+        const icons = {direct:'fa-link',google:'fa-google',facebook:'fa-facebook',whatsapp:'fa-whatsapp',instagram:'fa-instagram',tiktok:'fa-tiktok',other:'fa-globe'};
+        const icon = icons[src] || 'fa-globe';
+        const label = src.charAt(0).toUpperCase() + src.slice(1);
+        return `<div class="vs-bar"><span class="vs-bar-name"><i class="${src==='direct'||src==='other'?'fas':'fab'} ${icon}" style="width:18px;color:var(--gray);margin-right:0.4rem"></i>${label}</span><span class="vs-bar-val">${count.toLocaleString()}</span></div>`;
+      }).join('');
+    } else {
+      refEl.innerHTML = '<div style="color:var(--gray);font-size:0.85rem">No traffic source data yet.</div>';
+    }
+  }
+}
+
+// Auto-load on dashboard
+document.addEventListener('DOMContentLoaded', () => setTimeout(loadVisitorStats, 200));
+
 function publishLive(){
   // Build a clean data export with timestamp
   const exportData = JSON.parse(JSON.stringify(D));
