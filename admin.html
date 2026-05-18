@@ -317,7 +317,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-h
     </ul>
 
     <div class="sb-footer">
-      <button class="logout-btn" onclick="doLogout()"><i class="fas fa-right-from-bracket"></i> Sign Out</button>
+      <span id="unsavedIndicator" style="display:none;align-items:center;gap:0.4rem;background:#FEF3C7;color:#92400E;padding:0.4rem 0.85rem;border-radius:5px;font-size:0.78rem;font-weight:700;margin-right:0.5rem"><i class="fas fa-circle-exclamation"></i> Unsaved Changes</span>
+        <button class="logout-btn" onclick="doLogout()"><i class="fas fa-right-from-bracket"></i> Sign Out</button>
     </div>
   </nav>
 
@@ -369,7 +370,22 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-h
             </div>
             <button class="btn btn-ghost btn-sm" onclick="loadVisitorStats()"><i class="fas fa-rotate"></i> Refresh</button>
           </div>
-          <div style="padding:1.5rem">
+          
+            <!-- ── QUICK SETUP CHECKLIST ── -->
+            <div id="quickSetupWidget" style="background:linear-gradient(135deg,#FEF2F3,#FEE2E2);border:2px solid #DA1217;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+                <div>
+                  <div style="font-weight:800;color:#DA1217;font-size:1.1rem;margin-bottom:0.2rem"><i class="fas fa-clipboard-check"></i> Website Setup Progress</div>
+                  <div style="font-size:0.82rem;color:#7F1D1D">Complete these to make your site production-ready</div>
+                </div>
+                <div id="setupProgress" style="background:#fff;padding:0.6rem 1rem;border-radius:8px;font-weight:800;color:#DA1217;font-size:1.25rem;border:2px solid #DA1217">0%</div>
+              </div>
+              <div id="setupTasks" style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;font-size:0.85rem">
+                <!-- Tasks render here -->
+              </div>
+            </div>
+
+<div style="padding:1.5rem">
             <div id="visitorStatsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;margin-bottom:1.5rem">
               <div class="vs-stat">
                 <div class="vs-stat-icon" style="background:#FEF2F3;color:#DA1217"><i class="fas fa-eye"></i></div>
@@ -457,6 +473,26 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-h
             </div>
           </div>
           <input type="hidden" id="biz_hero_image">
+        </div>
+        <div class="field f-full" style="background:linear-gradient(135deg,#FEF7E6,#FEF3C7);border:2px solid #F59E0B;border-radius:8px;padding:1.25rem;margin-top:1rem;grid-column:1/-1">
+          <label style="display:flex;align-items:center;gap:0.5rem;font-weight:700;color:#92400E;margin-bottom:0.6rem;font-size:0.95rem">
+            <i class="fab fa-google"></i> Google Analytics 4 — Tracking ID
+            <span style="font-size:0.65rem;font-weight:800;background:#F59E0B;color:#fff;padding:0.15rem 0.5rem;border-radius:3px;letter-spacing:0.06em">OPTIONAL</span>
+          </label>
+          <input id="biz_ga_id" placeholder="G-XXXXXXXXXX (paste from analytics.google.com)" maxlength="20" style="font-size:0.95rem;font-family:monospace;letter-spacing:0.05em;text-transform:uppercase">
+          <div style="font-size:0.78rem;color:#78350F;line-height:1.5;margin-top:0.6rem">
+            <strong>To get this:</strong> Go to <a href="https://analytics.google.com" target="_blank" style="color:#DA1217;font-weight:700">analytics.google.com</a> → Create Account → Add Property for showaitrading.com → Copy the Measurement ID starting with "G-". When set, the tracking script auto-loads on all customer-facing pages.
+          </div>
+        </div>
+        <div class="field f-full" style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE);border:2px solid #3B82F6;border-radius:8px;padding:1.25rem;margin-top:1rem;grid-column:1/-1">
+          <label style="display:flex;align-items:center;gap:0.5rem;font-weight:700;color:#1E3A8A;margin-bottom:0.6rem;font-size:0.95rem">
+            <i class="fab fa-google"></i> Google Business Profile URL
+            <span style="font-size:0.65rem;font-weight:800;background:#3B82F6;color:#fff;padding:0.15rem 0.5rem;border-radius:3px;letter-spacing:0.06em">REVIEWS</span>
+          </label>
+          <input id="biz_gbp_url" placeholder="https://g.page/r/your-profile-id (paste from Google Business Profile)" maxlength="200" style="font-size:0.85rem">
+          <div style="font-size:0.78rem;color:#1E3A8A;line-height:1.5;margin-top:0.6rem">
+            <strong>Where to get this:</strong> Open your Google Business Profile → click "Share" → "Get a review link" → copy. When set, a "Leave a Review" button auto-appears in the website footer.
+          </div>
         </div>
 
         <div class="ph-sub">Core info shown across website</div></div></div><button class="btn btn-success" onclick="saveBusiness()"><i class="fas fa-floppy-disk"></i> Save</button></div>
@@ -876,7 +912,22 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-h
         <div class="panel">
           <div class="panel-head"><div class="ph-left"><div class="ph-icon"><i class="fas fa-file-pdf"></i></div><div><div class="ph-title">Downloadable Catalogs</div><div class="ph-sub">Customers can download these from your website</div></div></div><button class="btn btn-red" onclick="document.getElementById('catFileInput').click()"><i class="fas fa-upload"></i> Upload Catalog</button></div>
           <div>
-            <div style="padding:1rem 1.5rem;background:var(--bg);border-bottom:1px solid var(--line)">
+            
+            <div style="background:linear-gradient(135deg,#F0FDF4,#DCFCE7);border:2px solid #16A34A;border-radius:8px;padding:1.25rem;margin:1.5rem 1.5rem 0;display:flex;gap:1rem;align-items:flex-start">
+              <div style="background:#16A34A;color:#fff;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0"><i class="fab fa-whatsapp"></i></div>
+              <div style="flex:1">
+                <div style="font-weight:800;color:#14532D;margin-bottom:0.4rem;font-size:0.95rem">📝 Need testimonials? Request them in 1 click</div>
+                <div style="font-size:0.85rem;color:#166534;line-height:1.55;margin-bottom:0.85rem">Send a pre-written WhatsApp message asking a happy customer for a 2-3 sentence review. Choose language:</div>
+                <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+                  <button onclick="sendTestimonialRequest('en')" style="background:#16A34A;color:#fff;padding:0.55rem 1rem;border:none;border-radius:5px;font-weight:700;font-size:0.82rem;cursor:pointer;display:inline-flex;align-items:center;gap:0.4rem"><i class="fab fa-whatsapp"></i> English</button>
+                  <button onclick="sendTestimonialRequest('bm')" style="background:#16A34A;color:#fff;padding:0.55rem 1rem;border:none;border-radius:5px;font-weight:700;font-size:0.82rem;cursor:pointer;display:inline-flex;align-items:center;gap:0.4rem"><i class="fab fa-whatsapp"></i> Bahasa Malaysia</button>
+                  <button onclick="sendTestimonialRequest('zh')" style="background:#16A34A;color:#fff;padding:0.55rem 1rem;border:none;border-radius:5px;font-weight:700;font-size:0.82rem;cursor:pointer;display:inline-flex;align-items:center;gap:0.4rem"><i class="fab fa-whatsapp"></i> 中文</button>
+                  <button onclick="copyTestimonialRequest('en')" style="background:#fff;color:#16A34A;padding:0.55rem 1rem;border:1.5px solid #16A34A;border-radius:5px;font-weight:700;font-size:0.82rem;cursor:pointer"><i class="fas fa-copy"></i> Copy Text</button>
+                </div>
+              </div>
+            </div>
+
+<div style="padding:1rem 1.5rem;background:var(--bg);border-bottom:1px solid var(--line)">
               <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;max-width:720px">
                 <div class="field"><label>Catalog Name <span class="req">*</span></label><input id="catFileName" placeholder="e.g. EP Electric Forklifts 2026"></div>
                 <div class="field"><label>Brand <span class="req">*</span></label><select id="catFileBrand"><option value="all">All Brands</option><option value="upperfork">UpperFork</option><option value="ep">EP Equipment</option><option value="hangcha">Hangcha</option><option value="tcm">TCM</option><option value="unicarrier">Unicarrier</option><option value="toyota">Toyota</option></select></div>
@@ -1477,21 +1528,33 @@ function renderActivity(){
 
 /* ── BUSINESS ── */
 function populateBusiness(){const b=D.business;Object.keys(b).forEach(k=>{const el=document.getElementById('biz_'+k);if(el)el.value=b[k]||'';}); Object.keys(D.services).forEach(k=>{const el=document.getElementById('svc_'+k);if(el)el.value=D.services[k]||'';}); Object.keys(D.stats).forEach(k=>{const el=document.getElementById('st_'+k);if(el)el.value=D.stats[k]||'';}); }
-function saveBusiness(){['name','ssm','wa','phone','email','year','address','hours','maps','fb','ig','tt','yt','about_en','about_ms','about_zh'].forEach(k=>{const el=document.getElementById('biz_'+k);if(el)D.business[k]=el.value;}); addActivity('Updated business information'); D.business.hero_image=document.getElementById('biz_hero_image')?document.getElementById('biz_hero_image').value:(D.business.hero_image||'');
+function saveBusiness(){['name','ssm','wa','phone','email','year','address','hours','maps','fb','ig','tt','yt','about_en','about_ms','about_zh'].forEach(k=>{const el=document.getElementById('biz_'+k);if(el)D.business[k]=el.value;}); addActivity('Updated business information'); D.business.ga_id=(document.getElementById('biz_ga_id')||{}).value||'';
+  D.business.gbp_url=(document.getElementById('biz_gbp_url')||{}).value||'';
+  D.business.hero_image=document.getElementById('biz_hero_image')?document.getElementById('biz_hero_image').value:(D.business.hero_image||'');
   save(); toast('Business info saved!','success');}
-function saveServices(){['sales_en','rental_en','service_en','parts_en'].forEach(k=>{const el=document.getElementById('svc_'+k);if(el)D.services[k]=el.value;}); addActivity('Updated service descriptions'); D.business.hero_image=document.getElementById('biz_hero_image')?document.getElementById('biz_hero_image').value:(D.business.hero_image||'');
+function saveServices(){['sales_en','rental_en','service_en','parts_en'].forEach(k=>{const el=document.getElementById('svc_'+k);if(el)D.services[k]=el.value;}); addActivity('Updated service descriptions'); D.business.ga_id=(document.getElementById('biz_ga_id')||{}).value||'';
+  D.business.gbp_url=(document.getElementById('biz_gbp_url')||{}).value||'';
+  D.business.hero_image=document.getElementById('biz_hero_image')?document.getElementById('biz_hero_image').value:(D.business.hero_image||'');
   save(); toast('Services saved!','success');}
 function populateStats(){Object.keys(D.stats).forEach(k=>{const el=document.getElementById('st_'+k);if(el)el.value=D.stats[k]||'';}); }
-function saveStats(){['units','years','clients','support','satisfaction','brands'].forEach(k=>{const el=document.getElementById('st_'+k);if(el)D.stats[k]=el.value;}); addActivity('Updated statistics'); D.business.hero_image=document.getElementById('biz_hero_image')?document.getElementById('biz_hero_image').value:(D.business.hero_image||'');
+function saveStats(){['units','years','clients','support','satisfaction','brands'].forEach(k=>{const el=document.getElementById('st_'+k);if(el)D.stats[k]=el.value;}); addActivity('Updated statistics'); D.business.ga_id=(document.getElementById('biz_ga_id')||{}).value||'';
+  D.business.gbp_url=(document.getElementById('biz_gbp_url')||{}).value||'';
+  D.business.hero_image=document.getElementById('biz_hero_image')?document.getElementById('biz_hero_image').value:(D.business.hero_image||'');
   save(); toast('Stats saved!','success');}
 
 /* ── COVERAGE ── */
 function renderCoverage(){['Penang','Kedah','Perak','Perlis'].forEach(state=>{const el=document.getElementById('cov'+state);if(!el)return; const areas=D.coverage[state]||[];el.innerHTML=areas.map(a=>`<span style="display:inline-flex;align-items:center;gap:0.3rem;background:#fff;border:1.5px solid var(--line);border-radius:4px;padding:0.25rem 0.6rem;font-size:0.8rem;font-weight:500">${a}<button onclick="removeCov('${state}','${a}')" style="background:none;border:none;color:var(--gray-lt);cursor:pointer;font-size:0.75rem;padding:0;line-height:1" onmouseover="this.style.color='var(--danger)'" onmouseout="this.style.color='var(--gray-lt)'"><i class="fas fa-times"></i></button></span>`).join('');}); }
-function addCov(state,listId,inputId){const inp=document.getElementById(inputId);const val=inp.value.trim();if(!val)return;if(!D.coverage[state])D.coverage[state]=[];if(!D.coverage[state].includes(val)){D.coverage[state].push(val);D.business.hero_image=document.getElementById('biz_hero_image')?document.getElementById('biz_hero_image').value:(D.business.hero_image||'');
+function addCov(state,listId,inputId){const inp=document.getElementById(inputId);const val=inp.value.trim();if(!val)return;if(!D.coverage[state])D.coverage[state]=[];if(!D.coverage[state].includes(val)){D.coverage[state].push(val);D.business.ga_id=(document.getElementById('biz_ga_id')||{}).value||'';
+  D.business.gbp_url=(document.getElementById('biz_gbp_url')||{}).value||'';
+  D.business.hero_image=document.getElementById('biz_hero_image')?document.getElementById('biz_hero_image').value:(D.business.hero_image||'');
   save();renderCoverage();}inp.value='';}
-function removeCov(state,area){D.coverage[state]=D.coverage[state].filter(a=>a!==area);D.business.hero_image=document.getElementById('biz_hero_image')?document.getElementById('biz_hero_image').value:(D.business.hero_image||'');
+function removeCov(state,area){D.coverage[state]=D.coverage[state].filter(a=>a!==area);D.business.ga_id=(document.getElementById('biz_ga_id')||{}).value||'';
+  D.business.gbp_url=(document.getElementById('biz_gbp_url')||{}).value||'';
+  D.business.hero_image=document.getElementById('biz_hero_image')?document.getElementById('biz_hero_image').value:(D.business.hero_image||'');
   save();renderCoverage();}
-function saveCoverage(){addActivity('Updated coverage areas');D.business.hero_image=document.getElementById('biz_hero_image')?document.getElementById('biz_hero_image').value:(D.business.hero_image||'');
+function saveCoverage(){addActivity('Updated coverage areas');D.business.ga_id=(document.getElementById('biz_ga_id')||{}).value||'';
+  D.business.gbp_url=(document.getElementById('biz_gbp_url')||{}).value||'';
+  D.business.hero_image=document.getElementById('biz_hero_image')?document.getElementById('biz_hero_image').value:(D.business.hero_image||'');
   save();toast('Coverage areas saved!','success');}
 
 /* ── USED ADS ── */
@@ -2539,6 +2602,162 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, 300);
 });
+
+
+// Restore GA + GBP fields on load
+document.addEventListener('DOMContentLoaded', () => setTimeout(() => {
+  if(D.business) {
+    const gaEl = document.getElementById('biz_ga_id');
+    const gbpEl = document.getElementById('biz_gbp_url');
+    if(gaEl && D.business.ga_id) gaEl.value = D.business.ga_id;
+    if(gbpEl && D.business.gbp_url) gbpEl.value = D.business.gbp_url;
+  }
+}, 400));
+
+
+/* ══════════════════════════════════════════════════════════════
+   TESTIMONIAL REQUEST TEMPLATES — opens WhatsApp w/ pre-written msg
+   ══════════════════════════════════════════════════════════════ */
+const TESTIMONIAL_TEMPLATES = {
+  en: "Hi! 👋 We're collecting customer feedback for Showai Trading's website. Would you mind sharing 2-3 sentences about your experience with us? Just type your honest opinion below — your company name and your role can also be included. We'd really appreciate it! 🙏 Thank you!",
+  bm: "Hai! 👋 Kami sedang mengumpul maklum balas pelanggan untuk laman web Showai Trading. Boleh tolong kongsikan 2-3 ayat tentang pengalaman anda bersama kami? Cuma taipkan pendapat jujur anda di bawah — nama syarikat dan jawatan anda boleh disertakan juga. Kami sangat menghargainya! 🙏 Terima kasih!",
+  zh: "您好！👋 我们正在为 Showai Trading 网站收集客户反馈。请问能否分享 2-3 句您与我们合作的体验？请在下方写下您真诚的意见 — 公司名称和职位也可以一并提供。非常感谢您的支持！🙏"
+};
+
+function sendTestimonialRequest(lang){
+  const number = prompt('Enter the customer\'s WhatsApp number (with country code, e.g. 60123456789):');
+  if(!number) return;
+  const cleanNumber = number.replace(/[^0-9]/g, '');
+  if(cleanNumber.length < 10){
+    toast('Invalid phone number. Use format like 60123456789','error');
+    return;
+  }
+  const message = TESTIMONIAL_TEMPLATES[lang] || TESTIMONIAL_TEMPLATES.en;
+  const url = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(message)}`;
+  window.open(url, '_blank');
+  toast('WhatsApp opened with testimonial request','success');
+}
+
+function copyTestimonialRequest(lang){
+  const message = TESTIMONIAL_TEMPLATES[lang] || TESTIMONIAL_TEMPLATES.en;
+  navigator.clipboard.writeText(message).then(() => {
+    toast('Testimonial request template copied to clipboard','success');
+  }).catch(() => {
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = message;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    toast('Template copied (legacy method)','success');
+  });
+}
+
+
+
+/* ══════════════════════════════════════════════════════════════
+   UNSAVED CHANGES GUARD — prevent accidental data loss
+   ══════════════════════════════════════════════════════════════ */
+let _showai_unsaved = false;
+
+function markDirty(){
+  _showai_unsaved = true;
+  const indicator = document.getElementById('unsavedIndicator');
+  if(indicator) indicator.style.display = 'inline-flex';
+}
+
+function markClean(){
+  _showai_unsaved = false;
+  const indicator = document.getElementById('unsavedIndicator');
+  if(indicator) indicator.style.display = 'none';
+}
+
+window.addEventListener('beforeunload', function(e){
+  if(_showai_unsaved){
+    const msg = 'You have unsaved changes. Are you sure you want to leave?';
+    e.preventDefault();
+    e.returnValue = msg;
+    return msg;
+  }
+});
+
+// Mark dirty whenever any input changes
+document.addEventListener('change', function(e){
+  if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT'){
+    markDirty();
+  }
+});
+
+// Override save() to mark clean
+const _originalSave = window.save;
+if(typeof _originalSave === 'function'){
+  window.save = function(){
+    const result = _originalSave.apply(this, arguments);
+    markClean();
+    return result;
+  };
+}
+
+
+
+/* ══════════════════════════════════════════════════════════════
+   QUICK SETUP PROGRESS WIDGET
+   ══════════════════════════════════════════════════════════════ */
+function renderQuickSetup(){
+  const tasksEl = document.getElementById('setupTasks');
+  const progEl = document.getElementById('setupProgress');
+  if(!tasksEl || !progEl) return;
+  
+  const tasks = [
+    { id: 'hero_bg', label: 'Upload hero background photo', done: !!(D.business && D.business.hero_image), section: 'business' },
+    { id: 'hero_tiles', label: 'Upload 3 photo tile images', done: D.hero_photos && D.hero_photos.filter(p => p && p.src).length >= 3, section: 'hero_photos' },
+    { id: 'sales_team', label: 'Add at least 2 salespeople', done: D.sales_team && D.sales_team.length >= 2, section: 'sales' },
+    { id: 'gallery', label: 'Upload 10+ gallery photos', done: D.gallery && D.gallery.length >= 10, section: 'gallery' },
+    { id: 'used_ads', label: 'Add 3+ used forklift listings', done: D.used_ads && D.used_ads.length >= 3, section: 'used_ads' },
+    { id: 'new_prods', label: 'Add 5+ new forklift products', done: D.new_products && D.new_products.length >= 5, section: 'new_prods' },
+    { id: 'catalogs', label: 'Upload 2+ PDF catalogs', done: D.catalog_files && D.catalog_files.length >= 2, section: 'catalog_files' },
+    { id: 'testimonials', label: 'Add 3+ testimonials', done: D.testimonials && D.testimonials.length >= 3, section: 'testimonials' },
+    { id: 'tech_images', label: 'Upload tech brand images', done: D.tech_images && Object.keys(D.tech_images).filter(k => !k.includes('_label') && !k.includes('_caption')).length >= 2, section: 'tech_images' },
+    { id: 'ga_id', label: 'Add Google Analytics ID', done: !!(D.business && D.business.ga_id && D.business.ga_id.startsWith('G-')), section: 'business' },
+  ];
+  
+  const completed = tasks.filter(t => t.done).length;
+  const total = tasks.length;
+  const percent = Math.round((completed / total) * 100);
+  progEl.textContent = percent + '%';
+  
+  if(percent >= 80) progEl.style.background = '#16A34A', progEl.style.color = '#fff', progEl.style.borderColor = '#16A34A';
+  else if(percent >= 50) progEl.style.background = '#F59E0B', progEl.style.color = '#fff', progEl.style.borderColor = '#F59E0B';
+  else progEl.style.background = '#fff', progEl.style.color = '#DA1217', progEl.style.borderColor = '#DA1217';
+  
+  tasksEl.innerHTML = tasks.map(t => `
+    <div onclick="goSec('${t.section}',null)" style="background:#fff;border:1.5px solid ${t.done?'#16A34A':'#FCA5A5'};border-radius:6px;padding:0.6rem 0.85rem;display:flex;align-items:center;gap:0.6rem;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s" 
+       onmouseover="this.style.transform='translateX(2px)';this.style.boxShadow='0 4px 8px rgba(0,0,0,0.08)'"
+       onmouseout="this.style.transform='';this.style.boxShadow=''">
+      <i class="fas ${t.done?'fa-check-circle':'fa-circle'}" style="color:${t.done?'#16A34A':'#FCA5A5'};font-size:1rem"></i>
+      <span style="color:${t.done?'#166534':'#7F1D1D'};font-weight:${t.done?'500':'700'};${t.done?'text-decoration:line-through':''}">${t.label}</span>
+    </div>
+  `).join('');
+}
+
+// Auto-render on dashboard load + after any save
+document.addEventListener('DOMContentLoaded', () => setTimeout(renderQuickSetup, 500));
+const _origRenderQS = window.renderQuickSetup;
+window.addEventListener('storage', renderQuickSetup);
+
+// Hook into save() to refresh checklist
+(function(){
+  const orig = window.save;
+  if(typeof orig === 'function'){
+    window.save = function(){
+      const r = orig.apply(this, arguments);
+      setTimeout(renderQuickSetup, 100);
+      return r;
+    };
+  }
+})();
+
 
 function publishLive(){
   // Build a clean data export with timestamp

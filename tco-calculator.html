@@ -1317,5 +1317,82 @@ function scrollToTop(){
 })();
 
 </script>
+
+<!-- ═══ GOOGLE ANALYTICS + GBP BRIDGE ═══ -->
+<script>
+(function(){
+  const KEY = 'showai_cms_v3';
+  let D = null;
+  try { const s = localStorage.getItem(KEY); if(s) D = JSON.parse(s); } catch(e){}
+  
+  function injectGA(gaId){
+    if(!gaId || !gaId.startsWith('G-')) return;
+    // Don't inject twice
+    if(window._showai_ga_loaded) return;
+    window._showai_ga_loaded = true;
+    
+    const gtagScript = document.createElement('script');
+    gtagScript.async = true;
+    gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaId;
+    document.head.appendChild(gtagScript);
+    
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', gaId, {
+      'page_path': window.location.pathname,
+      'anonymize_ip': true
+    });
+    
+    // Track WhatsApp clicks
+    document.addEventListener('click', function(e){
+      const link = e.target.closest('a[href*="wa.me"]');
+      if(link){
+        gtag('event', 'whatsapp_click', {
+          'event_category': 'engagement',
+          'event_label': link.href.includes('text=') ? link.href.split('text=')[1].slice(0,50) : 'no_text'
+        });
+      }
+    });
+  }
+  
+  function addReviewButton(gbpUrl){
+    if(!gbpUrl || !gbpUrl.startsWith('http')) return;
+    const footer = document.querySelector('footer');
+    if(!footer || document.getElementById('gbpReviewBtn')) return;
+    
+    const btn = document.createElement('a');
+    btn.id = 'gbpReviewBtn';
+    btn.href = gbpUrl;
+    btn.target = '_blank';
+    btn.rel = 'noopener';
+    btn.style.cssText = 'position:fixed;bottom:5.5rem;left:1.5rem;background:#4285F4;color:#fff;padding:0.65rem 1rem;border-radius:50px;text-decoration:none;font-size:0.8rem;font-weight:700;display:none;align-items:center;gap:0.5rem;box-shadow:0 4px 12px rgba(0,0,0,0.2);z-index:9995;transition:all 0.2s';
+    btn.innerHTML = '<i class="fab fa-google"></i> Leave a Review';
+    btn.addEventListener('mouseenter', function(){ this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 18px rgba(0,0,0,0.25)'; });
+    btn.addEventListener('mouseleave', function(){ this.style.transform='';this.style.boxShadow='0 4px 12px rgba(0,0,0,0.2)'; });
+    document.body.appendChild(btn);
+    
+    // Show only after user scrolls past 50% — they're engaged
+    window.addEventListener('scroll', function(){
+      const scrollPercent = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+      if(scrollPercent > 50) btn.style.display = 'inline-flex';
+    });
+  }
+  
+  function apply(data){
+    if(!data || !data.business) return;
+    if(data.business.ga_id) injectGA(data.business.ga_id);
+    if(data.business.gbp_url) addReviewButton(data.business.gbp_url);
+  }
+  
+  if(D) apply(D);
+  fetch('data.json?v=' + Date.now())
+    .then(r => r.ok ? r.json() : null)
+    .then(live => { if(live) apply(live); })
+    .catch(()=>{});
+})();
+</script>
+
 </body>
 </html>

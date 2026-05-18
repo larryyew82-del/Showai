@@ -250,7 +250,7 @@
   .section-head p { font-size: 1.05rem; margin-top: 1rem; line-height: 1.7; }
   .section-divider { width: 60px; height: 3px; background: var(--red); margin: 1.25rem auto; }
 
-  .seo-intro { background: var(--bg-soft); }
+  
   .seo-content { max-width: 900px; margin: 0 auto; }
   .seo-content h2 { margin-bottom: 1.5rem; text-align: center; }
   .seo-content p { font-size: 1.05rem; margin-bottom: 1.25rem; line-height: 1.8; }
@@ -874,6 +874,21 @@
   #scrollTopBtn{bottom:9rem !important}
 }
 
+
+.seo-intro{padding:3.5rem 0;background:#F8F9FA;border-top:1px solid #E8E8E8;border-bottom:1px solid #E8E8E8}
+.seo-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+.seo-card{background:#fff;border-radius:12px;padding:2rem 1.75rem;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.06);border-top:3px solid #DA1217;transition:transform 0.2s,box-shadow 0.2s}
+.seo-card:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(0,0,0,0.1)}
+.seo-card-icon{width:52px;height:52px;border-radius:12px;background:#FEF2F3;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.3rem;color:#DA1217}
+.seo-card h3{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:800;color:#0A0A0A;margin:0 0 0.75rem}
+.seo-card p{font-size:0.88rem;color:#555;line-height:1.65;margin:0}
+@media(max-width:768px){
+  .seo-cards{grid-template-columns:1fr}
+  .seo-card{text-align:left;display:flex;gap:1rem;align-items:flex-start;border-top:none;border-left:3px solid #DA1217}
+  .seo-card-icon{flex-shrink:0;margin:0}
+  .seo-card h3{font-size:1rem;margin-bottom:0.4rem}
+}
+
 </style>
 </head>
 <body class="lang-en">
@@ -1008,7 +1023,7 @@
         <div class="photo-tile-tag">SERVICE BAY</div>
         <div class="photo-tile-title" data-i18n="ps_service_title">24/7 Service Team</div>
         <div class="photo-tile-desc" data-i18n="ps_service_desc">Certified technicians. Genuine spare parts. Same-day breakdown response.</div>
-        <a href="https://wa.me/60124925105?text=Hi%20Showai%2C%20I%20need%20forklift%20service%20support." class="photo-tile-cta" target="_blank" rel="noopener">
+        <a href="https://wa.me/60124925105?text=Hi%20Showai%2C%20I%20need%20service%20support.%20Forklift%20brand%2Fmodel%3A%20___%20%7C%20Issue%3A%20___%20%7C%20Location%3A%20___." class="photo-tile-cta" target="_blank" rel="noopener">
           <i class="fas fa-headset"></i> <span data-i18n="ps_service">Get Support</span>
         </a>
       </div>
@@ -1018,10 +1033,10 @@
 
 <div class="stats-bar">
   <div class="stats-grid">
-    <div class="stat"><div class="stat-num">4</div><div class="stat-label" data-i18n="stat_states">Northern States</div></div>
-    <div class="stat"><div class="stat-num">2</div><div class="stat-label" data-i18n="stat_brands">Authorized Brands</div></div>
-    <div class="stat"><div class="stat-num">24/7</div><div class="stat-label" data-i18n="stat_support">Service Support</div></div>
-    <div class="stat"><div class="stat-num">100%</div><div class="stat-label" data-i18n="stat_parts">Genuine Parts</div></div>
+    <div class="stat"><div class="stat-num">15<span style="font-size:1.5rem">+</span></div><div class="stat-label">Years Experience</div></div>
+    <div class="stat"><div class="stat-num">500<span style="font-size:1.5rem">+</span></div><div class="stat-label">Units Delivered</div></div>
+    <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Service Response</div></div>
+    <div class="stat"><div class="stat-num">100<span style="font-size:1.5rem">%</span></div><div class="stat-label">Genuine OEM Parts</div></div>
   </div>
 </div>
 
@@ -1078,11 +1093,22 @@
 
 <section class="seo-intro">
   <div class="container">
-    <div class="seo-content">
-      <h2 data-i18n="intro_title">Forklift specialists for Northern Malaysia</h2>
-      <p data-i18n="intro_p1">Need a reliable forklift in Penang, Kedah, Perak, or Perlis? Showai Trading Sdn Bhd is an authorized dealer of UpperFork and EP forklifts, offering complete material handling solutions for factories, warehouses, and logistics operations across Northern Malaysia.</p>
-      <p data-i18n="intro_p2">Based in Perai, Pulau Pinang, we are strategically positioned to serve the entire northern industrial corridor — from Penang's manufacturing zones to Kedah's industrial parks, Perak's logistics hubs, and Perlis's growing commercial sector. As an authorized dealer, we deliver genuine units with full manufacturer warranty.</p>
-      <p data-i18n="intro_p3">Beyond sales, we provide forklift rental, scheduled preventive maintenance, 24-hour breakdown service, and a complete spare parts inventory — all delivered by a team that knows Northern Malaysia inside out.</p>
+    <div class="seo-cards">
+      <div class="seo-card">
+        <div class="seo-card-icon"><i class="fas fa-certificate"></i></div>
+        <h3>Authorized UpperFork &amp; EP Dealer</h3>
+        <p>Direct supply from both manufacturers — genuine units, full manufacturer warranty, and factory-trained technicians. No grey-market risk.</p>
+      </div>
+      <div class="seo-card">
+        <div class="seo-card-icon"><i class="fas fa-location-dot"></i></div>
+        <h3>HQ in Perai, Penang</h3>
+        <p>Strategically based in the heart of Northern Malaysia's industrial corridor — covering Penang, Kedah, Perak, and Perlis with same-day support.</p>
+      </div>
+      <div class="seo-card">
+        <div class="seo-card-icon"><i class="fas fa-screwdriver-wrench"></i></div>
+        <h3>Sales, Rental &amp; Full Service</h3>
+        <p>From buying new to renting short-term to emergency breakdown service — we cover every forklift lifecycle need under one roof.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -1104,13 +1130,7 @@
         <a href="https://wa.me/60124925105?text=Hi%20Showai%2C%20please%20send%20me%20your%20used%20forklift%20stock%20list%20with%20photos%20and%20pricing." style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.5rem;background:#25D366;color:#fff;border-radius:6px;text-decoration:none;font-weight:700;font-size:0.92rem" target="_blank"><i class="fab fa-whatsapp"></i> Request Stock List</a>
       </div>
     </div>
-    <div class="used-cta-bar">
-      <h3 style="color:white;font-size:1.4rem;margin-bottom:0.75rem" data-i18n="used_cta_title">Looking for a specific brand or model?</h3>
-      <p data-i18n="used_cta_p">We source Toyota, TCM, Unicarrier, and Hangcha units on request. Tell us your requirements and we'll find the right used forklift for your budget.</p>
-      <a href="https://wa.me/60124925105?text=Hi%20Showai%2C%20I'm%20looking%20for%20a%20used%20forklift.%20Please%20help%20me." class="btn btn-red btn-lg" style="display:inline-flex;align-items:center;gap:0.5rem">
-        <i class="fab fa-whatsapp"></i> <span data-i18n="used_cta_btn">Request a Used Forklift</span>
-      </a>
-    </div>
+    
     <div class="used-cta-bar" style="margin-top:2.5rem;background:linear-gradient(135deg,#DA1217,#B0090E);border-radius:12px;padding:2rem 2.5rem;text-align:center;color:#fff;box-shadow:0 8px 24px rgba(218,18,23,0.25)">
       <div style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:0.5rem">Looking for a specific brand or model?</div>
       <p style="color:rgba(255,255,255,0.9);margin-bottom:1.5rem;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.6">We source Toyota, TCM, Unicarrier, Hangcha, and Komatsu used units on request. Tell us your specs and budget.</p>
@@ -1170,27 +1190,20 @@
 <section style="background:var(--bg,#F6F6F6);padding:4rem 0" id="downloads">
   <div class="container">
     <header class="section-head">
-      <span class="section-eyebrow" data-i18n="dl_eyebrow">Downloads</span>
-      <h2 data-i18n="dl_title2">Download Our Product Catalogs</h2>
+      <span class="section-eyebrow">DOWNLOADS</span>
+      <h2>Download Our Product Catalogs</h2>
       <div class="section-divider"></div>
-      <p data-i18n="dl_sub2">Get our official brochures and spec sheets. All catalogs are free to download.</p>
+      <p>Official brochures and spec sheets — all free to download or request via WhatsApp.</p>
     </header>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem" id="catalogDownloads">
-      <div style="background:#fff;border-radius:8px;padding:1.5rem;border:1.5px solid #e8e8e8;display:flex;flex-direction:column;gap:1rem;transition:border-color .2s" onmouseover="this.style.borderColor='#DA1217'" onmouseout="this.style.borderColor='#e8e8e8'">
-        <div style="display:flex;align-items:center;gap:0.75rem"><div style="width:44px;height:44px;background:#FEF2F3;color:#DA1217;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0"><i class="fas fa-file-pdf"></i></div><div><div style="font-weight:700;color:#0A0A0A;font-size:0.92rem">UpperFork Product Catalog 2026</div><div style="font-size:0.75rem;color:#A8A8A8">UpperFork · All Models</div></div></div>
-        <a href="https://wa.me/60124925105?text=Hi%20Showai%2C%20please%20send%20me%20the%20UpperFork%20catalog." style="display:flex;align-items:center;justify-content:center;gap:0.4rem;padding:0.6rem 1.25rem;background:#DA1217;color:#fff;border-radius:4px;text-decoration:none;font-weight:700;font-size:0.85rem" target="_blank"><i class="fab fa-whatsapp"></i> <span data-i18n="dl_request">Request via WhatsApp</span></a>
-      </div>
-      <div style="background:#fff;border-radius:8px;padding:1.5rem;border:1.5px solid #e8e8e8;display:flex;flex-direction:column;gap:1rem;transition:border-color .2s" onmouseover="this.style.borderColor='#DA1217'" onmouseout="this.style.borderColor='#e8e8e8'">
-        <div style="display:flex;align-items:center;gap:0.75rem"><div style="width:44px;height:44px;background:#FEF2F3;color:#DA1217;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0"><i class="fas fa-file-pdf"></i></div><div><div style="font-weight:700;color:#0A0A0A;font-size:0.92rem">EP Equipment Electric Catalog</div><div style="font-size:0.75rem;color:#A8A8A8">EP Equipment · Lithium Series</div></div></div>
-        <a href="https://wa.me/60124925105?text=Hi%20Showai%2C%20please%20send%20me%20the%20EP%20catalog." style="display:flex;align-items:center;justify-content:center;gap:0.4rem;padding:0.6rem 1.25rem;background:#DA1217;color:#fff;border-radius:4px;text-decoration:none;font-weight:700;font-size:0.85rem" target="_blank"><i class="fab fa-whatsapp"></i> <span data-i18n="dl_request">Request via WhatsApp</span></a>
-      </div>
-      <div style="background:#fff;border-radius:8px;padding:1.5rem;border:1.5px solid #e8e8e8;display:flex;flex-direction:column;gap:1rem;transition:border-color .2s" onmouseover="this.style.borderColor='#DA1217'" onmouseout="this.style.borderColor='#e8e8e8'">
-        <div style="display:flex;align-items:center;gap:0.75rem"><div style="width:44px;height:44px;background:#FEF2F3;color:#DA1217;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0"><i class="fas fa-file-pdf"></i></div><div><div style="font-weight:700;color:#0A0A0A;font-size:0.92rem">Showai Full Product Brochure</div><div style="font-size:0.75rem;color:#A8A8A8">All Brands · New &amp; Used</div></div></div>
-        <a href="https://wa.me/60124925105?text=Hi%20Showai%2C%20please%20send%20me%20your%20full%20brochure." style="display:flex;align-items:center;justify-content:center;gap:0.4rem;padding:0.6rem 1.25rem;background:#DA1217;color:#fff;border-radius:4px;text-decoration:none;font-weight:700;font-size:0.85rem" target="_blank"><i class="fab fa-whatsapp"></i> <span data-i18n="dl_request">Request via WhatsApp</span></a>
+      <div id="catalogEmpty" style="grid-column:1/-1;text-align:center;padding:3rem 1rem;color:#A0A0A0">
+        <i class="fas fa-file-pdf" style="font-size:2.5rem;margin-bottom:1rem;display:block;opacity:0.3"></i>
+        <p style="font-size:0.95rem;margin-bottom:1.25rem">Product catalogs will appear here once uploaded.</p>
+        <a href="https://wa.me/60124925105?text=Hi%20Showai%2C%20please%20send%20me%20your%20latest%20forklift%20catalogs%20and%20spec%20sheets." target="_blank" style="display:inline-flex;align-items:center;gap:0.4rem;background:#25D366;color:#fff;padding:0.7rem 1.5rem;border-radius:5px;font-weight:700;font-size:0.88rem;text-decoration:none"><i class="fab fa-whatsapp"></i> Request Catalogs via WhatsApp</a>
       </div>
     </div>
     <div style="text-align:center;margin-top:2rem">
-      <a href="catalog.html" style="display:inline-flex;align-items:center;gap:0.5rem;color:#DA1217;font-weight:700;font-size:0.92rem;text-decoration:none"><i class="fas fa-arrow-right"></i> <span data-i18n="dl_view_all">View Interactive Catalog Online</span></a>
+      <a href="catalog.html" style="display:inline-flex;align-items:center;gap:0.5rem;color:#DA1217;font-weight:700;font-size:0.92rem;text-decoration:none"><i class="fas fa-arrow-right"></i> Browse Full Product Catalog</a>
     </div>
   </div>
 </section>
@@ -2948,7 +2961,7 @@ document.addEventListener('keydown', function(e){
     <i class="fas fa-phone"></i>
     <span data-i18n="mcb_call">Call</span>
   </a>
-  <a href="https://wa.me/60124925105?text=Hi%20Showai%2C%20I%20would%20like%20to%20enquire%20about%20a%20forklift." class="mcb-btn mcb-wa" target="_blank">
+  <a href="https://wa.me/60124925105?text=Hi%20Showai%2C%20I%20saw%20your%20website%20and%20would%20like%20a%20free%20forklift%20quote.%20My%20company%3A%20___%20%7C%20I%20need%3A%20___" class="mcb-btn mcb-wa" target="_blank">
     <i class="fab fa-whatsapp"></i>
     <span data-i18n="mcb_wa">WhatsApp</span>
   </a>
@@ -2983,5 +2996,82 @@ function scrollToTop(){
 })();
 
 </script>
+
+<!-- ═══ GOOGLE ANALYTICS + GBP BRIDGE ═══ -->
+<script>
+(function(){
+  const KEY = 'showai_cms_v3';
+  let D = null;
+  try { const s = localStorage.getItem(KEY); if(s) D = JSON.parse(s); } catch(e){}
+  
+  function injectGA(gaId){
+    if(!gaId || !gaId.startsWith('G-')) return;
+    // Don't inject twice
+    if(window._showai_ga_loaded) return;
+    window._showai_ga_loaded = true;
+    
+    const gtagScript = document.createElement('script');
+    gtagScript.async = true;
+    gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaId;
+    document.head.appendChild(gtagScript);
+    
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', gaId, {
+      'page_path': window.location.pathname,
+      'anonymize_ip': true
+    });
+    
+    // Track WhatsApp clicks
+    document.addEventListener('click', function(e){
+      const link = e.target.closest('a[href*="wa.me"]');
+      if(link){
+        gtag('event', 'whatsapp_click', {
+          'event_category': 'engagement',
+          'event_label': link.href.includes('text=') ? link.href.split('text=')[1].slice(0,50) : 'no_text'
+        });
+      }
+    });
+  }
+  
+  function addReviewButton(gbpUrl){
+    if(!gbpUrl || !gbpUrl.startsWith('http')) return;
+    const footer = document.querySelector('footer');
+    if(!footer || document.getElementById('gbpReviewBtn')) return;
+    
+    const btn = document.createElement('a');
+    btn.id = 'gbpReviewBtn';
+    btn.href = gbpUrl;
+    btn.target = '_blank';
+    btn.rel = 'noopener';
+    btn.style.cssText = 'position:fixed;bottom:5.5rem;left:1.5rem;background:#4285F4;color:#fff;padding:0.65rem 1rem;border-radius:50px;text-decoration:none;font-size:0.8rem;font-weight:700;display:none;align-items:center;gap:0.5rem;box-shadow:0 4px 12px rgba(0,0,0,0.2);z-index:9995;transition:all 0.2s';
+    btn.innerHTML = '<i class="fab fa-google"></i> Leave a Review';
+    btn.addEventListener('mouseenter', function(){ this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 18px rgba(0,0,0,0.25)'; });
+    btn.addEventListener('mouseleave', function(){ this.style.transform='';this.style.boxShadow='0 4px 12px rgba(0,0,0,0.2)'; });
+    document.body.appendChild(btn);
+    
+    // Show only after user scrolls past 50% — they're engaged
+    window.addEventListener('scroll', function(){
+      const scrollPercent = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+      if(scrollPercent > 50) btn.style.display = 'inline-flex';
+    });
+  }
+  
+  function apply(data){
+    if(!data || !data.business) return;
+    if(data.business.ga_id) injectGA(data.business.ga_id);
+    if(data.business.gbp_url) addReviewButton(data.business.gbp_url);
+  }
+  
+  if(D) apply(D);
+  fetch('data.json?v=' + Date.now())
+    .then(r => r.ok ? r.json() : null)
+    .then(live => { if(live) apply(live); })
+    .catch(()=>{});
+})();
+</script>
+
 </body>
 </html>
