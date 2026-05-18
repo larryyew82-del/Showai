@@ -2729,17 +2729,21 @@ document.addEventListener('keydown', function(e){
     D.hero_photos.forEach((photo, i) => {
       if (i > 2) return;
       const tile = document.getElementById('photoTile' + (i+1));
-      if (tile && photo && photo.src) {
-        const imgDiv = tile.querySelector('.photo-tile-img');
-        if (imgDiv) {
-          imgDiv.style.backgroundImage = 'url(' + photo.src + ')';
-          imgDiv.style.backgroundSize = 'cover';
-          imgDiv.style.backgroundPosition = 'center';
-          // Hide the placeholder icon
-          const icon = imgDiv.querySelector('.photo-tile-icon');
-          if (icon) icon.style.display = 'none';
+      if (tile && photo) {
+        if (photo.src) {
+          const imgDiv = tile.querySelector('.photo-tile-img');
+          if (imgDiv) {
+            imgDiv.style.backgroundImage = 'url(' + photo.src + ')';
+            imgDiv.style.backgroundSize = 'cover';
+            imgDiv.style.backgroundPosition = 'center';
+            const icon = imgDiv.querySelector('.photo-tile-icon');
+            if (icon) icon.style.display = 'none';
+          }
         }
-        // Update title/desc if provided
+        if (photo.tag) {
+          const tagEl = tile.querySelector('.photo-tile-tag');
+          if (tagEl) tagEl.textContent = photo.tag;
+        }
         if (photo.title) {
           const t = tile.querySelector('.photo-tile-title');
           if (t) t.textContent = photo.title;
@@ -2750,6 +2754,7 @@ document.addEventListener('keydown', function(e){
         }
       }
     });
+  });
   }
 
   // 1. USED ADS

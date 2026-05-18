@@ -752,13 +752,38 @@ document.addEventListener('click',function(e){
     slots.forEach(id => {
       const photo = data.tech_images[id];
       const el = document.getElementById(id);
-      if(el && photo){
-        el.style.backgroundImage = 'url(' + photo + ')';
-        el.style.backgroundSize = 'cover';
-        el.style.backgroundPosition = 'center';
-        const iconId = id.replace('Img', 'Icon');
-        const icon = document.getElementById(iconId);
-        if(icon) icon.style.display = 'none';
+      if(el){
+        // Apply photo background
+        if(photo){
+          el.style.backgroundImage = 'url(' + photo + ')';
+          el.style.backgroundSize = 'cover';
+          el.style.backgroundPosition = 'center';
+          const iconId = id.replace('Img', 'Icon');
+          const icon = document.getElementById(iconId);
+          if(icon) icon.style.display = 'none';
+        }
+        // Apply adjustable label badge
+        const label = data.tech_images[id + '_label'];
+        if(label){
+          const brandDiv = el.querySelector('.tech-img-brand');
+          if(brandDiv){
+            const span = brandDiv.querySelector('span');
+            if(span) span.textContent = label;
+          }
+        }
+        // Apply caption below image
+        const caption = data.tech_images[id + '_caption'];
+        const captionId = id + '_caption_el';
+        let captionEl = document.getElementById(captionId);
+        if(caption){
+          if(!captionEl){
+            captionEl = document.createElement('div');
+            captionEl.id = captionId;
+            captionEl.style.cssText = 'font-size:0.72rem;color:#888;text-align:center;margin-top:0.4rem;font-style:italic';
+            el.parentNode && el.parentNode.insertBefore(captionEl, el.nextSibling);
+          }
+          captionEl.textContent = caption;
+        }
       }
     });
   }
