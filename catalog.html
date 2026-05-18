@@ -294,6 +294,87 @@ body.lang-zh .bh-info h2{font-family:'Noto Sans SC',serif;font-weight:700}
 .skip-link{position:absolute;top:-100px;left:0;background:var(--red,#DA1217);color:#fff;padding:0.85rem 1.25rem;text-decoration:none;font-weight:700;z-index:100000;border-radius:0 0 4px 0;transition:top 0.2s}
 .skip-link:focus{top:0;outline:3px solid #fff;outline-offset:-3px}
 
+
+#scrollTopBtn{
+  position:fixed;
+  bottom:6.5rem;
+  right:1.5rem;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:#0A0A0A;
+  color:#fff;
+  border:none;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  font-size:0.95rem;
+  cursor:pointer;
+  z-index:9998;
+  box-shadow:0 4px 14px rgba(0,0,0,0.25);
+  transition:all 0.2s;
+  opacity:0.85;
+}
+#scrollTopBtn:hover{
+  background:#DA1217;
+  opacity:1;
+  transform:translateY(-2px);
+}
+#scrollTopBtn.visible{display:flex}
+@media (max-width:768px){
+  #scrollTopBtn{
+    bottom:5.5rem;
+    right:1rem;
+    width:40px;
+    height:40px;
+    font-size:0.85rem;
+  }
+}
+
+
+.mobile-cta-bar{
+  display:none;
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:rgba(10,10,10,0.95);
+  backdrop-filter:blur(8px);
+  border-top:2px solid #DA1217;
+  padding:0.5rem;
+  z-index:9997;
+  gap:0.4rem;
+  box-shadow:0 -4px 14px rgba(0,0,0,0.3);
+}
+.mcb-btn{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:0.2rem;
+  padding:0.6rem 0.4rem;
+  border-radius:6px;
+  text-decoration:none;
+  font-size:0.7rem;
+  font-weight:700;
+  letter-spacing:0.04em;
+  transition:transform 0.15s, background 0.15s;
+}
+.mcb-btn i{font-size:1.1rem}
+.mcb-call{background:#0A0A0A;color:#fff;border:1px solid rgba(255,255,255,0.15)}
+.mcb-wa{background:#25D366;color:#fff}
+.mcb-quote{background:#DA1217;color:#fff}
+.mcb-btn:active{transform:scale(0.96)}
+@media (max-width:768px){
+  .mobile-cta-bar{display:flex}
+  /* Add bottom padding to body so content isn't covered */
+  body{padding-bottom:70px}
+  /* Reposition the floating WA widget and scroll-top above mobile bar */
+  .wa-widget-btn{bottom:5.5rem !important}
+  #scrollTopBtn{bottom:9rem !important}
+}
+
 </style>
 <script type="application/ld+json">
 {
@@ -1075,5 +1156,48 @@ document.addEventListener('click',function(e){
 })();
 </script>
 
+
+
+<!-- ═══════════ MOBILE STICKY CTA BAR ═══════════ -->
+<div class="mobile-cta-bar">
+  <a href="tel:+60124925105" class="mcb-btn mcb-call">
+    <i class="fas fa-phone"></i>
+    <span data-i18n="mcb_call">Call</span>
+  </a>
+  <a href="https://wa.me/60124925105?text=Hi%20Showai%2C%20I%20would%20like%20to%20enquire%20about%20a%20forklift." class="mcb-btn mcb-wa" target="_blank">
+    <i class="fab fa-whatsapp"></i>
+    <span data-i18n="mcb_wa">WhatsApp</span>
+  </a>
+  <a href="#contact" class="mcb-btn mcb-quote">
+    <i class="fas fa-file-lines"></i>
+    <span data-i18n="mcb_quote">Quote</span>
+  </a>
+</div>
+
+
+<!-- ═══════════ SCROLL TO TOP ═══════════ -->
+<button id="scrollTopBtn" onclick="scrollToTop()" aria-label="Scroll to top" title="Back to top">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+
+<script>
+/* SCROLL TO TOP */
+function scrollToTop(){
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+(function(){
+  const btn = document.getElementById('scrollTopBtn');
+  if(!btn) return;
+  window.addEventListener('scroll', function(){
+    if(window.pageYOffset > 600){
+      btn.classList.add('visible');
+    } else {
+      btn.classList.remove('visible');
+    }
+  });
+})();
+
+</script>
 </body>
 </html>

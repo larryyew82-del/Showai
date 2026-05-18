@@ -144,7 +144,7 @@
   .logo-wrap { display: flex; align-items: center; gap: 0.85rem; text-decoration: none; }
   .logo-img { height: 38px; width: auto; }
   .logo-text { display: flex; flex-direction: column; }
-  .logo-name { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 800; color: var(--blk); line-height: 1.1; }
+  .logo-name { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 800; color: #000000; line-height: 1.1; }
   body.lang-zh .logo-name { font-family: 'Noto Sans SC', serif; }
   .logo-tagline { font-size: 0.6rem; color: var(--red); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
   .nav-links { display: flex; gap: 1.35rem; list-style: none; align-items: center; }
@@ -167,15 +167,58 @@
   .nav-link-highlight::after { display: none !important; }
   .mobile-toggle { display: none; background: none; border: none; cursor: pointer; font-size: 1.5rem; color: var(--black); }
 
-  .hero { position: relative; background: linear-gradient(135deg, var(--black) 0%, var(--gray-dark) 100%); color: white; padding: 5rem 0 4rem; overflow: hidden; }
+  .hero {
+    position: relative;
+    background: #0A0A0A;
+    color: white;
+    padding: 0;
+    overflow: hidden;
+    min-height: 540px;
+    display: flex;
+    align-items: stretch;
+  }
+  .hero-bg-photo {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(110deg, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.75) 45%, rgba(10,10,10,0.55) 65%, rgba(10,10,10,0.92) 100%), linear-gradient(135deg, #1a1a1a 0%, #2D2D2D 100%);
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    transition: opacity 0.4s;
+  }
+  .hero-bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.55) 50%, rgba(10,10,10,0.92) 100%);
+    z-index: 1;
+    pointer-events: none;
+  }
+  .hero .container {
+    position: relative;
+    z-index: 2;
+    padding: 4.5rem 1.5rem 4rem;
+  }
+  .hero-bg-icon {
+    position: absolute;
+    top: 50%; left: 22%;
+    transform: translate(-50%, -50%);
+    font-size: 14rem;
+    color: rgba(218,18,23,0.08);
+    z-index: 1;
+    pointer-events: none;
+  }
   .hero::before { content: ''; position: absolute; top: -100px; right: -100px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(218,18,23,0.25) 0%, transparent 60%); border-radius: 50%; }
   .hero::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, var(--red) 0%, var(--red-light) 50%, var(--red) 100%); }
   .hero-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 4rem; align-items: center; position: relative; z-index: 2; }
   .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(218,18,23,0.15); border: 1px solid var(--red); color: var(--red-light); font-size: 0.8rem; font-weight: 700; border-radius: 4px; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1.25rem; }
-  .hero h1 { color: white; margin-bottom: 1.5rem; }
+  .hero h1 { color: white; margin-bottom: 1.5rem; 
+    text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+  }
   .hero h1 .red { color: var(--red-light); font-style: italic; }
   body.lang-zh .hero h1 .red { font-style: normal; }
-  .hero-desc { font-size: 1.1rem; color: rgba(255,255,255,0.85); margin-bottom: 2rem; max-width: 580px; line-height: 1.7; }
+  .hero-desc { font-size: 1.1rem; color: rgba(255,255,255,0.85); margin-bottom: 2rem; max-width: 580px; line-height: 1.7; 
+    text-shadow: 0 1px 6px rgba(0,0,0,0.3);
+  }
   .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
   .btn { display: inline-flex; align-items: center; gap: 0.6rem; padding: 1rem 1.75rem; text-decoration: none; font-weight: 600; font-size: 0.95rem; border-radius: 4px; border: 2px solid transparent; transition: all 0.25s; }
   .btn-whatsapp { background: var(--whatsapp); color: white; border-color: var(--whatsapp); box-shadow: 0 4px 14px rgba(37,211,102,0.3); }
@@ -750,6 +793,87 @@
 .skip-link{position:absolute;top:-100px;left:0;background:var(--red,#DA1217);color:#fff;padding:0.85rem 1.25rem;text-decoration:none;font-weight:700;z-index:100000;border-radius:0 0 4px 0;transition:top 0.2s}
 .skip-link:focus{top:0;outline:3px solid #fff;outline-offset:-3px}
 
+
+#scrollTopBtn{
+  position:fixed;
+  bottom:6.5rem;
+  right:1.5rem;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:#0A0A0A;
+  color:#fff;
+  border:none;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  font-size:0.95rem;
+  cursor:pointer;
+  z-index:9998;
+  box-shadow:0 4px 14px rgba(0,0,0,0.25);
+  transition:all 0.2s;
+  opacity:0.85;
+}
+#scrollTopBtn:hover{
+  background:#DA1217;
+  opacity:1;
+  transform:translateY(-2px);
+}
+#scrollTopBtn.visible{display:flex}
+@media (max-width:768px){
+  #scrollTopBtn{
+    bottom:5.5rem;
+    right:1rem;
+    width:40px;
+    height:40px;
+    font-size:0.85rem;
+  }
+}
+
+
+.mobile-cta-bar{
+  display:none;
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:rgba(10,10,10,0.95);
+  backdrop-filter:blur(8px);
+  border-top:2px solid #DA1217;
+  padding:0.5rem;
+  z-index:9997;
+  gap:0.4rem;
+  box-shadow:0 -4px 14px rgba(0,0,0,0.3);
+}
+.mcb-btn{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:0.2rem;
+  padding:0.6rem 0.4rem;
+  border-radius:6px;
+  text-decoration:none;
+  font-size:0.7rem;
+  font-weight:700;
+  letter-spacing:0.04em;
+  transition:transform 0.15s, background 0.15s;
+}
+.mcb-btn i{font-size:1.1rem}
+.mcb-call{background:#0A0A0A;color:#fff;border:1px solid rgba(255,255,255,0.15)}
+.mcb-wa{background:#25D366;color:#fff}
+.mcb-quote{background:#DA1217;color:#fff}
+.mcb-btn:active{transform:scale(0.96)}
+@media (max-width:768px){
+  .mobile-cta-bar{display:flex}
+  /* Add bottom padding to body so content isn't covered */
+  body{padding-bottom:70px}
+  /* Reposition the floating WA widget and scroll-top above mobile bar */
+  .wa-widget-btn{bottom:5.5rem !important}
+  #scrollTopBtn{bottom:9rem !important}
+}
+
 </style>
 </head>
 <body class="lang-en">
@@ -797,6 +921,9 @@
 </nav>
 
 <section class="hero" id="main-content">
+  <div class="hero-bg-photo" id="heroBgPhoto"></div>
+  <div class="hero-bg-overlay"></div>
+  <i class="fas fa-warehouse hero-bg-icon" id="heroBgIcon"></i>
   <div class="container">
     <div class="hero-grid">
       <div>
@@ -946,7 +1073,7 @@
       </div>
 
     </div>
-  </div></div>
+  </div>
 </div>
 
 <section class="seo-intro">
@@ -1559,7 +1686,45 @@ const translations = {
     used_cta_p:"We source Toyota, TCM, Unicarrier, and Hangcha units on request. Tell us your requirements and we'll find the right used forklift for your budget.",
     used_cta_btn:"Request a Used Forklift",
     footer_copyright: "© 2026 Showai Trading Sdn Bhd. Authorized UpperFork & EP Forklift Dealer in Northern Malaysia. All rights reserved."
-  },
+      ps_showroom_desc: "UpperFork & EP units on display. Test-drive before you buy.",
+    gal_f_all: "All",
+    gal_f_used: "Used",
+    mcb_quote: "Quote",
+    dl_title2: "Title2",
+    nav_gallery: "Gallery",
+    gal_f_new: "New",
+    test_eyebrow: "Testimonials",
+    gal_f_service: "Service",
+    gal_cta_wa: "Wa",
+    dl_view_all: "All",
+    nav_team: "Team",
+    ps_factory_desc: "Branded trucks deliver new & used forklifts to factories across 4 northern states.",
+    ps_service_desc: "Certified technicians. Genuine spare parts. Same-day breakdown response.",
+    nav_catalog: "Catalog",
+    ps_service: "Get Support",
+    dl_sub2: "Contact us for the latest copies and detailed spec sheets.",
+    test_sub: "Sub",
+    gal_cta_cat: "Cat",
+    test_title: "Title",
+    gal_title: "Title",
+    ps_delivery: "Arrange Delivery",
+    team_sub: "Personalized service across Penang, Kedah, Perak and Perlis. Contact your nearest salesperson directly.",
+    ps_factory_title: "Direct to Your Site",
+    gal_cta_p: "P",
+    gal_f_delivery: "Delivery",
+    ps_service_title: "24/7 Service Team",
+    mcb_call: "Call",
+    ps_visit: "Schedule Visit",
+    dl_eyebrow: "Eyebrow",
+    team_title: "Meet Our Sales Team",
+    dl_request: "Request",
+    gal_sub: "Sub",
+    gal_empty: "Photos will appear here once added.",
+    team_eyebrow: "Our Team",
+    gal_eyebrow: "Eyebrow",
+    ps_showroom_title: "Penang Showroom",
+    mcb_wa: "WhatsApp",
+},
   ms: {
     hours: "Isnin-Sabtu: 9pagi-6petang",
     tagline: "Forklift Malaysia Utara",
@@ -1672,6 +1837,242 @@ const translations = {
     used_cta_btn:"Minta Forklift Terpakai",
     footer_copyright: "© 2026 Showai Trading Sdn Bhd. Pengedar Sah Forklift UpperFork & EP di Malaysia Utara. Hak cipta terpelihara."
   },
+  bm: {
+    brand_ep: "EP · Authorized",
+    brand_hc: "Hangcha",
+    brand_tcm: "TCM",
+    brand_ty: "Toyota",
+    brand_uc: "Unicarrier",
+    brand_uf: "UpperFork · Authorized",
+    brands_label: "Brands We Carry — New & Used Forklifts",
+    btn_browse: "Lihat Senarai",
+    btn_call: "Hubungi",
+    btn_email: "E-mel",
+    btn_quote: "Sebut Harga",
+    btn_whatsapp: "WhatsApp",
+    cf_brand: "Pilihan Jenama",
+    cf_buy: "Beli Forklift",
+    cf_company: "Nama Syarikat",
+    cf_email: "E-mel",
+    cf_eyebrow: "Hubungi Kami",
+    cf_interest: "Saya Berminat Dalam",
+    cf_location: "Lokasi",
+    cf_message: "Mesej / Keperluan",
+    cf_message_ph: "Terangkan keperluan anda — keupayaan, persekitaran, anggaran budget...",
+    cf_name: "Nama Anda",
+    cf_no_pref: "No preference",
+    cf_other: "Other",
+    cf_parts_opt: "Alat Ganti",
+    cf_phone: "Nombor Telefon",
+    cf_rental_opt: "Sewaan Forklift",
+    cf_select_state: "Select state",
+    cf_send: "Hantar WhatsApp",
+    cf_service: "Service Required *",
+    cf_service_opt: "Servis & Penyelenggaraan",
+    cf_sub: "Maklum balas profesional dalam 2 jam waktu pejabat.",
+    cf_title: "Hubungi Pasukan Kami",
+    contact_email: "Email",
+    contact_eyebrow: "Contact",
+    contact_form_sub: "Tell us what you need \u2014 we'll respond fast.",
+    contact_form_title: "Request a Quotation",
+    contact_hq: "Headquarters",
+    contact_p: "Reach out for sales, rental, service, or parts. Our team responds within 2 business hours.",
+    contact_phone: "Phone",
+    contact_title: "Talk to a forklift expert",
+    contact_wa: "WhatsApp (Fastest)",
+    cov_eyebrow: "Kawasan Liputan",
+    cov_kedah_p: "Alor Setar · Sungai Petani · Kulim Hi-Tech Park · Jitra · Pendang · Kuala Kedah",
+    cov_kedah_t: "Kedah",
+    cov_p1: "We focus our expertise on the four northern states of Peninsular Malaysia. This local focus means faster response times, deeper relationships with regional industries, and a team that understands the unique needs of Northern Malaysian businesses.",
+    cov_p2: "From the bustling factories of Bayan Lepas to the agricultural processing plants of Kedah, the manufacturing hubs of Ipoh, and the border logistics of Perlis \u2014 we are the forklift partner that knows your region.",
+    cov_penang_p: "Perai · Butterworth · Bayan Lepas · Prai Industrial Area · Georgetown · Seberang Perai",
+    cov_penang_t: "Penang (HQ)",
+    cov_perak_p: "Ipoh · Taiping · Kamunting Industrial · Sitiawan · Tanjung Malim · Lumut",
+    cov_perak_t: "Perak",
+    cov_perlis_p: "Kangar · Padang Besar · Arau · Kuala Perlis · Industrial zones",
+    cov_perlis_t: "Perlis",
+    cov_sub: "Trak servis kami mencapai setiap daerah perindustrian utama.",
+    cov_title: "Penghantaran ke 4 Negeri Utara",
+    cta_btn: "WhatsApp Now",
+    cta_p: "Get a free, no-obligation quote from Northern Malaysia's trusted forklift dealer. WhatsApp us now.",
+    cta_title: "Ready to move your business forward?",
+    dl_eyebrow: "Katalog & Brosur",
+    dl_get: "Dapatkan PDF",
+    dl_request: "Dl Request",
+    dl_sub: "Lembaran spesifikasi penuh, sijil, dan pengesyoran produk.",
+    dl_sub2: "Hubungi kami untuk salinan terkini & lembaran spesifikasi terperinci.",
+    dl_title: "Muat Turun Dokumen Teknikal",
+    dl_title2: "Dl Title2",
+    dl_view_all: "Dl View All",
+    faq_a1: "Ya. Showai Trading Sdn Bhd adalah pengedar sah UpperFork dan EP Equipment untuk Malaysia Utara — termasuk Pulau Pinang, Kedah, Perak dan Perlis.",
+    faq_a2: "Kami menyediakan forklift diesel (1.5T-12T), forklift elektrik lithium (1.5T-5T), pengangkut palet, susunan, trak hala, VNA, pengangkut medan kasar dan AMR.",
+    faq_a3: "Ya. Kami menyediakan sewaan harian, mingguan dan kontrak jangka panjang dengan unit penggantian semasa servis.",
+    faq_a4: "Untuk stok tersedia, kami menghantar dalam 2-5 hari bekerja merentasi Malaysia Utara. Pesanan khas mungkin memerlukan 4-8 minggu.",
+    faq_a5: "Ya. Forklift baharu dilengkapi jaminan pengeluar standard (12-24 bulan), dan kami menawarkan pakej jaminan lanjutan untuk operasi syif berganda.",
+    faq_eyebrow: "Soalan Lazim",
+    faq_q1: "Adakah Showai pengedar sah UpperFork dan EP?",
+    faq_q2: "Apakah jenis forklift yang tersedia?",
+    faq_q3: "Adakah anda menawarkan sewaan forklift?",
+    faq_q4: "Berapa lama masa penghantaran biasa?",
+    faq_q5: "Adakah jaminan disertakan dengan forklift baharu?",
+    faq_sub: "Quick answers to what factory managers in Northern Malaysia ask us most.",
+    faq_title: "Soalan-Soalan Yang Sering Ditanya",
+    footer_call: "Call Us",
+    footer_copyright: "© 2026 Showai Trading Sdn Bhd. Authorized UpperFork & EP Forklift Dealer in Northern Malaysia. All rights reserved.",
+    footer_desc: "Authorized UpperFork & EP forklift dealer serving Penang, Kedah, Perak, and Perlis. Sales, rental, service, and spare parts.",
+    footer_forklifts: "Forklifts",
+    form_looking: "Mencari",
+    form_name: "Nama Anda",
+    form_name_ph: "Nama penuh",
+    form_phone: "Nombor Telefon",
+    form_phone_ph: "+60 12-345 6789",
+    form_select: "Pilih perkhidmatan",
+    form_send: "Hantar WhatsApp",
+    form_sub: "Maklum balas dalam 2 jam waktu pejabat.",
+    form_title: "Dapatkan Sebut Harga Percuma",
+    ft_about: "Mengenai Kami",
+    ft_about_p: "Pengedar sah UpperFork dan EP forklift untuk Malaysia Utara. Jualan, sewaan dan servis lengkap.",
+    ft_brands: "Jenama",
+    ft_contact: "Hubungi",
+    ft_links: "Pautan Pantas",
+    ft_rights: "Hak Cipta Terpelihara.",
+    ft_tools: "Alat & Info",
+    gal_cta_cat: "Gal Cta Cat",
+    gal_cta_p: "Gal Cta P",
+    gal_cta_wa: "Gal Cta Wa",
+    gal_empty: "Foto akan dipaparkan di sini sebaik sahaja dimuat naik.",
+    gal_eyebrow: "Galeri",
+    gal_f_all: "Semua",
+    gal_f_delivery: "Penghantaran",
+    gal_f_factory: "Kilang",
+    gal_f_new: "Gal F New",
+    gal_f_service: "Servis",
+    gal_f_used: "Gal F Used",
+    gal_f_warehouse: "Gudang",
+    gal_sub: "Hasil sebenar dari kilang sebenar di seluruh Malaysia Utara.",
+    gal_title: "Kerja & Penghantaran Kami",
+    hero_badge: "Pengedar Sah · UpperFork · EP",
+    hero_cta_1: "Sebut Harga WhatsApp",
+    hero_cta_2: "Lihat Forklift",
+    hero_desc: "Showai Trading Sdn Bhd ialah pengedar sah UpperFork dan EP forklift yang menyediakan perkhidmatan ke Pulau Pinang, Kedah, Perak dan Perlis. Daripada forklift diesel berkuasa tinggi sehingga unit elektrik lithium — kami menyediakan jualan, sewaan dan servis yang memastikan operasi anda berjalan lancar.",
+    hero_title_1: "Malaysia Utara",
+    hero_title_2: "rakan kongsi forklift yang dipercayai.",
+    hours: "Isnin-Sabtu: 9pg-6ptg",
+    intro_p1: "Need a reliable forklift in Penang, Kedah, Perak, or Perlis? Showai Trading Sdn Bhd is an authorized dealer of UpperFork and EP forklifts, offering complete material handling solutions for factories, warehouses, and logistics operations across Northern Malaysia.",
+    intro_p2: "Based in Perai, Pulau Pinang, we are strategically positioned to serve the entire northern industrial corridor \u2014 from Penang's manufacturing zones to Kedah's industrial parks, Perak's logistics hubs, and Perlis's growing commercial sector. As an authorized dealer, we deliver genuine units with full manufacturer warranty.",
+    intro_p3: "Beyond sales, we provide forklift rental, scheduled preventive maintenance, 24-hour breakdown service, and a complete spare parts inventory \u2014 all delivered by a team that knows Northern Malaysia inside out.",
+    intro_title: "Forklift specialists for Northern Malaysia",
+    learn_more: "Ketahui Lebih Lanjut",
+    load_more: "Muat Lagi",
+    nav_catalog: "Katalog",
+    nav_contact: "Hubungi",
+    nav_coverage: "Kawasan",
+    nav_cta: "Dapatkan Sebut Harga",
+    nav_faq: "Soalan Lazim",
+    nav_gallery: "Galeri",
+    nav_products: "Forklift",
+    nav_services: "Perkhidmatan",
+    nav_tco: "Kalkulator TCO",
+    nav_team: "Pasukan",
+    nav_technology: "Teknologi",
+    nav_used: "Forklift Terpakai",
+    opt_buy_diesel: "Beli Forklift Diesel",
+    opt_buy_electric: "Beli Forklift Elektrik",
+    opt_buy_used: "Beli Forklift Terpakai",
+    opt_parts: "Alat Ganti",
+    opt_rent: "Rent Forklift",
+    opt_rental: "Sewaan Forklift",
+    opt_service: "Servis & Penyelenggaraan",
+    prod_empty: "Tiada produk dipaparkan lagi. Hubungi kami untuk senarai inventori penuh.",
+    prod_eyebrow: "Forklift Baharu",
+    prod_request: "Minta Senarai Inventori",
+    prod_sub: "Jenama sah, jaminan penuh, kakitangan servis bertauliah Showai.",
+    prod_title: "Forklift Berkualiti untuk Setiap Industri",
+    ps_delivery: "Atur Penghantaran",
+    ps_factory_desc: "Trak berjenama menghantar forklift baharu & terpakai ke kilang di 4 negeri utara.",
+    ps_factory_title: "Terus Ke Tapak Anda",
+    ps_service: "Dapatkan Bantuan",
+    ps_service_desc: "Juruteknik bertauliah. Alat ganti tulen. Maklum balas kerosakan hari yang sama.",
+    ps_service_title: "Pasukan Servis 24/7",
+    ps_showroom_desc: "Unit UpperFork & EP dipamerkan. Cuba pandu sebelum membeli.",
+    ps_showroom_title: "Showroom Pulau Pinang",
+    ps_visit: "Tempah Lawatan",
+    stat_brands: "Jenama Sah",
+    stat_brands_label: "Jenama Berkuasa",
+    stat_customers: "Pelanggan Berpuas Hati",
+    stat_customers_label: "Pelanggan Korporat",
+    stat_parts: "Genuine Parts",
+    stat_states: "Negeri Utara",
+    stat_states_label: "Negeri Diliputi",
+    stat_support: "Service Support",
+    stat_years: "Tahun Pengalaman",
+    stat_years_label: "Pengalaman",
+    state_kedah: "Kedah",
+    state_penang: "Pulau Pinang",
+    state_perak: "Perak",
+    state_perlis: "Perlis",
+    svc_eyebrow: "Perkhidmatan",
+    svc_parts_1: "Alat ganti tulen UpperFork & EP",
+    svc_parts_2: "Penghantaran pantas ke seluruh Malaysia Utara",
+    svc_parts_3: "Jaminan pengeluar disertakan",
+    svc_parts_4: "Bulk order discounts",
+    svc_parts_p: "Genuine OEM forklift spare parts from our local Penang inventory.",
+    svc_parts_t: "Alat Ganti Tulen",
+    svc_rental_1: "Sewaan jangka pendek (harian/mingguan)",
+    svc_rental_2: "Kontrak jangka panjang dengan kadar tetap",
+    svc_rental_3: "Penggantian unit semasa servis",
+    svc_rental_4: "Backup unit guarantee",
+    svc_rental_p: "Flexible rental across Penang, Kedah, Perak, Perlis. Daily, weekly, or monthly terms.",
+    svc_rental_t: "Sewaan & Pajakan",
+    svc_sales_1: "Pemilihan model mengikut keperluan operasi anda",
+    svc_sales_2: "Pembiayaan & sewaan pajakan tersedia",
+    svc_sales_3: "Penyerahan pada tapak & latihan operator",
+    svc_sales_4: "Financing & trade-in available",
+    svc_sales_p: "Buy new UpperFork and EP diesel and electric forklifts with full warranty. Capacity from 1.5 to 5.0 tons.",
+    svc_sales_t: "Jualan & Konsultasi",
+    svc_service_1: "Penyelenggaraan berjadual (preventive)",
+    svc_service_2: "Baik pulih kecemasan 24/7",
+    svc_service_3: "Pemulihan & ujian kelulusan DOSH",
+    svc_service_4: "24-hour emergency response",
+    svc_service_p: "On-site forklift service across Northern Malaysia by certified technicians.",
+    svc_service_t: "Servis & Penyelenggaraan",
+    svc_sub: "Dari konsultasi sehingga selepas jualan — kami uruskan kitaran hayat penuh.",
+    svc_title: "Penyelesaian Forklift Lengkap",
+    tagline: "Forklift Malaysia Utara",
+    team_eyebrow: "Pasukan Kami",
+    team_sub: "Perkhidmatan diperibadikan merentasi Pulau Pinang, Kedah, Perak dan Perlis. Hubungi jurujual terdekat secara terus.",
+    team_title: "Kenali Pasukan Jualan Kami",
+    test_eyebrow: "Testimoni",
+    test_sub: "Cerita sebenar daripada pengilang, pengeluar makanan dan logistik 3PL.",
+    test_title: "Apa Kata Pelanggan Korporat Kami",
+    used_cta_btn: "Request a Used Forklift",
+    used_cta_p: "We source Toyota, TCM, Unicarrier, and Hangcha units on request. Tell us your requirements and we'll find the right used forklift for your budget.",
+    used_cta_title: "Looking for a specific brand or model?",
+    used_empty: "Tiada senarai forklift terpakai semasa. WhatsApp kami untuk inventori semasa.",
+    used_eyebrow: "Forklift Terpakai",
+    used_request: "Minta Forklift Terpakai",
+    used_sub: "Dinilai sepenuhnya. Dikondisikan semula. Dijamin Showai.",
+    used_title: "Forklift Terpakai Bertauliah",
+    used_view: "Lihat Butiran",
+    view_all: "Lihat Semua",
+    wa_widget_close: "Tutup",
+    wa_widget_sub: "Pilih jurujual untuk berbual terus.",
+    wa_widget_title: "Hubungi Pasukan Kami",
+    why_1_p: "We know Northern Malaysia. Faster response, deeper relationships.",
+    why_1_t: "Local Expertise",
+    why_2_p: "Official UpperFork & EP dealer. Direct supply, no middlemen.",
+    why_2_t: "Authorized Dealer",
+    why_3_p: "Same-day quotes, 24-hour on-site service across 4 states.",
+    why_3_t: "Fast Response",
+    why_4_p: "100% authentic OEM spare parts from local Penang inventory.",
+    why_4_t: "Genuine Parts",
+    why_eyebrow: "Why Choose Showai",
+    why_sub: "What sets us apart from generic forklift suppliers.",
+    why_title: "Northern Malaysia's forklift expert",    mcb_call: "Telefon",
+    mcb_wa: "WhatsApp",
+    mcb_quote: "Sebut Harga",
+
+  },
   zh: {
     hours: "周一至周六：上午9点-下午6点",
     tagline: "马来西亚北部叉车",
@@ -1783,8 +2184,46 @@ const translations = {
     used_cta_title:"寻找特定品牌或型号？",
     used_cta_p:"我们可按要求采购丰田、TCM、Unicarrier和杭叉车型。告诉我们您的需求，我们帮您找到合适的二手叉车。",
     used_cta_btn:"申请二手叉车",
-    footer_copyright: "© 2026 Showai Trading Sdn Bhd。马来西亚北部 UpperFork 和 EP 叉车授权经销商。版权所有。"
-  }
+    footer_copyright: "© 2026 Showai Trading Sdn Bhd。马来西亚北部 UpperFork 和 EP 叉车授权经销商。版权所有。"    mcb_call: "通话",
+    mcb_wa: "WhatsApp",
+    mcb_quote: "报价",
+
+      ps_showroom_desc: "UpperFork & EP 单位展示。购买前可试驾。",
+    gal_f_all: "gal f all",
+    gal_f_used: "gal f used",
+    dl_title2: "dl title2",
+    nav_gallery: "nav gallery",
+    gal_f_new: "gal f new",
+    test_eyebrow: "客户评价",
+    gal_f_service: "服务",
+    gal_cta_wa: "gal cta wa",
+    dl_view_all: "dl view all",
+    nav_team: "nav team",
+    ps_factory_desc: "品牌卡车将新车和二手叉车送到北方4州的工厂。",
+    ps_service_desc: "认证技术员。正品零件。当日故障响应。",
+    nav_catalog: "nav catalog",
+    ps_service: "获取支援",
+    dl_sub2: "联系我们获取最新副本和详细规格表。",
+    test_sub: "test sub",
+    gal_cta_cat: "gal cta cat",
+    test_title: "test title",
+    gal_title: "gal title",
+    ps_delivery: "安排送货",
+    team_sub: "为槟城、吉打、霹雳和玻璃市提供个性化服务。直接联系最近的销售员。",
+    ps_factory_title: "直送到工地",
+    gal_cta_p: "gal cta p",
+    gal_f_delivery: "送货",
+    ps_service_title: "24/7 服务团队",
+    ps_visit: "安排到访",
+    dl_eyebrow: "dl eyebrow",
+    team_title: "认识我们的销售团队",
+    dl_request: "dl request",
+    gal_sub: "gal sub",
+    gal_empty: "照片添加后将显示在这里。",
+    team_eyebrow: "我们的团队",
+    gal_eyebrow: "gal eyebrow",
+    ps_showroom_title: "槟城展示厅",
+}
 };
 
 const langMeta = {
@@ -2275,6 +2714,16 @@ document.addEventListener('keydown', function(e){
   function fP(a){const n=Number(a.price);if(!a.price||a.price_display==='call')return'Call for Price';if(a.price_display==='nego')return'Negotiable';if(a.price_display==='from')return'From RM '+n.toLocaleString();return'RM '+n.toLocaleString();}
   function fSVG(col){return`<svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" style="width:65%;height:65%"><g fill="${col}"><rect x="40" y="65" width="70" height="55" rx="4"/><rect x="58" y="48" width="34" height="22" rx="2" opacity=".85"/><circle cx="58" cy="125" r="10" fill="rgba(0,0,0,.4)"/><circle cx="100" cy="125" r="10" fill="rgba(0,0,0,.4)"/><rect x="112" y="35" width="5" height="85"/><rect x="110" y="35" width="35" height="5"/><rect x="110" y="65" width="35" height="5"/><rect x="142" y="35" width="5" height="60"/></g></svg>`;}
 
+  // HERO BACKGROUND PHOTO (Option B)
+  if (D.business && D.business.hero_image) {
+    const bgEl = document.getElementById('heroBgPhoto');
+    const iconEl = document.getElementById('heroBgIcon');
+    if (bgEl) {
+      bgEl.style.backgroundImage = `linear-gradient(110deg, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.55) 45%, rgba(10,10,10,0.35) 65%, rgba(10,10,10,0.88) 100%), url(${D.business.hero_image})`;
+      if (iconEl) iconEl.style.display = 'none';
+    }
+  }
+
   // 0. PHOTO STRIP (showroom/factory/service)
   if (D.hero_photos && Array.isArray(D.hero_photos)) {
     D.hero_photos.forEach((photo, i) => {
@@ -2486,5 +2935,48 @@ document.addEventListener('keydown', function(e){
 })();
 </script>
 
+
+
+<!-- ═══════════ MOBILE STICKY CTA BAR ═══════════ -->
+<div class="mobile-cta-bar">
+  <a href="tel:+60124925105" class="mcb-btn mcb-call">
+    <i class="fas fa-phone"></i>
+    <span data-i18n="mcb_call">Call</span>
+  </a>
+  <a href="https://wa.me/60124925105?text=Hi%20Showai%2C%20I%20would%20like%20to%20enquire%20about%20a%20forklift." class="mcb-btn mcb-wa" target="_blank">
+    <i class="fab fa-whatsapp"></i>
+    <span data-i18n="mcb_wa">WhatsApp</span>
+  </a>
+  <a href="#contact" class="mcb-btn mcb-quote">
+    <i class="fas fa-file-lines"></i>
+    <span data-i18n="mcb_quote">Quote</span>
+  </a>
+</div>
+
+
+<!-- ═══════════ SCROLL TO TOP ═══════════ -->
+<button id="scrollTopBtn" onclick="scrollToTop()" aria-label="Scroll to top" title="Back to top">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+
+<script>
+/* SCROLL TO TOP */
+function scrollToTop(){
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+(function(){
+  const btn = document.getElementById('scrollTopBtn');
+  if(!btn) return;
+  window.addEventListener('scroll', function(){
+    if(window.pageYOffset > 600){
+      btn.classList.add('visible');
+    } else {
+      btn.classList.remove('visible');
+    }
+  });
+})();
+
+</script>
 </body>
 </html>
