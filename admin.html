@@ -513,11 +513,89 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-h
         <div class="panel">
           <div class="panel-head"><div class="ph-left"><div class="ph-icon"><i class="fas fa-share-nodes"></i></div><div><div class="ph-title">Social Media</div></div></div></div>
           <div class="panel-body">
-            <div class="fg c4">
-              <div class="field"><label><i class="fab fa-facebook" style="color:#1877F2"></i> Facebook</label><input id="biz_fb" placeholder="https://facebook.com/..."></div>
-              <div class="field"><label><i class="fab fa-instagram" style="color:#E1306C"></i> Instagram</label><input id="biz_ig" placeholder="https://instagram.com/..."></div>
-              <div class="field"><label><i class="fab fa-tiktok"></i> TikTok</label><input id="biz_tt" placeholder="https://tiktok.com/@..."></div>
-              <div class="field"><label><i class="fab fa-youtube" style="color:#FF0000"></i> YouTube</label><input id="biz_yt" placeholder="https://youtube.com/@..."></div>
+            <div style="background:linear-gradient(135deg,#F5F3FF,#E0E7FF);border:2px solid #6366F1;border-radius:10px;padding:1.5rem;margin-top:0.5rem;grid-column:1/-1">
+              <label style="display:flex;align-items:center;gap:0.5rem;font-weight:800;color:#3730A3;margin-bottom:0.4rem;font-size:1rem">
+                <i class="fas fa-share-nodes"></i> Social Media Profiles
+                <span style="font-size:0.6rem;font-weight:800;background:#6366F1;color:#fff;padding:0.15rem 0.5rem;border-radius:3px;letter-spacing:0.06em">AUTO-LINKS</span>
+              </label>
+              <div style="font-size:0.78rem;color:#3730A3;line-height:1.55;margin-bottom:1.25rem">
+                Paste your full profile URLs. <strong>Empty fields = icon hidden on website.</strong> Only platforms with valid URLs appear in the footer.
+              </div>
+
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.85rem">
+                
+                <div class="field" style="margin:0">
+                  <label style="font-size:0.78rem;display:flex;align-items:center;gap:0.4rem">
+                    <i class="fab fa-facebook" style="color:#1877F2;font-size:1rem"></i>
+                    <span style="font-weight:700">Facebook Page</span>
+                  </label>
+                  <input id="biz_fb" placeholder="https://www.facebook.com/yourpage" style="font-size:0.85rem">
+                </div>
+                
+                <div class="field" style="margin:0">
+                  <label style="font-size:0.78rem;display:flex;align-items:center;gap:0.4rem">
+                    <i class="fab fa-instagram" style="color:#E1306C;font-size:1rem"></i>
+                    <span style="font-weight:700">Instagram</span>
+                  </label>
+                  <input id="biz_ig" placeholder="https://www.instagram.com/yourhandle" style="font-size:0.85rem">
+                </div>
+                
+                <div class="field" style="margin:0">
+                  <label style="font-size:0.78rem;display:flex;align-items:center;gap:0.4rem">
+                    <i class="fab fa-tiktok" style="color:#000;font-size:1rem"></i>
+                    <span style="font-weight:700">TikTok</span>
+                  </label>
+                  <input id="biz_tt" placeholder="https://www.tiktok.com/@yourhandle" style="font-size:0.85rem">
+                </div>
+                
+                <div class="field" style="margin:0">
+                  <label style="font-size:0.78rem;display:flex;align-items:center;gap:0.4rem">
+                    <i class="fab fa-youtube" style="color:#FF0000;font-size:1rem"></i>
+                    <span style="font-weight:700">YouTube</span>
+                  </label>
+                  <input id="biz_yt" placeholder="https://www.youtube.com/@yourchannel" style="font-size:0.85rem">
+                </div>
+                
+                <div class="field" style="margin:0">
+                  <label style="font-size:0.78rem;display:flex;align-items:center;gap:0.4rem">
+                    <i class="fab fa-linkedin" style="color:#0A66C2;font-size:1rem"></i>
+                    <span style="font-weight:700">LinkedIn Company</span>
+                  </label>
+                  <input id="biz_li" placeholder="https://www.linkedin.com/company/yourcompany" style="font-size:0.85rem">
+                </div>
+                
+                <div class="field" style="margin:0">
+                  <label style="font-size:0.78rem;display:flex;align-items:center;gap:0.4rem">
+                    <i class="fab fa-xing" style="color:#FF6700;font-size:1rem"></i>
+                    <span style="font-weight:700">Xiaohongshu (小红书)</span>
+                  </label>
+                  <input id="biz_xhs" placeholder="https://www.xiaohongshu.com/user/profile/..." style="font-size:0.85rem">
+                </div>
+                
+                <div class="field" style="margin:0">
+                  <label style="font-size:0.78rem;display:flex;align-items:center;gap:0.4rem">
+                    <i class="fab fa-weixin" style="color:#07C160;font-size:1rem"></i>
+                    <span style="font-weight:700">WeChat ID</span>
+                  </label>
+                  <input id="biz_wechat" placeholder="ShowaiTrading (display only, not a link)" style="font-size:0.85rem">
+                </div>
+                
+                <div class="field" style="margin:0">
+                  <label style="font-size:0.78rem;display:flex;align-items:center;gap:0.4rem">
+                    <i class="fab fa-google" style="color:#4285F4;font-size:1rem"></i>
+                    <span style="font-weight:700">Google Maps Place</span>
+                  </label>
+                  <input id="biz_gmaps" placeholder="https://maps.app.goo.gl/... or g.page/..." style="font-size:0.85rem">
+                </div>
+                
+              </div>
+              
+              <div style="margin-top:1.25rem;padding-top:1rem;border-top:1.5px solid rgba(99,102,241,0.2);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem">
+                <div style="font-size:0.78rem;color:#3730A3">
+                  <i class="fas fa-circle-info"></i> Need to set up a social account? See the checklist guide below.
+                </div>
+                <button type="button" onclick="testSocialLinks()" style="background:#6366F1;color:#fff;border:none;padding:0.45rem 0.95rem;border-radius:5px;font-size:0.78rem;font-weight:700;cursor:pointer"><i class="fas fa-flask"></i> Test Links</button>
+              </div>
             </div>
           </div>
         </div>
@@ -1528,7 +1606,7 @@ function renderActivity(){
 
 /* ── BUSINESS ── */
 function populateBusiness(){const b=D.business;Object.keys(b).forEach(k=>{const el=document.getElementById('biz_'+k);if(el)el.value=b[k]||'';}); Object.keys(D.services).forEach(k=>{const el=document.getElementById('svc_'+k);if(el)el.value=D.services[k]||'';}); Object.keys(D.stats).forEach(k=>{const el=document.getElementById('st_'+k);if(el)el.value=D.stats[k]||'';}); }
-function saveBusiness(){['name','ssm','wa','phone','email','year','address','hours','maps','fb','ig','tt','yt','about_en','about_ms','about_zh'].forEach(k=>{const el=document.getElementById('biz_'+k);if(el)D.business[k]=el.value;}); addActivity('Updated business information'); D.business.ga_id=(document.getElementById('biz_ga_id')||{}).value||'';
+function saveBusiness(){['name','ssm','wa','phone','email','year','address','hours','maps','fb','ig','tt','yt','li','xhs','wechat','gmaps','about_en','about_ms','about_zh'].forEach(k=>{const el=document.getElementById('biz_'+k);if(el)D.business[k]=el.value;}); addActivity('Updated business information'); D.business.ga_id=(document.getElementById('biz_ga_id')||{}).value||'';
   D.business.gbp_url=(document.getElementById('biz_gbp_url')||{}).value||'';
   D.business.hero_image=document.getElementById('biz_hero_image')?document.getElementById('biz_hero_image').value:(D.business.hero_image||'');
   save(); toast('Business info saved!','success');}
@@ -2757,6 +2835,47 @@ window.addEventListener('storage', renderQuickSetup);
     };
   }
 })();
+
+
+
+/* ══════════════════════════════════════════════════════════════
+   TEST SOCIAL LINKS — verify each URL works before publishing
+   ══════════════════════════════════════════════════════════════ */
+function testSocialLinks(){
+  const platforms = {
+    biz_fb: 'Facebook',
+    biz_ig: 'Instagram', 
+    biz_tt: 'TikTok',
+    biz_yt: 'YouTube',
+    biz_li: 'LinkedIn',
+    biz_xhs: 'Xiaohongshu',
+    biz_gmaps: 'Google Maps'
+  };
+  
+  let opened = 0;
+  let invalid = [];
+  
+  Object.keys(platforms).forEach(fieldId => {
+    const el = document.getElementById(fieldId);
+    if(el && el.value && el.value.trim()){
+      const url = el.value.trim();
+      if(url.startsWith('http')){
+        window.open(url, '_blank');
+        opened++;
+      } else {
+        invalid.push(platforms[fieldId] + ': ' + url);
+      }
+    }
+  });
+  
+  if(opened === 0){
+    toast('No social URLs filled in yet. Add at least one and save first.','info');
+  } else {
+    let msg = 'Opening ' + opened + ' social link(s) in new tabs';
+    if(invalid.length) msg += '. INVALID URLs (must start with http): ' + invalid.join(', ');
+    toast(msg, invalid.length ? 'error' : 'success');
+  }
+}
 
 
 function publishLive(){
